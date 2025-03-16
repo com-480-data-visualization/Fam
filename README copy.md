@@ -19,18 +19,21 @@ Please, fill the following sections about your project.
 
 ### Dataset
 
-> For this project, we will explore the Historical Space Launch Data from Hugging Face's dataset repository, specifically the Historical Space Launches 1957-2039 dataset. This dataset provides detailed information about space missions, including launch names, dates, providers, rocket names, and launch pad locations. Additionally, we may supplement this data with other datasets, such as key historical events from publicly available sources, to gain a deeper understanding of the dynamics of the Space Race and its connections to broader geopolitical events.
+> Find a dataset (or multiple) that you will explore. Assess the quality of the data it contains and how much preprocessing / data-cleaning it will require before tackling visualization. We recommend using a standard dataset as this course is not about scraping nor data processing.
+>
+> Hint: some good pointers for finding quality publicly available datasets ([Google dataset search](https://datasetsearch.research.google.com/), [Kaggle](https://www.kaggle.com/datasets), [OpenSwissData](https://opendata.swiss/en/), [SNAP](https://snap.stanford.edu/data/) and [FiveThirtyEight](https://data.fivethirtyeight.com/)), you could use also the DataSets proposed by the ENAC (see the Announcements section on Zulip).
 
 
 ### Problematic
 
-> We aim to visualize the evolution of space exploration from 1957 to 2039, focusing on how space missions correlate with key geopolitical events, particularly during the Cold War. By analyzing the frequency and distribution of space launches, we will explore the impact of the Space Race on global politics. Our target audience includes history enthusiasts, space exploration fans, and researchers interested in understanding the connection between space exploration and political dynamics.
-
+> Frame the general topic of your visualization and the main axis that you want to develop.
+> - What am I trying to show with my visualization?
+> - Think of an overview for the project, your motivation, and the target audience.
 
 ### Exploratory Data Analysis
 
-> See notebook provided for exploratory data analysis
-
+> Pre-processing of the data set you chose
+> - Show some basic statistics and get insights about the data
 
 ### Related work
 
