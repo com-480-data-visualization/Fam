@@ -37,7 +37,6 @@ Please, fill the following sections about your project.
 
 ### Related work
 
-
 > - What others have already done with the data?
 > - Why is your approach original?
 > - What source of inspiration do you take? Visualizations that you found on other websites or magazines (might be unrelated to your data).

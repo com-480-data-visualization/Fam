@@ -1,4 +1,4 @@
-# Project of Data Visualization (COM-480)
+ß∂# Project of Data Visualization (COM-480)
 
 | Student's name | SCIPER |
 | -------------- | ------ |
@@ -12,20 +12,15 @@
 
 **10% of the final grade**
 
-This is a preliminary milestone to let you set up goals for your final project and assess the feasibility of your ideas.
-Please, fill the following sections about your project.
-
-*(max. 2000 characters per section)*
 
 ### Dataset
 
-> For this project, we will explore the Historical Space Launch Data from Hugging Face's dataset repository, specifically the Historical Space Launches 1957-2039 dataset. This dataset provides detailed information about space missions, including launch names, dates, providers, rocket names, and launch pad locations. Additionally, we may supplement this data with other datasets, such as key historical events from publicly available sources, to gain a deeper understanding of the dynamics of the Space Race and its connections to broader geopolitical events.
+> For this project, we will explore the Historical Space Launch Data from Hugging Face's dataset repository, specifically the Historical Space Launches 1957-2039 dataset. This dataset provides detailed information about space missions, including launch names, dates, providers, rocket names, and launch pad locations. The data on Hugging Face was originally scraped from "https://spacelaunchnow.me" some time ago. As a next step, we may consider scraping the site ourselves to obtain the latest launch data. Additionally, we may supplement this dataset with other sources, such as key historical events, to better understand the dynamics of the Space Race and its connections to broader geopolitical events. 
 
 
 ### Problematic
 
-> We aim to visualize the evolution of space exploration from 1957 to 2039, focusing on how space missions correlate with key geopolitical events, particularly during the Cold War. By analyzing the frequency and distribution of space launches, we will explore the impact of the Space Race on global politics. Our target audience includes history enthusiasts, space exploration fans, and researchers interested in understanding the connection between space exploration and political dynamics.
-
+> We aim to visualize the evolution of space exploration from 1957 to 2039, highlighting how space missions correlate with key geopolitical events. By analyzing launch frequencies, agency activity, and geospatial launch patterns, we will create an interactive visualization of the Space Race. Our focus includes launch trends over time, agency comparisons, mapping launch sites, and mission success rates. The target audience includes anyone interested in the history and development of space exploration.
 
 ### Exploratory Data Analysis
 
@@ -34,11 +29,13 @@ Please, fill the following sections about your project.
 
 ### Related work
 
+> The Space Launch Now database is primarily used for a popular mobile application that tracks spaceflight events. Beyond this, there are few public projects that extensively analyze or visualize this dataset. 
 
-> - What others have already done with the data?
-> - Why is your approach original?
-> - What source of inspiration do you take? Visualizations that you found on other websites or magazines (might be unrelated to your data).
-> - In case you are using a dataset that you have already explored in another context (ML or ADA course, semester project...), you are required to share the report of that work to outline the differences with the submission for this class.
+> Our approach is therefore original because we aim to combine the Space Launch Now data with key historical events, such as the Cold War and major geopolitical milestones, to uncover patterns in space exploration. Unlike existing visualizations that focus solely on launch tracking, we will create interactive visualizations that highlight the evolution of space agencies, launch trends, and mission success rates over time.
+
+> We used NASA's website and past projects as inspiration. We believe that the space theme offers exciting opportunities for creative visualizations!
+
+
 
 ## Milestone 2 (18th April, 5pm)
 
