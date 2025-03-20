@@ -3,7 +3,7 @@
 | Student's name | SCIPER |
 | -------------- | ------ |
 | Fletcher Collis | 315557 |
-| | |
+| Adrien Clément | 345535 |
 | | |
 
 [Milestone 1](#milestone-1) • [Milestone 2](#milestone-2) • [Milestone 3](#milestone-3)
@@ -20,7 +20,9 @@
 
 ### Problematic
 
-> We aim to visualize the evolution of space exploration from 1957 to 2039, highlighting how space missions correlate with key geopolitical events. By analyzing launch frequencies, agency activity, and geospatial launch patterns, we will create an interactive visualization of the Space Race. Our focus includes launch trends over time, agency comparisons, mapping launch sites, and mission success rates. The target audience includes anyone interested in the history and development of space exploration.
+> We aim to visualize the evolution of space exploration from 1957 to 2039, highlighting key milestones in rocket launch history. Our project will showcase how the number of launches and their global distribution across countries and launch providers have changed over time, revealing major breakthroughs and historical events. From the Cold War-era Space Race to the rise of private space companies, we will illustrate how different players have shaped the industry and what this means for the future of space exploration.
+
+By analyzing launch frequencies, agency activity, and geospatial launch patterns, we will create an interactive visualization that brings space history to life. Our focus includes tracking launch trends over time, comparing government and private agencies, mapping launch sites, and evaluating mission success rates. This project is designed for space enthusiasts, historians, and anyone interested in understanding the transformation of space exploration.
 
 ### Exploratory Data Analysis
 
