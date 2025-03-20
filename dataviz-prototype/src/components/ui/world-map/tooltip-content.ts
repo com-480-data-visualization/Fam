@@ -1,0 +1,79 @@
+import { Launch, Launchpad } from "./types";
+import { COLOR_SETS } from "./color-constants";
+
+const { statusColors } = COLOR_SETS;
+
+export function generateTooltipContent(
+  launchpad: Launchpad,
+  launchData: Launch[]
+): string {
+  // sort launches chronologically
+  const sortedLaunches = [...launchpad.launches].sort((a, b) => {
+    if (a.datetime_iso && b.datetime_iso)
+      return a.datetime_iso.localeCompare(b.datetime_iso);
+    return 0;
+  });
+
+  const currentDate = new Date();
+  const launchesToShow = sortedLaunches.slice(0, 8);
+  const yearInfo =
+    launchData && launchData.length > 0 && launchData[0].year
+      ? ` in ${launchData[0].year}`
+      : "";
+
+  const launchCountText =
+    launchpad.count === 1 ? "One Launch" : `${launchpad.count} Launches`;
+
+  // generate status breakdown with color indicators
+  const statusBreakdown = Object.entries(launchpad.statuses)
+    .sort((a, b) => b[1] - a[1])
+    .map(
+      ([status, count]) => `
+      <div class="flex items-center text-xs">
+        <div class="w-3 h-3 mr-2" style="background-color: ${statusColors[status] || statusColors.default}"></div>
+        <span>${status}: ${count}</span>
+      </div>
+    `
+    )
+    .join("");
+
+  return `
+    <div class="font-semibold text-base mb-1">${launchpad.name}</div>
+    <div class="text-sm mb-2">
+      <span class="text-gray-500">Coordinates:</span> ${launchpad.lat.toFixed(2)}, ${launchpad.lon.toFixed(2)}
+    </div>
+    <div class="text-sm font-semibold mb-1">${launchCountText}${yearInfo}</div>
+    
+    <div class="mb-3">
+      <div class="text-xs font-semibold mb-1">Status Breakdown:</div>
+      ${statusBreakdown}
+    </div>
+    
+    <div class="launch-list">
+      ${launchesToShow
+        .map((launch) => {
+          const launchDate = new Date(launch.datetime_iso);
+          const isFuture = launchDate > currentDate;
+          const futureClass = isFuture ? "border-blue-200 bg-blue-50" : "";
+
+          return `
+          <div class="border-t border-gray-100 pt-1 pb-1 ${futureClass}">
+            <div class="font-medium flex items-center">
+              <div class="w-2 h-2 mr-2 rounded-full" style="background-color: ${statusColors[launch.Status] || statusColors.default}"></div>
+              ${launch.Name}
+            </div>
+            <div class="text-xs">${launch.Status}</div>
+            ${launch.datetime_iso ? `<div class="text-xs text-gray-500">Date: ${launch.datetime_iso.split("T")[0]}</div>` : ""}
+            ${launch.mission ? `<div class="text-xs">${launch.mission}</div>` : ""}
+          </div>
+        `;
+        })
+        .join("")}
+      ${
+        launchpad.launches.length > 8
+          ? `<div class="text-xs text-gray-500 mt-1 text-center font-medium">...and ${launchpad.launches.length - 8} more launches</div>`
+          : ""
+      }
+    </div>
+  `;
+}
