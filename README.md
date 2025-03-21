@@ -26,9 +26,9 @@
 
 ### Exploratory Data Analysis
 
-> See notebook provided for exploratory data analysis
+> See notebook provided called "Exploration.ipynb" for some exploratory data analysis.
 
-> A preliminary visualization has been created, and all code is available on GitHub. You can access the visualization by here: [DataViz Prototype.](https://dataviz-prototype.vercel.app)
+> A preliminary visualization has also been created, and all code is available on this GitHub. You can access the visualization here: [DataViz Prototype.](https://dataviz-prototype.vercel.app)
 
 
 ### Related work
