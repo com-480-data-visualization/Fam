@@ -27,6 +27,7 @@
 ### Exploratory Data Analysis
 
 > See notebook provided for exploratory data analysis
+
 > A preliminary visualization has been created, and all code is available on GitHub. You can access the visualization by here: [DataViz Prototype.](https://dataviz-prototype.vercel.app)
 
 
