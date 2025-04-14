@@ -45,6 +45,7 @@
 
 **10% of the final grade**
 
+[New prototype](https://data-viz-4ed.pages.dev)
 
 ## Milestone 3 (30th May, 5pm)
 
