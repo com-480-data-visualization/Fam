@@ -1,0 +1,163 @@
+[
+  {
+    "id": 1,
+    "year": 1950,
+    "author": "Space Observer",
+    "content": "The era of space exploration begins! Nations around the world are starting to look beyond Earth's atmosphere."
+  },
+  {
+    "id": 2,
+    "year": 1957,
+    "author": "Soviet Space Agency",
+    "content": "Sputnik 1 has been successfully launched! The first artificial satellite is now orbiting Earth.",
+    "importance": 5
+  },
+  {
+    "id": 3,
+    "year": 1960,
+    "author": "Space Historian",
+    "content": "The Space Race is heating up between the United States and the Soviet Union."
+  },
+  {
+    "id": 4,
+    "year": 1961,
+    "author": "Yuri Gagarin",
+    "content": "The Earth is blue... How wonderful. It is amazing.",
+    "importance": 5
+  },
+  {
+    "id": 5,
+    "year": 1969,
+    "author": "Neil Armstrong",
+    "content": "That's one small step for man, one giant leap for mankind.",
+    "importance": 5
+  },
+  {
+    "id": 6,
+    "year": 1970,
+    "author": "Space Observer",
+    "content": "The Apollo program continues to expand our understanding of the Moon."
+  },
+  {
+    "id": 7,
+    "year": 1971,
+    "author": "NASA",
+    "content": "Apollo 15 astronauts have driven the lunar rover on the Moon for the first time!"
+  },
+  {
+    "id": 8,
+    "year": 1977,
+    "author": "NASA",
+    "content": "Voyager spacecraft launched on their grand tour of the outer solar system.",
+    "importance": 4
+  },
+  {
+    "id": 9,
+    "year": 1980,
+    "author": "Space Tech News",
+    "content": "Commercial satellite launches are becoming increasingly important for telecommunications."
+  },
+  {
+    "id": 10,
+    "year": 1981,
+    "author": "NASA",
+    "content": "Space Shuttle Columbia has successfully completed its first orbital flight!",
+    "importance": 4
+  },
+  {
+    "id": 11,
+    "year": 1986,
+    "author": "Global News Network",
+    "content": "Tragedy strikes as Space Shuttle Challenger is lost shortly after liftoff. All seven crew members perished.",
+    "importance": 5
+  },
+  {
+    "id": 12,
+    "year": 1990,
+    "author": "Space Observer",
+    "content": "Hubble Space Telescope has been deployed, though engineers are working to correct an issue with the primary mirror."
+  },
+  {
+    "id": 13,
+    "year": 1991,
+    "author": "Soviet Space Agency",
+    "content": "Mir space station continues to operate as political changes reshape the Soviet space program."
+  },
+  {
+    "id": 14,
+    "year": 1998,
+    "author": "International Space News",
+    "content": "Assembly of the International Space Station has begun with the launch of the Zarya module.",
+    "importance": 4
+  },
+  {
+    "id": 15,
+    "year": 2000,
+    "author": "Space Observer",
+    "content": "The first crew has arrived at the International Space Station, beginning permanent human presence in space.",
+    "importance": 4
+  },
+  {
+    "id": 16,
+    "year": 2003,
+    "author": "NASA",
+    "content": "Space Shuttle Columbia lost during re-entry. The space community mourns the seven astronauts aboard.",
+    "importance": 5
+  },
+  {
+    "id": 17,
+    "year": 2004,
+    "author": "Mars Rover Spirit",
+    "content": "I've landed on the Red Planet! Beginning my mission to explore the surface of Mars.",
+    "importance": 3
+  },
+  {
+    "id": 18,
+    "year": 2010,
+    "author": "Space Tech Review",
+    "content": "Private companies are beginning to play a bigger role in space launches.",
+    "importance": 3
+  },
+  {
+    "id": 19,
+    "year": 2011,
+    "author": "NASA",
+    "content": "The Space Shuttle program has officially ended after 30 years of service.",
+    "importance": 4
+  },
+  {
+    "id": 20,
+    "year": 2012,
+    "author": "Curiosity Rover",
+    "content": "I've landed on Mars! Ready to explore Gale Crater and search for signs of past habitability.",
+    "importance": 3
+  },
+  {
+    "id": 21,
+    "year": 2015,
+    "author": "SpaceX",
+    "content": "We've successfully landed the first stage of a Falcon 9 rocket! Reusable rockets are now a reality.",
+    "importance": 4
+  },
+  {
+    "id": 22,
+    "year": 2020,
+    "author": "NASA",
+    "content": "SpaceX's Crew Dragon has successfully carried astronauts to the ISS, marking the return of human spaceflight capability to the United States.",
+    "importance": 5
+  },
+  {
+    "id": 23,
+    "year": 2021,
+    "author": "NASA",
+    "content": "Perseverance rover has landed on Mars with the Ingenuity helicopter!",
+    "importance": 4
+  },
+  {
+    "id": 24,
+    "year": 2023,
+    "author": "Space News Network",
+    "content": "The Artemis program aims to return humans to the Moon this decade, with the ultimate goal of establishing a sustainable lunar presence.",
+    "importance": 4
+  }
+]
