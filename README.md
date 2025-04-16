@@ -45,11 +45,23 @@
 
 **10% of the final grade**
 
-[New prototype](https://data-viz-4ed.pages.dev)
+> The goal of this project is to design a sleek, interactive website that allows users to explore various aspects of the Space Race. We began by sketching an initial concept, which may evolve over time, but we're excited about the direction so far. You can find this sketch below.
+
+> The homepage will feature a striking main visualization as its centerpiece. As users scroll down, they'll encounter an interactive "game" that lets them explore the Space Race at their own pace.
+
+> The interactive "game" will unfold as follows: First, users choose a space era. This leads to a dedicated page with details about that period. From there, they can explore key providers through a statistical visualization. Selecting a provider brings up more information, along with their 3–5 most-used rockets. Clicking on a rocket takes users to a final page with in-depth stats and visuals about the selected spacecraft and its history.
+
+> The experience wraps up with a final visualization—either a look into the future of space exploration or an interactive 3D model of the Falcon 9 rocket.
+
+**Sketch of our ideas :**
 
 <p align="center">
-  <img src="images/site_plan.jpg" alt="Site Plan" width="600"/>
+  <img src="images/site_plan.jpg" alt="Site Plan" width="500"/>
 </p>
+
+**Prototype of our website so far :**
+
+[New prototype](https://data-viz-4ed.pages.dev)
 
 ## Milestone 3 (30th May, 5pm)
 
