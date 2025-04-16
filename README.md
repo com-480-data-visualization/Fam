@@ -47,6 +47,8 @@
 
 [New prototype](https://data-viz-4ed.pages.dev)
 
+<img src="images/site_plan.jpg" alt="Alt Text" width="300"/>
+
 ## Milestone 3 (30th May, 5pm)
 
 **80% of the final grade**
