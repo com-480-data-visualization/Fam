@@ -63,6 +63,19 @@
 
 [New prototype](https://data-viz-4ed.pages.dev)
 
+**List of tools to use :**
+ 
+- React 
+To build the structure of the website
+
+- D3.js 
+For creating dynamic and interactive data visualizations, such as charts and visual storytelling elements
+
+- GSAP 
+To add smooth animations and transitions that enhance user experience and bring the interface to life
+
+
+
 ## Milestone 3 (30th May, 5pm)
 
 **80% of the final grade**
