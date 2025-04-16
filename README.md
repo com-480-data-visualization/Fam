@@ -47,7 +47,9 @@
 
 [New prototype](https://data-viz-4ed.pages.dev)
 
-<img src="images/site_plan.jpg" alt="Alt Text" width="300"/>
+<p align="center">
+  <img src="images/site_plan.jpg" alt="Site Plan" width="600"/>
+</p>
 
 ## Milestone 3 (30th May, 5pm)
 
