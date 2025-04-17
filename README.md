@@ -11,7 +11,7 @@ Welcome to our Data Visualization project, where we dive into the epic journey o
 
 ## 🧠 Milestones
 
-Check out our [Milestone 1](milestones\milestone1.md) and [Milestone 2](milestones\milestone2.md) reports to follow our progress.
+Check out our [Milestone 1](milestones/milestone1.md) and [Milestone 2](milestones/milestone2.md) reports to follow our progress.
 
 ## 🌍 What’s this project about?
 
