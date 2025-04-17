@@ -1,4 +1,4 @@
-ß∂# Project of Data Visualization (COM-480)
+## 🚀 Team FAM — Data Visualization Project (COM-480)
 
 | Student's name | SCIPER |
 | -------------- | ------ |
@@ -6,83 +6,22 @@
 | Adrien Clément | 345535 |
 | Samuli Näppi | 395573 |
 
-[Milestone 1](#milestone-1) • [Milestone 2](#milestone-2) • [Milestone 3](#milestone-3)
-
-## Milestone 1 (21st March, 5pm)
-
-**10% of the final grade**
+Welcome to our Data Visualization project, where we dive into the epic journey of space exploration. Using rich historical data and interactive visuals, our goal is to build a dynamic web experience that reveals how the space race has evolved from 1957 to today—and into the future.
 
 
-### Dataset
+## 🧠 Milestones
 
-> For this project, we will explore the Historical Space Launch Data from Hugging Face's dataset repository, specifically the Historical Space Launches 1957-2039 dataset. This dataset provides detailed information about space missions, including launch names, dates, providers, rocket names, and launch pad locations. The data on Hugging Face was originally scraped from "https://spacelaunchnow.me" some time ago. As a next step, we may consider scraping the site ourselves to obtain the latest launch data. Additionally, we may supplement this dataset with other sources, such as key historical events, to better understand the dynamics of the Space Race and its connections to broader geopolitical events. 
+Check out our [Milestone 1](milestones\milestone1.md) and [Milestone 2](milestones\milestone2.md) reports to follow our progress.
 
+## 🌍 What’s this project about?
 
-### Problematic
+This project is an interactive storytelling website that brings the history of space launches to life. From the Cold War rivalry to the rise of private space companies, we explore who launched what, when, and where—and what it all means in the bigger picture.
 
-> We aim to visualize the evolution of space exploration from 1957 to 2039, highlighting key milestones in rocket launch history. Our project will showcase how the number of launches and their global distribution across countries and launch providers have changed over time, revealing major breakthroughs and historical events. From the Cold War-era Space Race to the rise of private space companies, we will illustrate how different players have shaped the industry and what this means for the future of space exploration.
-
-> By analyzing launch frequencies, agency activity, and geospatial launch patterns, we will create an interactive visualization that brings space history to life. Our focus includes tracking launch trends over time, comparing government and private agencies, mapping launch sites, and evaluating mission success rates. This project is designed for space enthusiasts, historians, and anyone interested in understanding the transformation of space exploration.
-
-### Exploratory Data Analysis
-
-> See notebook provided called "Exploration.ipynb" for some exploratory data analysis.
-
-> A preliminary visualization has also been created, and all code is available on this GitHub. You can access the visualization here: [DataViz Prototype.](https://dataviz-prototype.vercel.app)
-
-
-### Related work
-
-> The Space Launch Now database is primarily used for a popular mobile application that tracks spaceflight events. Beyond this, there are few public projects that extensively analyze or visualize this dataset. 
-
-> Our approach is therefore original because we aim to combine the Space Launch Now data with key historical events, such as the Cold War and major geopolitical milestones, to uncover patterns in space exploration. Unlike existing visualizations that focus solely on launch tracking, we will create interactive visualizations that highlight the evolution of space agencies, launch trends, and mission success rates over time.
-
-> We used NASA's website and past projects as inspiration. We believe that the space theme offers exciting opportunities for creative visualizations!
+We use the **Historical Space Launches 1957–2039** dataset from Hugging Face (originally scraped from [Space Launch Now](https://spacelaunchnow.me)) and supplement it with major historical events to put launches in global context.
 
 
 
-## Milestone 2 (18th April, 5pm)
+## ✨ Live Prototype
 
-**10% of the final grade**
-
-> The goal of this project is to design a sleek, interactive website that allows users to explore various aspects of the Space Race. We began by sketching an initial concept, which may evolve over time, but we're excited about the direction so far. You can find this sketch below.
-
-> The homepage will feature a striking main visualization as its centerpiece. As users scroll down, they'll encounter an interactive "game" that lets them explore the Space Race at their own pace.
-
-> The interactive "game" will unfold as follows: First, users choose a space era. This leads to a dedicated page with details about that period. From there, they can explore key providers through a statistical visualization. Selecting a provider brings up more information, along with their 3–5 most-used rockets. Clicking on a rocket takes users to a final page with in-depth stats and visuals about the selected spacecraft and its history.
-
-> The experience wraps up with a final visualization—either a look into the future of space exploration or an interactive 3D model of the Falcon 9 rocket.
-
-**Sketch of our ideas :**
-
-<p align="center">
-  <img src="images/site_plan.jpg" alt="Site Plan" width="500"/>
-</p>
-
-**Prototype of our website so far :**
-
-[New prototype](https://data-viz-4ed.pages.dev)
-
-**List of tools to use :**
- 
-- React 
-To build the structure of the website
-
-- D3.js 
-For creating dynamic and interactive data visualizations, such as charts and visual storytelling elements
-
-- GSAP 
-To add smooth animations and transitions that enhance user experience and bring the interface to life
-
-
-
-## Milestone 3 (30th May, 5pm)
-
-**80% of the final grade**
-
-
-## Late policy
-
-- < 24h: 80% of the grade for the milestone
-- < 48h: 70% of the grade for the milestone
+Want a sneak peek? Check out our current [DataViz Prototype](https://data-viz-4ed.pages.dev)
 
