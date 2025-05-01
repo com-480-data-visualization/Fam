@@ -94,6 +94,8 @@ export function extractRockets(launches: Launch[]): Rocket[] {
   return Array.from(rocketMap.values());
 }
 
+/*"The period of competition between the US and USSR in space exploration, from Sputnik to Apollo 11." */
+
 export function getHistoricalEras(): Era[] {
   return [
     {
