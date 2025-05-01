@@ -101,8 +101,18 @@ export function getHistoricalEras(): Era[] {
       name: "Space Race",
       startDate: "1957",
       endDate: "1969",
-      description:
-        "The period of competition between the US and USSR in space exploration, from Sputnik to Apollo 11.",
+      description: `
+      The Space Age began with a spark — and quickly became a firestorm of ambition, anxiety, and awe. 
+      In a world polarized by political ideologies, space transformed into a high-stakes arena where 
+      technology, strategy, and symbolism collided.
+
+      The earliest artificial satellites soared above Earth, capturing the worlds imagination and 
+      escalating global tensions. Not long after, humans would ride rockets into the unknown, marking 
+      milestones that once belonged only to science fiction.
+
+      This was a time of bold declarations and daring missions. Everything was new: the machines, 
+      the methods, even the very concept of leaving Earth. Yet through all the risk and uncertainty, 
+      nations poured resources and genius into pushing beyond the sky.`,
     },
     {
       id: "early-space-stations",
