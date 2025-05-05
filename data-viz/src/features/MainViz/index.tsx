@@ -1,25 +1,33 @@
+/**
+ * MainViz component displays the primary visualization interface of the application.
+ * It combines the WorldMap component with timeline controls and contextual information
+ * about the current time period being visualized.
+ *
+ * @module features/MainViz
+ */
+
 import { useTimeline } from "../../contexts/TimelineContext";
 import { WorldMap } from "../../components/ui/world-map";
 import { AnimationControls } from "../../components/ui/animation-controls";
 
+/**
+ * MainViz renders the primary visualization section with the world map and timeline controls.
+ * This component serves as the main interactive area of the application, displaying rocket
+ * launches on a world map with playback controls and contextual information about the
+ * historical period being viewed.
+ *
+ * @returns JSX element containing the world map visualization and timeline controls
+ */
 export default function MainViz() {
   const {
-    currentTimeValue,
     currentYear,
     isPlaying,
     currentMonthLaunches,
     isLoading,
-    minTimeValue,
-    maxTimeValue,
-    setTimeValue,
     togglePlayback,
     resetTimeline,
     formatTimeDisplay,
   } = useTimeline();
-
-  const handleTimeChange = (timeValue: number) => {
-    setTimeValue(timeValue);
-  };
 
   return (
     <section className="flex flex-col bg-background min-h-screen">
@@ -27,26 +35,24 @@ export default function MainViz() {
         className="w-full bg-[#0a0f1c] relative overflow-hidden"
         style={{
           maxWidth: "100vw",
-          height: "80vh",
+          height: "calc(70vh - 1rem)",
+          maxHeight: "70vh",
+          minHeight: "630px",
         }}
       >
         <WorldMap launchData={currentMonthLaunches} isLoading={isLoading} />
       </div>
 
-      <div className="container mx-auto px-4 py-2">
+      <div className="container mx-auto px-4 py-1 space-y-2">
         <AnimationControls
-          currentTimeValue={currentTimeValue}
-          minTimeValue={minTimeValue}
-          maxTimeValue={maxTimeValue}
           isPlaying={isPlaying}
           isLoading={isLoading}
           formattedTime={formatTimeDisplay()}
-          onTimeChange={handleTimeChange}
           onPlayPause={togglePlayback}
           onReset={resetTimeline}
         />
-        <div className="mt-4 max-w-4xl mx-auto bg-background/70 backdrop-blur-sm rounded-md shadow-md border border-border p-1">
-          <div className="bg-muted/20 p-2 rounded">
+        <div className="max-w-4xl mx-auto bg-background/70 backdrop-blur-sm rounded-md shadow-md border border-border">
+          <div className="bg-muted/20 p-2 rounded text-sm sm:text-base">
             {currentYear < 1970 ? (
               <p>
                 <span className="font-semibold">Space Race Era:</span> Fierce

@@ -1,12 +1,40 @@
+/**
+ * Horizontal bar chart component for visualizing launch provider data.
+ *
+ * This component renders a horizontal bar chart showing the launch counts
+ * for different rocket launch providers, with interactive selection capabilities.
+ *
+ * @module components/ui/horizontal-bar-chart
+ */
 import { useRef } from "react";
 import { Provider } from "../../types";
 
+/**
+ * Props for the HorizontalBarChart component.
+ *
+ * @interface HorizontalBarChartProps
+ */
 interface HorizontalBarChartProps {
+  /** Array of provider data to display in the chart */
   providers: Provider[];
+  /** Currently selected provider (if any) */
   selectedProvider?: Provider | null;
+  /** Callback function triggered when a provider is selected */
   onProviderSelect: (provider: Provider) => void;
 }
 
+/**
+ * Renders a horizontal bar chart showing launch counts by provider.
+ *
+ * This component:
+ * - Shows the top 4 providers with highest launch counts
+ * - Groups remaining providers into an "Others" category
+ * - Provides interactive selection of providers
+ * - Highlights the currently selected provider
+ *
+ * @param {HorizontalBarChartProps} props - Component properties
+ * @returns {JSX.Element} Rendered horizontal bar chart component
+ */
 export default function HorizontalBarChart({
   providers,
   selectedProvider,
@@ -14,13 +42,16 @@ export default function HorizontalBarChart({
 }: HorizontalBarChartProps) {
   const chartRef = useRef<HTMLDivElement>(null);
 
+  // Initialize arrays and counters for data processing
   const topProviders: Provider[] = [];
   let othersLaunchCount = 0;
 
+  // Sort providers by launch count (descending)
   const sortedProviders = [...providers].sort(
     (a, b) => (b.launchCount || 0) - (a.launchCount || 0)
   );
 
+  // Extract top 4 providers and accumulate the rest into "Others"
   sortedProviders.forEach((provider, index) => {
     if (index < 4) {
       topProviders.push(provider);
@@ -29,6 +60,7 @@ export default function HorizontalBarChart({
     }
   });
 
+  // Add "Others" category if there are more than 4 providers
   if (sortedProviders.length > 4) {
     topProviders.push({
       id: "others",
@@ -38,6 +70,7 @@ export default function HorizontalBarChart({
     });
   }
 
+  // Calculate maximum launch count for scaling bars
   const maxLaunchCount =
     topProviders.length > 0
       ? Math.max(...topProviders.map((p) => p.launchCount || 0))

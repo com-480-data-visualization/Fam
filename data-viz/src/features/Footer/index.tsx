@@ -1,8 +1,27 @@
+/**
+ * Footer component for the Rocket Launch Data Visualization application.
+ * Provides navigation links, application information, and data source references.
+ *
+ * @module features/Footer
+ */
+
 import { useSelection } from "../../contexts/SelectionContext";
 
+/**
+ * Footer component with contextual navigation based on the user's current selection state.
+ * Includes smooth scrolling navigation to different sections of the application,
+ * copyright information, and data source references.
+ *
+ * @returns JSX element containing the application footer
+ */
 export default function Footer() {
   const { selectedEra, selectedProvider, selectedRocket } = useSelection();
 
+  /**
+   * Scrolls the viewport smoothly to the specified section.
+   *
+   * @param id - The HTML element ID to scroll to
+   */
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {

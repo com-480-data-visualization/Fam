@@ -1,6 +1,29 @@
+/**
+ * Force simulation utilities for optimizing the placement of launchpad markers.
+ *
+ * This module uses D3's force simulation to prevent overlapping of launchpad markers
+ * while keeping them close to their original geographic locations.
+ *
+ * @module components/ui/world-map/force-simulation
+ */
+
 import * as d3 from "d3";
 import { Launchpad } from "./types";
 
+/**
+ * Applies force simulation to optimize the positioning of launchpad markers.
+ *
+ * This function:
+ * - Uses D3's force simulation to prevent marker overlapping
+ * - Applies forces to keep markers near their original geographic positions
+ * - Adjusts collision radius based on the size of each marker
+ * - Makes minor position adjustments to markers in very close proximity
+ *
+ * @param {Launchpad[]} launchpads - Array of launchpad objects to position
+ * @param {d3.ScalePower<number, number>} radiusScale - Scale function for determining marker sizes
+ * @param {number} [forceStrength=0.7] - Strength of the positioning forces (0-1)
+ * @returns {void}
+ */
 export function applyForceSimulation(
   launchpads: Launchpad[],
   radiusScale: d3.ScalePower<number, number>,
@@ -46,7 +69,7 @@ export function applyForceSimulation(
     positionMap.get(posKey)!.push(site);
   });
 
-  positionMap.forEach((sites, _) => {
+  positionMap.forEach((sites) => {
     if (sites.length > 1) {
       sites.forEach((site, i) => {
         if (i > 0) {

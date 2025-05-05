@@ -1,5 +1,19 @@
+/**
+ * RocketInfo component displays detailed information about the currently selected rocket.
+ * This component renders specifications, launch history, and visualization placeholders
+ * for the rocket selected through the SelectionContext.
+ *
+ * @module features/RocketInfo
+ */
+
 import { useSelection } from "../../contexts/SelectionContext";
 
+/**
+ * RocketInfo component displays detailed information about the currently selected rocket.
+ * Includes specifications, launch statistics, launch history table, and visual placeholders.
+ *
+ * @returns JSX element containing rocket details or a prompt to select a rocket
+ */
 export default function RocketInfo() {
   const { selectedRocket } = useSelection();
 

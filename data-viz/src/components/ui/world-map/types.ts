@@ -13,7 +13,6 @@ export interface Launchpad {
   y?: number;
   originalX?: number;
   originalY?: number;
-  inMicroLayout?: boolean;
 }
 
 export interface WorldMapProps {

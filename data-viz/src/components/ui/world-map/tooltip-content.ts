@@ -1,9 +1,32 @@
+/**
+ * Utilities for generating tooltip content for the world map visualization.
+ *
+ * This module handles the creation of HTML content for tooltips that display
+ * detailed information about launch sites when users hover over markers.
+ *
+ * @module components/ui/world-map/tooltip-content
+ */
+
 import { Launch } from "../../../types";
 import { Launchpad } from "./types";
 import { COLOR_SETS } from "./color-constants";
 
 const { statusColors } = COLOR_SETS;
 
+/**
+ * Generates HTML content for a tooltip displaying launchpad information.
+ *
+ * This function:
+ * - Creates a formatted HTML tooltip with launch site details
+ * - Shows a breakdown of launch statuses with appropriate colors
+ * - Displays a list of recent launches with dates and missions
+ * - Highlights future launches with a different visual style
+ * - Limits the number of displayed launches to avoid overcrowding
+ *
+ * @param {Launchpad} launchpad - The launchpad data to display in the tooltip
+ * @param {Launch[]} launchData - Current launch data set being visualized
+ * @returns {string} HTML string for the tooltip content
+ */
 export function generateTooltipContent(
   launchpad: Launchpad,
   launchData: Launch[]

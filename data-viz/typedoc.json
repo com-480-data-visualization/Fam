@@ -1,0 +1,41 @@
+{
+  "entryPoints": ["./src/"],
+  "out": "docs",
+  "name": "Rocket Launch Data Visualization",
+  "includeVersion": true,
+  "hideGenerator": true,
+  "readme": "README.md",
+  "exclude": ["**/node_modules/**", "**/dist/**"],
+  "excludePrivate": true,
+  "excludeExternals": true,
+  "entryPointStrategy": "expand",
+  "categorizeByGroup": true,
+  "validation": {
+    "invalidLink": true,
+    "notExported": false,
+    "notDocumented": false
+  },
+  "jsDocCompatibility": {
+    "exampleTag": true
+  },
+  "blockTags": [
+    "@example",
+    "@param",
+    "@returns",
+    "@throws",
+    "@description",
+    "@module",
+    "@async",
+    "@template",
+  ],
+  "categoryOrder": [
+    "App",
+    "Components",
+    "Features",
+    "Contexts",
+    "Hooks",
+    "Utils",
+    "Types",
+    "*"
+  ]
+}

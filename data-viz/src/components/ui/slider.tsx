@@ -1,60 +1,137 @@
-import * as React from "react";
-import * as SliderPrimitive from "@radix-ui/react-slider";
+/**
+ * Slider component using Material UI Slider.
+ *
+ * @module components/ui/slider
+ */
 
+import { SyntheticEvent } from "react";
+import { Slider as MUISlider } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { cn } from "@/lib/utils";
 
+/**
+ * Interface for mark objects used in the Slider component
+ */
+export interface SliderMark {
+  value: number;
+  label?: string;
+}
+
+/**
+ * Extended props for the Slider component
+ */
+interface SliderProps {
+  value?: number;
+  defaultValue?: number;
+  min?: number;
+  max?: number;
+  step?: number;
+  marks?: SliderMark[];
+  showMarkLabels?: boolean;
+  onValueChange?: (value: number) => void;
+  onChange?: (event: Event, value: number | number[]) => void;
+  onChangeCommitted?: (
+    event: SyntheticEvent | Event,
+    value: number | number[]
+  ) => void;
+  disabled?: boolean;
+  className?: string;
+  "aria-label"?: string;
+  id?: string;
+}
+
+// Styled MUI Slider to match our design system
+const StyledSlider = styled(MUISlider)(() => ({
+  color: "var(--primary)",
+  height: 6,
+  padding: "15px 0",
+  "& .MuiSlider-track": {
+    border: "none",
+    height: 6,
+    backgroundColor: "var(--primary)",
+  },
+  "& .MuiSlider-thumb": {
+    height: 16,
+    width: 16,
+    backgroundColor: "var(--background)",
+    border: "2px solid var(--primary)",
+    "&:focus, &:hover, &.Mui-active, &.Mui-focusVisible": {
+      boxShadow: "0 0 0 4px var(--ring)",
+    },
+  },
+  "& .MuiSlider-rail": {
+    color: "var(--border)",
+    opacity: 1,
+    height: 6,
+  },
+  "& .MuiSlider-markLabel": {
+    color: "var(--muted-foreground)",
+    fontSize: "0.75rem",
+    marginTop: 7,
+  },
+  "& .MuiSlider-mark": {
+    display: "none",
+  },
+  "& .MuiSlider-markActive": {
+    display: "none",
+  },
+}));
+
+/**
+ * Slider component for selecting numeric values within a range.
+ * Used throughout the application for timeline navigation and value selection.
+ *
+ * @param props - Slider component props
+ * @returns JSX element containing the styled slider
+ */
 function Slider({
   className,
   defaultValue,
   value,
   min = 0,
   max = 100,
-  ...props
-}: React.ComponentProps<typeof SliderPrimitive.Root>) {
-  const _values = React.useMemo(
-    () =>
-      Array.isArray(value)
-        ? value
-        : Array.isArray(defaultValue)
-        ? defaultValue
-        : [min, max],
-    [value, defaultValue, min, max]
-  );
+  step = 1,
+  marks = [],
+  showMarkLabels = false,
+  onValueChange,
+  onChange,
+  onChangeCommitted,
+  disabled = false,
+  "aria-label": ariaLabel,
+  id,
+}: SliderProps) {
+  const muiMarks = marks.map((mark) => ({
+    value: mark.value,
+    label: showMarkLabels ? mark.label : undefined,
+  }));
+
+  const handleChange = (event: Event, newValue: number | number[]) => {
+    if (onChange) {
+      onChange(event, newValue);
+    }
+
+    if (onValueChange && typeof newValue === "number") {
+      onValueChange(newValue);
+    }
+  };
 
   return (
-    <SliderPrimitive.Root
-      data-slot="slider"
-      defaultValue={defaultValue}
-      value={value}
-      min={min}
-      max={max}
-      className={cn(
-        "relative flex w-full touch-none items-center select-none data-[disabled]:opacity-50 data-[orientation=vertical]:h-full data-[orientation=vertical]:min-h-44 data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col",
-        className
-      )}
-      {...props}
-    >
-      <SliderPrimitive.Track
-        data-slot="slider-track"
-        className={cn(
-          "bg-border relative grow overflow-hidden rounded-full data-[orientation=horizontal]:h-1.5 data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-1.5"
-        )}
-      >
-        <SliderPrimitive.Range
-          data-slot="slider-range"
-          className={cn(
-            "bg-primary absolute data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full"
-          )}
-        />
-      </SliderPrimitive.Track>
-      {Array.from({ length: _values.length }, (_, index) => (
-        <SliderPrimitive.Thumb
-          data-slot="slider-thumb"
-          key={index}
-          className="border-primary bg-background ring-ring/50 block size-4 shrink-0 rounded-full border shadow-sm transition-[color,box-shadow] hover:ring-4 focus-visible:ring-4 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50"
-        />
-      ))}
-    </SliderPrimitive.Root>
+    <div className={cn("w-full", className)}>
+      <StyledSlider
+        id={id}
+        defaultValue={defaultValue}
+        value={value}
+        min={min}
+        max={max}
+        step={step}
+        marks={muiMarks}
+        onChange={handleChange}
+        onChangeCommitted={onChangeCommitted}
+        disabled={disabled}
+        aria-label={ariaLabel}
+        valueLabelDisplay="off"
+      />
+    </div>
   );
 }
 

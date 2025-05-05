@@ -1,6 +1,16 @@
+/**
+ * Navigation component for the Rocket Launch Data Visualization application.
+ * Provides sticky navigation with automatic highlighting of the active section.
+ *
+ * @module components/common/Navigation
+ */
+
 import { useState, useEffect } from "react";
 import { useScrollSpy } from "../../../hooks/useScrollSpy";
 
+/**
+ * Navigation items configuration, defining the available sections in the application.
+ */
 const navItems = [
   { id: "main-viz", label: "Map View" },
   { id: "era-selector", label: "Eras" },
@@ -9,12 +19,19 @@ const navItems = [
   { id: "rocket-info", label: "Details" },
 ];
 
+/**
+ * Navigation component that provides a sticky navigation bar with smooth scrolling
+ * to different sections of the application. Highlights the active section based on
+ * scroll position using the useScrollSpy hook.
+ *
+ * @returns JSX element containing the navigation bar
+ */
 export default function Navigation() {
   const [sectionRefs, setSectionRefs] = useState<
     React.RefObject<HTMLElement>[]
   >([]);
   const activeSection = useScrollSpy(sectionRefs, { threshold: 0.4 });
-  const [_, setIsScrolling] = useState(false);
+  const [, setIsScrolling] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
 
   useEffect(() => {

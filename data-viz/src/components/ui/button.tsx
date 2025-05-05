@@ -1,9 +1,19 @@
-import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
-import { cva, type VariantProps } from "class-variance-authority"
+/**
+ * Button component from the shadcn/ui design system.
+ *
+ * @module components/ui/button
+ */
 
-import { cn } from "@/lib/utils"
+import * as React from "react";
+import { Slot } from "@radix-ui/react-slot";
+import { cva, type VariantProps } from "class-variance-authority";
 
+import { cn } from "@/lib/utils";
+
+/**
+ * Button variant styles using class-variance-authority.
+ * Defines multiple variants and sizes for button styling.
+ */
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
   {
@@ -33,8 +43,19 @@ const buttonVariants = cva(
       size: "default",
     },
   }
-)
+);
 
+/**
+ * Button component with multiple visual variants and size options.
+ * Based on the shadcn/ui design system and supports polymorphic behavior with asChild.
+ *
+ * @param props - Standard button props plus variant options
+ * @param props.className - Additional CSS classes
+ * @param props.variant - Visual style variant
+ * @param props.size - Button size variant
+ * @param props.asChild - Renders as a Slot component when true
+ * @returns JSX element containing the styled button
+ */
 function Button({
   className,
   variant,
@@ -43,9 +64,9 @@ function Button({
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
-    asChild?: boolean
+    asChild?: boolean;
   }) {
-  const Comp = asChild ? Slot : "button"
+  const Comp = asChild ? Slot : "button";
 
   return (
     <Comp
@@ -53,7 +74,7 @@ function Button({
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
     />
-  )
+  );
 }
 
-export { Button, buttonVariants }
+export { Button, buttonVariants };

@@ -1,5 +1,24 @@
+/**
+ * Data loading and processing utilities for rocket launch data.
+ *
+ * This file contains functions for:
+ * - Fetching launch data from JSON sources
+ * - Extracting and organizing provider information from launch data
+ * - Extracting and organizing rocket information from launch data
+ * - Managing historical eras and their associated rockets
+ * - Filtering launch data based on various criteria
+ *
+ * @module lib/data-loader
+ */
 import { Launch, Provider, Rocket, Era } from "../types";
 
+/**
+ * Fetches rocket launch data from the provided JSON file.
+ *
+ * @async
+ * @returns {Promise<Launch[]>} Promise resolving to an array of launch data
+ * @throws {Error} If the data cannot be fetched or parsed
+ */
 export async function fetchLaunchData(): Promise<Launch[]> {
   try {
     const response = await fetch("/processed_rocket_launches.json");
@@ -14,9 +33,21 @@ export async function fetchLaunchData(): Promise<Launch[]> {
   }
 }
 
+/**
+ * Extracts and organizes provider information from launch data.
+ *
+ * This function:
+ * 1. Groups launches by provider
+ * 2. Counts launches per provider
+ * 3. Adds additional metadata like country and founding year
+ *
+ * @param {Launch[]} launches - The source launch data
+ * @returns {Provider[]} Array of unique providers with metadata
+ */
 export function extractProviders(launches: Launch[]): Provider[] {
   const providerMap = new Map<string, Provider>();
 
+  // Provider founding years from historical data
   const providerFoundingYears: Record<string, number> = {
     nasa: 1958,
     roscosmos: 1992,
@@ -35,6 +66,7 @@ export function extractProviders(launches: Launch[]): Provider[] {
     "united-launch-alliance": 2006,
   };
 
+  // Provider country mappings
   const providerCountries: Record<string, string> = {
     nasa: "USA",
     spacex: "USA",
@@ -75,6 +107,12 @@ export function extractProviders(launches: Launch[]): Provider[] {
   return Array.from(providerMap.values());
 }
 
+/**
+ * Extracts and organizes rocket information from launch data.
+ *
+ * @param {Launch[]} launches - The source launch data
+ * @returns {Rocket[]} Array of unique rockets with metadata
+ */
 export function extractRockets(launches: Launch[]): Rocket[] {
   const rocketMap = new Map<string, Rocket>();
 
@@ -94,8 +132,11 @@ export function extractRockets(launches: Launch[]): Rocket[] {
   return Array.from(rocketMap.values());
 }
 
-/*"The period of competition between the US and USSR in space exploration, from Sputnik to Apollo 11." */
-
+/**
+ * Provides predefined historical eras for space exploration.
+ *
+ * @returns {Era[]} Array of historical era definitions
+ */
 export function getHistoricalEras(): Era[] {
   return [
     {
@@ -103,18 +144,8 @@ export function getHistoricalEras(): Era[] {
       name: "Space Race",
       startDate: "1957",
       endDate: "1969",
-      description: `
-      The Space Age began with a spark — and quickly became a firestorm of ambition, anxiety, and awe. 
-      In a world polarized by political ideologies, space transformed into a high-stakes arena where 
-      technology, strategy, and symbolism collided.
-
-      The earliest artificial satellites soared above Earth, capturing the worlds imagination and 
-      escalating global tensions. Not long after, humans would ride rockets into the unknown, marking 
-      milestones that once belonged only to science fiction.
-
-      This was a time of bold declarations and daring missions. Everything was new: the machines, 
-      the methods, even the very concept of leaving Earth. Yet through all the risk and uncertainty, 
-      nations poured resources and genius into pushing beyond the sky.`,
+      description:
+        "The period of competition between the US and USSR in space exploration, from Sputnik to Apollo 11.",
     },
     {
       id: "early-space-stations",
@@ -143,6 +174,7 @@ export function getHistoricalEras(): Era[] {
   ];
 }
 
+// Historical data mapping rockets to their respective eras
 export const historicalRocketsByEra: Record<string, Rocket[]> = {
   "space-race": [
     // United States Air Force
@@ -277,7 +309,8 @@ export const historicalRocketsByEra: Record<string, Rocket[]> = {
       id: "soyuz-fg",
       name: "Soyuz-FG",
       providerId: "russian-federal-space-agency-roscosmos",
-      description: "Used for crewed launches to the International Space Station",
+      description:
+        "Used for crewed launches to the International Space Station",
       specs: { height: "49.5m", thrust: "4,146 kN", weight: "308,000 kg" },
     },
     {
@@ -416,37 +449,57 @@ export const historicalRocketsByEra: Record<string, Rocket[]> = {
   ],
 };
 
+/**
+ * Filters launches to a specific date range.
+ *
+ * @param {Launch[]} launches - The launches to filter
+ * @param {number} startYear - Start year (inclusive)
+ * @param {number} endYear - End year (inclusive)
+ * @returns {Launch[]} Filtered launches within the specified years
+ */
 export function filterLaunchesByYear(
   launches: Launch[],
   startYear: number,
   endYear: number
 ): Launch[] {
-  return launches.filter((launch) => {
-    const year = launch.year;
-    return year >= startYear && year <= endYear;
-  });
+  return launches.filter(
+    (launch) => launch.year >= startYear && launch.year <= endYear
+  );
 }
 
+/**
+ * Filters launches to a specific provider.
+ *
+ * @param {Launch[]} launches - The launches to filter
+ * @param {string} providerId - Provider ID to filter by
+ * @returns {Launch[]} Launches from the specified provider
+ */
 export function filterLaunchesByProvider(
   launches: Launch[],
   providerId: string
 ): Launch[] {
   const normalizedProviderId = providerId.toLowerCase().replace(/\s+/g, "-");
-
-  return launches.filter((launch) => {
-    const launchProviderId = launch.Provider.toLowerCase().replace(/\s+/g, "-");
-    return launchProviderId === normalizedProviderId;
-  });
+  return launches.filter(
+    (launch) =>
+      launch.Provider.toLowerCase().replace(/\s+/g, "-") ===
+      normalizedProviderId
+  );
 }
 
+/**
+ * Filters launches to a specific rocket.
+ *
+ * @param {Launch[]} launches - The launches to filter
+ * @param {string} rocketId - Rocket ID to filter by
+ * @returns {Launch[]} Launches of the specified rocket
+ */
 export function filterLaunchesByRocket(
   launches: Launch[],
   rocketId: string
 ): Launch[] {
   const normalizedRocketId = rocketId.toLowerCase().replace(/\s+/g, "-");
-
-  return launches.filter((launch) => {
-    const launchRocketId = launch.Rocket.toLowerCase().replace(/\s+/g, "-");
-    return launchRocketId === normalizedRocketId;
-  });
+  return launches.filter(
+    (launch) =>
+      launch.Rocket.toLowerCase().replace(/\s+/g, "-") === normalizedRocketId
+  );
 }

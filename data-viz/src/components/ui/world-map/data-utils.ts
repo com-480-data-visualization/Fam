@@ -1,6 +1,24 @@
+/**
+ * Utilities for processing launch data for the world map visualization.
+ *
+ * @module components/ui/world-map/data-utils
+ */
+
 import { Launch } from "../../../types";
 import { Launchpad } from "./types";
 
+/**
+ * Processes raw launch data into aggregated launchpad data.
+ *
+ * This function:
+ * - Groups launches by launchpad
+ * - Counts launches per launchpad
+ * - Tracks status information for each launchpad
+ * - Determines the primary status for color coding
+ *
+ * @param {Launch[]} launchData - Array of raw launch data objects
+ * @returns {Record<string, Launchpad>} Object with launchpad data indexed by launchpad key
+ */
 export function processLaunchData(
   launchData: Launch[]
 ): Record<string, Launchpad> {

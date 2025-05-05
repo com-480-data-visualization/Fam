@@ -1,13 +1,40 @@
+/**
+ * Provider selection component for space launch data visualization.
+ *
+ * This component displays available launch providers for the selected era
+ * and allows users to select a provider to view more detailed data.
+ *
+ * @module features/ProviderSelector
+ */
 import { RefObject, useEffect, useState } from "react";
 import { useSelection } from "../../contexts/SelectionContext";
 import { Provider } from "../../types";
 import HorizontalBarChart from "../../components/ui/horizontal-bar-chart";
 import { fetchLaunchData, extractProviders } from "../../lib/data-loader";
 
+/**
+ * Props for the ProviderSelector component.
+ *
+ * @interface ProviderSelectorProps
+ */
 interface ProviderSelectorProps {
+  /** Reference to the rocket section for smooth scrolling after selection */
   rocketSectionRef: RefObject<HTMLDivElement | null>;
 }
 
+/**
+ * Component that displays launch providers and allows user selection.
+ *
+ * This component:
+ * - Fetches and filters launch data based on the selected era
+ * - Extracts provider information from the launch data
+ * - Displays providers in a horizontal bar chart
+ * - Allows selection of a provider
+ * - Scrolls to the rocket section when a provider is selected
+ *
+ * @param {ProviderSelectorProps} props - Component properties
+ * @returns {JSX.Element} Rendered provider selector component
+ */
 export default function ProviderSelector({
   rocketSectionRef,
 }: ProviderSelectorProps) {
@@ -15,7 +42,11 @@ export default function ProviderSelector({
   const [providers, setProviders] = useState<Provider[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Load provider data when the selected era changes
   useEffect(() => {
+    /**
+     * Fetches launch data and extracts provider information
+     */
     async function loadData() {
       setLoading(true);
       try {
@@ -40,9 +71,15 @@ export default function ProviderSelector({
     loadData();
   }, [selectedEra]);
 
+  /**
+   * Handles the selection of a provider
+   *
+   * @param {Provider} provider - The selected provider
+   */
   const handleProviderClick = (provider: Provider) => {
     setSelectedProvider(provider);
 
+    // Scroll to the rocket section after a small delay to ensure rendering
     setTimeout(() => {
       if (rocketSectionRef.current) {
         rocketSectionRef.current.scrollIntoView({ behavior: "smooth" });

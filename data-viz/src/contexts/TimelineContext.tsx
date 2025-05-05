@@ -1,3 +1,15 @@
+/**
+ * Timeline Context for managing time-related state and data.
+ *
+ * This context provides functionality for:
+ * - Navigation through historical launch data using a timeline
+ * - Managing playback controls for animating through time periods
+ * - Filtering launch data based on selected time periods
+ * - Loading and organizing rocket launch data
+ * - Controlling animation speed and timeline scale (year/month)
+ *
+ * @module contexts/TimelineContext
+ */
 import {
   createContext,
   useContext,
@@ -8,84 +20,158 @@ import {
 } from "react";
 import { Launch } from "../types";
 
+/**
+ * Timeline view mode type
+ * - 'month': Shows data by individual months
+ * - 'year': Aggregates data by entire years
+ */
+export type TimelineViewMode = "month" | "year";
+
+/**
+ * Interface defining available properties and methods in the TimelineContext.
+ *
+ * @interface TimelineContextType
+ */
 interface TimelineContextType {
-  currentTimeValue: number;
+  /** Current timeline position expressed as absolute month count */
+  currentMonthIndex: number;
+  /** Current year in the timeline */
   currentYear: number;
+  /** Current month in the timeline (1-12) */
   currentMonth: number;
+  /** Whether the timeline animation is currently playing */
   isPlaying: boolean;
+  /** Current playback speed multiplier */
   playbackSpeed: number;
+  /** Current timeline view mode (month or year) */
+  viewMode: TimelineViewMode;
+  /** Complete dataset of all available launch data */
   allLaunchData: Launch[];
+  /** Filtered dataset showing only launches from the current month/year */
   currentMonthLaunches: Launch[];
+  /** Filtered dataset showing launches aggregated by year */
+  currentYearLaunches: Launch[];
+  /** Whether data is currently being loaded */
   isLoading: boolean;
-  minTimeValue: number;
-  maxTimeValue: number;
-  setTimeValue: (timeValue: number) => void;
+  /** Minimum month index for the timeline (earliest available data) */
+  minMonthIndex: number;
+  /** Maximum month index for the timeline (latest available data) */
+  maxMonthIndex: number;
+  /** Sets the current position in the timeline using month index */
+  setMonthIndex: (monthIndex: number) => void;
+  /** Toggles the playback state between playing and paused */
   togglePlayback: () => void;
+  /** Sets the animation speed multiplier */
   setPlaybackSpeed: (speed: number) => void;
+  /** Sets the timeline view mode (month or year) */
+  setViewMode: (mode: TimelineViewMode) => void;
+  /** Resets the timeline to the beginning */
   resetTimeline: () => void;
+  /** Formats the current time as a display string (e.g., "Oct 1957" or "1957" based on view mode) */
   formatTimeDisplay: () => string;
+  /** Gets the total number of months in the timeline */
+  totalMonthCount: number;
 }
 
+// Constants for timeline boundaries and default values
 const MIN_YEAR = 1957;
 const MIN_MONTH = 10;
 const MAX_YEAR = 2025;
 const MAX_MONTH = 5;
-const MIN_TIME_VALUE = MIN_YEAR * 100 + MIN_MONTH;
-const MAX_TIME_VALUE = MAX_YEAR * 100 + MAX_MONTH;
-const DEFAULT_PLAYBACK_SPEED = 300;
+const DEFAULT_PLAYBACK_SPEED = 300; // Base playback interval in milliseconds
 
+/**
+ * Calculate the absolute month index from year and month
+ * @param year The year (e.g. 1957)
+ * @param month The month (1-12)
+ * @returns The absolute month count since MIN_YEAR/MIN_MONTH
+ */
+function calculateMonthIndex(year: number, month: number): number {
+  const yearDiff = year - MIN_YEAR;
+  const monthDiff = month - MIN_MONTH;
+  return yearDiff * 12 + monthDiff;
+}
+
+/**
+ * Calculate the year and month from an absolute month index
+ * @param monthIndex The absolute month count since MIN_YEAR/MIN_MONTH
+ * @returns An object with year and month properties
+ */
+function calculateYearAndMonth(monthIndex: number): {
+  year: number;
+  month: number;
+} {
+  const totalMonths = monthIndex + (MIN_MONTH - 1);
+  const yearOffset = Math.floor(totalMonths / 12);
+  let monthValue = (totalMonths % 12) + 1;
+
+  if (monthValue === 0) {
+    monthValue = 12;
+  }
+
+  return {
+    year: MIN_YEAR + yearOffset,
+    month: monthValue,
+  };
+}
+
+/**
+ * React Context for timeline state management
+ */
 const TimelineContext = createContext<TimelineContextType | undefined>(
   undefined
 );
 
-function normalizeTimeValue(timeValue: number): number {
-  let year = Math.floor(timeValue / 100);
-  let month = timeValue % 100;
-
-  if (month < 1) {
-    month = 1;
-  } else if (month > 12) {
-    month = 12;
-    if (timeValue % 100 > 12) {
-      year += 1;
-      month = 1;
-    }
-  }
-
-  if (year < MIN_YEAR || (year === MIN_YEAR && month < MIN_MONTH)) {
-    year = MIN_YEAR;
-    month = MIN_MONTH;
-  }
-
-  if (year > MAX_YEAR || (year === MAX_YEAR && month > MAX_MONTH)) {
-    year = MAX_YEAR;
-    month = MAX_MONTH;
-  }
-
-  return year * 100 + month;
-}
-
+/**
+ * Provider component for the TimelineContext.
+ *
+ * Manages the timeline state, data loading, and animation functionality
+ * for navigating through rocket launch history.
+ *
+ * @param {object} props - Component props
+ * @param {ReactNode} props.children - Child components that will have access to the context
+ * @returns {JSX.Element} The provider component
+ */
 export function TimelineProvider({ children }: { children: ReactNode }) {
-  const [currentTimeValue, setCurrentTimeValue] = useState(MIN_TIME_VALUE);
+  // Calculate the min and max month indices
+  const minMonthIndex = 0; // Starting point (Oct 1957)
+  const maxMonthIndex = calculateMonthIndex(MAX_YEAR, MAX_MONTH);
+  const totalMonthCount = maxMonthIndex + 1;
+
+  const [currentMonthIndex, setCurrentMonthIndex] = useState(minMonthIndex);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
+  const [viewMode, setViewMode] = useState<TimelineViewMode>("month");
   const [allLaunchData, setAllLaunchData] = useState<Launch[]>([]);
   const [launchesByYearMonth, setLaunchesByYearMonth] = useState<
+    Record<number, Launch[]>
+  >({});
+  const [launchesByYear, setLaunchesByYear] = useState<
     Record<number, Launch[]>
   >({});
   const [isLoading, setIsLoading] = useState(true);
   const animationRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
-  const normalizedTimeValue = normalizeTimeValue(currentTimeValue);
-  const currentYear = Math.floor(normalizedTimeValue / 100);
-  const currentMonth = normalizedTimeValue % 100;
+  // Calculate year and month from currentMonthIndex
+  const { year: currentYear, month: currentMonth } =
+    calculateYearAndMonth(currentMonthIndex);
 
-  useEffect(() => {
-    if (currentTimeValue !== normalizedTimeValue) {
-      setCurrentTimeValue(normalizedTimeValue);
-    }
-  }, [currentTimeValue, normalizedTimeValue]);
+  /**
+   * Sets the current position in the timeline using month index
+   */
+  const handleSetMonthIndex = (monthIndex: number): void => {
+    const boundedIndex = Math.max(
+      minMonthIndex,
+      Math.min(monthIndex, maxMonthIndex)
+    );
+    setCurrentMonthIndex(boundedIndex);
+  };
 
+  /**
+   * Formats the current timeline position as a human-readable string
+   * based on current view mode
+   * @returns {string} Formatted date string (e.g., "Oct 1957" or "1957")
+   */
   const formatTimeDisplay = () => {
     const monthNames = [
       "Jan",
@@ -101,9 +187,13 @@ export function TimelineProvider({ children }: { children: ReactNode }) {
       "Nov",
       "Dec",
     ];
-    return `${monthNames[currentMonth - 1]} ${currentYear}`;
+
+    return viewMode === "month"
+      ? `${monthNames[currentMonth - 1]} ${currentYear}`
+      : `${currentYear}`;
   };
 
+  // Load launch data on component mount
   useEffect(() => {
     async function loadLaunchData() {
       try {
@@ -115,7 +205,10 @@ export function TimelineProvider({ children }: { children: ReactNode }) {
         const data: Launch[] = await response.json();
         setAllLaunchData(data);
 
+        // Organize launches by year and month for efficient filtering
         const byYearMonth: Record<number, Launch[]> = {};
+        const byYear: Record<number, Launch[]> = {};
+
         data.forEach((launch) => {
           if (!launch.datetime_iso) return;
 
@@ -124,12 +217,21 @@ export function TimelineProvider({ children }: { children: ReactNode }) {
           const month = date.getMonth() + 1;
           const timeValue = year * 100 + month;
 
+          // Group by year-month
           if (!byYearMonth[timeValue]) {
             byYearMonth[timeValue] = [];
           }
           byYearMonth[timeValue].push(launch);
+
+          // Group by year
+          if (!byYear[year]) {
+            byYear[year] = [];
+          }
+          byYear[year].push(launch);
         });
+
         setLaunchesByYearMonth(byYearMonth);
+        setLaunchesByYear(byYear);
         setIsLoading(false);
       } catch (error) {
         console.error("Error loading rocket launch data:", error);
@@ -140,6 +242,7 @@ export function TimelineProvider({ children }: { children: ReactNode }) {
     loadLaunchData();
   }, []);
 
+  // Handle timeline animation playback
   useEffect(() => {
     if (!isPlaying) {
       if (animationRef.current) {
@@ -149,68 +252,97 @@ export function TimelineProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    animationRef.current = setInterval(() => {
-      setCurrentTimeValue((prevTimeValue) => {
-        let nextMonth = (prevTimeValue % 100) + 1;
-        let nextYear = Math.floor(prevTimeValue / 100);
+    // Calculate the actual interval based on playback speed
+    const interval = DEFAULT_PLAYBACK_SPEED / playbackSpeed;
 
-        if (nextMonth > 12) {
-          nextMonth = 1;
-          nextYear += 1;
+    animationRef.current = setInterval(() => {
+      setCurrentMonthIndex((prevIndex) => {
+        let nextIndex = prevIndex;
+
+        // Advance based on view mode
+        if (viewMode === "month") {
+          // In month view, advance by 1 month
+          nextIndex += 1;
+        } else {
+          // In year view, advance by 12 months (1 year)
+          nextIndex += 12;
         }
 
-        const nextTimeValue = nextYear * 100 + nextMonth;
-
-        if (nextTimeValue > MAX_TIME_VALUE) {
+        // Stop playback if we reach the end
+        if (nextIndex > maxMonthIndex) {
           clearInterval(animationRef.current);
           setIsPlaying(false);
-          return prevTimeValue;
+          return prevIndex;
         }
 
-        return nextTimeValue;
+        return nextIndex;
       });
-    }, DEFAULT_PLAYBACK_SPEED / playbackSpeed);
+    }, interval);
 
+    // Clean up interval on unmount or when playback state changes
     return () => {
       if (animationRef.current) {
         clearInterval(animationRef.current);
       }
     };
-  }, [isPlaying, playbackSpeed]);
+  }, [isPlaying, playbackSpeed, viewMode, maxMonthIndex]);
 
-  const currentMonthLaunches = launchesByYearMonth[normalizedTimeValue] || [];
+  // Current time value in YYYYMM format for data lookup
+  const timeValue = currentYear * 100 + currentMonth;
 
-  const setTimeValue = (timeValue: number) => {
-    setCurrentTimeValue(normalizeTimeValue(timeValue));
-  };
+  // Get relevant launches for the current time
+  const currentMonthLaunches = launchesByYearMonth[timeValue] || [];
+  const currentYearLaunches = launchesByYear[currentYear] || [];
 
+  // Get the appropriate launches based on view mode
+  const displayLaunches =
+    viewMode === "month" ? currentMonthLaunches : currentYearLaunches;
+
+  /**
+   * Toggles playback state between playing and paused
+   */
   const togglePlayback = () => {
     setIsPlaying((prev) => !prev);
   };
 
+  /**
+   * Resets the timeline to the beginning
+   */
   const resetTimeline = () => {
     setIsPlaying(false);
-    setCurrentTimeValue(MIN_TIME_VALUE);
+    setCurrentMonthIndex(minMonthIndex);
+  };
+
+  /**
+   * Updates the timeline view mode
+   * @param {TimelineViewMode} mode - New view mode ('month' or 'year')
+   */
+  const handleSetViewMode = (mode: TimelineViewMode) => {
+    setViewMode(mode);
   };
 
   return (
     <TimelineContext.Provider
       value={{
-        currentTimeValue: normalizedTimeValue,
+        currentMonthIndex,
         currentYear,
         currentMonth,
         isPlaying,
         playbackSpeed,
+        viewMode,
         allLaunchData,
-        currentMonthLaunches,
+        currentMonthLaunches: displayLaunches,
+        currentYearLaunches,
         isLoading,
-        minTimeValue: MIN_TIME_VALUE,
-        maxTimeValue: MAX_TIME_VALUE,
-        setTimeValue,
+        minMonthIndex,
+        maxMonthIndex,
+        setMonthIndex: handleSetMonthIndex,
         togglePlayback,
         setPlaybackSpeed,
+        setViewMode: handleSetViewMode,
         resetTimeline,
         formatTimeDisplay,
+        totalMonthCount,
       }}
     >
       {children}
@@ -218,6 +350,17 @@ export function TimelineProvider({ children }: { children: ReactNode }) {
   );
 }
 
+/**
+ * Custom hook for accessing the TimelineContext.
+ *
+ * @example
+ * ```tsx
+ * const { currentYear, isPlaying, togglePlayback } = useTimeline();
+ * ```
+ *
+ * @returns {TimelineContextType} The timeline context value
+ * @throws {Error} If used outside of a TimelineProvider
+ */
 export function useTimeline() {
   const context = useContext(TimelineContext);
   if (context === undefined) {
