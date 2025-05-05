@@ -33,6 +33,38 @@ export async function fetchLaunchData(): Promise<Launch[]> {
   }
 }
 
+
+
+export const providerActors: Record<string, string> = {
+  // 1957-1970
+  "united-states-air-force": "USA Gov. Agencies",
+  "us-navy": "USA Gov. Agencies",
+
+  // 1970-1990
+  "national-aeronautics-and-space-administration": "USA Gov. Agencies",
+  "institute-of-space-and-astronautical-science": "Japan Gov. Agencies",
+  "national-space-development-agency-of-japan": "Japan Gov. Agencies",
+  "lockheed-space-operations-company": "USA Gov. Agencies",
+
+  // 1990-2010
+  "khrunichev-state-research-and-production-space-center": "Russian Gov. Agencies",
+  "russian-federal-space-agency-(roscosmos)": "Russian Gov. Agencies",
+  "soviet-space-program": "Russian Gov. Agencies",
+  "russian-space-forces": "Russian Gov. Agencies",
+  "lockheed-martin": "USA Gov. Agencies",
+  "production-corporation-polyot": "Russian Gov. Agencies",
+  "progress-rocket-space-center": "Russian Gov. Agencies",
+  "china-aerospace-science-and-technology-corporation": "China Gov. Agency",
+
+  // 2010-Present
+  "russian-aerospace-defence-forces": "Russian Gov. Agencies",
+};
+
+
+
+
+
+
 /**
  * Extracts and organizes provider information from launch data.
  *
@@ -87,22 +119,24 @@ export function extractProviders(launches: Launch[]): Provider[] {
 
   launches.forEach((launch) => {
     const providerId = launch.Provider.toLowerCase().replace(/\s+/g, "-");
+    const actorName = providerActors[providerId] || launch.Provider;
 
-    if (!providerMap.has(providerId)) {
-      providerMap.set(providerId, {
+    if (!providerMap.has(actorName)) {
+      providerMap.set(actorName, {
         id: providerId,
-        name: launch.Provider,
+        name: actorName,
         country: providerCountries[providerId] || "Unknown",
         foundingYear: providerFoundingYears[providerId],
         launchCount: 1,
       });
     } else {
-      const provider = providerMap.get(providerId);
+      const provider = providerMap.get(actorName);
       if (provider) {
         provider.launchCount = (provider.launchCount || 0) + 1;
       }
     }
   });
+
 
   return Array.from(providerMap.values());
 }
