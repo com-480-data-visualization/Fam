@@ -173,6 +173,8 @@ export function extractRockets(launches: Launch[]): Rocket[] {
  *
  * @returns {Era[]} Array of historical era definitions
  */
+
+/*
 export function getHistoricalEras(): Era[] {
   return [
     {
@@ -209,6 +211,69 @@ export function getHistoricalEras(): Era[] {
     },
   ];
 }
+
+ */
+
+export function getHistoricalEras(): Era[] {
+  return [
+    {
+      id: "space-race",
+      name: "Space Race",
+      startDate: "1957",
+      endDate: "1969",
+      descriptionTitle : "🚀 Rockets, rivalry, and revolutionary firsts",
+      description: `
+      The Space Age began with a spark — and quickly became a firestorm of ambition, anxiety, and awe. In a world polarized by political ideologies, space transformed into a high-stakes arena where technology, strategy, and symbolism collided.
+      The earliest artificial satellites soared above Earth, capturing the world’s imagination and escalating global tensions. Not long after, humans would ride rockets into the unknown, marking milestones that once belonged only to science fiction.
+      This was a time of bold declarations and daring missions. Everything was new: the machines, the methods, even the very concept of leaving Earth. Yet through all the risk and uncertainty, nations poured resources and genius into pushing beyond the sky.
+      `,
+      question: "So who dared first? Who shaped this age of ‘firsts’?",
+    },
+    {
+      id: "early-space-stations",
+      name: "Early Space Station Era",
+      startDate: "1970",
+      endDate: "1989",
+      descriptionTitle : "🛰️ Orbit becomes home",
+      description: `
+        The red-hot tension of the Space Race began to cool, but space exploration didn’t slow down — it evolved. In this era, rockets still roared, but diplomacy echoed louder. The Apollo-Soyuz handshake in orbit marked more than a photo op; it symbolized a shift from conquest to collaboration.
+        Spacecraft grew smarter, more sustainable. Missions stretched longer, and orbital platforms like Salyut and Mir became homes above Earth. Meanwhile, fresh players emerged: Europe found its voice through Arianespace, and global ambition began to reshape the skies.
+        This period wasn’t just about planting flags. It was about building infrastructure, forging partnerships, and making space a shared human endeavor.
+      `,
+      question: "So who helped redefine the mission? Who turned competition into cooperation?",
+    },
+    {
+      id: "shuttle-era",
+      name: "Shuttle Era",
+      startDate: "1990",
+      endDate: "2011",
+      descriptionTitle : "🧑‍🚀 One orbit. One outpost. Many nations.",
+      description: `
+        The end of the Cold War opened the door for unprecedented cooperation. Where competition once dominated, now collaboration flourished. Engineers, astronauts, and scientists from around the world came together to do something once unthinkable: build a shared home in space.
+        Orbit wasn’t just a destination anymore — it became a community. The dream of a permanent human presence above Earth came alive, module by module, mission by mission.
+        While humans worked together in orbit, robotic explorers stretched farther than ever. Mars revealed its secrets. Asteroids were studied up close. New eyes turned toward the edge of the solar system.
+        This was a period of shared dreams, joint risks, and stunning achievements — not by one nation, but by many.
+      `,
+      question: "But who brought the pieces together? Who made this new era of unity possible?",
+    },
+    {
+      id: "commercial-space",
+      name: "Commercial Space Era",
+      startDate: "2012",
+      endDate: "2023",
+      descriptionTitle : "🌐 From state-led to startup-fueled",
+      description: `
+        In recent years, space has been transformed. No longer the exclusive domain of government programs, it now thrives with a mix of private ambition, public investment, and global competition. The result? Faster progress, lower launch costs, and a burst of creativity unlike anything before.
+        Reusable rockets returned from orbit and landed on Earth like something out of a movie. Crewed missions took off from new launchpads. Smaller nations launched big missions. Even individuals — not just astronauts — began to venture to the edge of space.
+        At the same time, our sights stretched further: the Moon, Mars, deep space telescopes, and plans for future outposts across the solar system. Space is once again the frontier of human ambition — only this time, the cast is bigger, and the rules are changing.
+      
+      `,
+      question: "Who’s writing this next chapter? Who’s shaping the future?",
+    },
+  ];
+}
+
+
 
 // Historical data mapping rockets to their respective eras
 export const historicalRocketsByEra: Record<string, Rocket[]> = {

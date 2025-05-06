@@ -102,7 +102,17 @@ export default function EraSelector({ providerSectionRef }: EraSelectorProps) {
                 <p className="text-muted-foreground mb-2">
                   {displayedEra.startDate} - {displayedEra.endDate}
                 </p>
+              
+                <p className="font-bold mb-2">
+                  {displayedEra.descriptionTitle}  
+                </p>
+
                 <p>{displayedEra.description}</p>
+
+                <p className="font-bold italic mt-4">
+                  {displayedEra.question}
+                </p>
+
               </>
             ) : (
               <p className="text-muted-foreground italic text-center">

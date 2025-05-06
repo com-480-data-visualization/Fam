@@ -115,6 +115,10 @@ export interface Era {
   startDate: string;
   /** Ending year of the era */
   endDate: string;
+  /** Title of the description */
+  descriptionTitle: string;  
   /** Description of the era's historical significance */
   description: string;
+  /** Question to head on to the provider section */
+  question: string;
 }
