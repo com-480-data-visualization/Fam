@@ -171,6 +171,8 @@ export function extractRockets(launches: Launch[]): Rocket[] {
  *
  * @returns {Era[]} Array of historical era definitions
  */
+
+/*
 export function getHistoricalEras(): Era[] {
   return [
     {
@@ -207,6 +209,71 @@ export function getHistoricalEras(): Era[] {
     },
   ];
 }
+
+ */
+
+export function getHistoricalEras(): Era[] {
+  return [
+    {
+      id: "space-race",
+      name: "Space Race",
+      startDate: "1957",
+      endDate: "1969",
+      description: `
+        🚀 Rockets, rivalry, and the race to the Moon.
+
+        The Space Age began in 1957 with Sputnik — the first artificial satellite — igniting a fierce competition between the United States and the Soviet Union. 
+        This era brought dramatic firsts: the first man in space (Yuri Gagarin), the first American orbit (John Glenn), and the Moon landing (Apollo 11). 
+        It was an age of bold declarations, rapid innovation, and symbolic missions driven by Cold War tensions.
+      `,
+    },
+    {
+      id: "early-space-stations",
+      name: "Early Space Station Era",
+      startDate: "1970",
+      endDate: "1989",
+      description: `
+        🛰️ Orbit becomes home.
+        As lunar exploration gave way to orbital permanence, nations focused on building habitats in space. 
+        Skylab (USA), Salyut, and later Mir (USSR) became humanity’s first true space stations. 
+        This period marked a shift toward long-duration missions and the beginning of international cooperation, including the historic Apollo-Soyuz mission in 1975.
+      `,
+    },
+    {
+      id: "shuttle-era",
+      name: "Shuttle Era",
+      startDate: "1990",
+      endDate: "2011",
+      description: `
+        🧑‍🚀 Reusable spacecraft and orbital assembly.
+        NASA’s Space Shuttle enabled the launch and servicing of satellites like Hubble and the construction of the International Space Station.
+        Meanwhile, Russia's space program underwent major structural changes after the Soviet Union collapsed.
+        🇷🇺 Instead of one centralized space agency, Russia's capabilities fragmented into:
+        - ROSCOSMOS: the coordinating civilian agency
+        - Khrunichev: builder of Proton rockets
+        - Progress Rocket Space Center: Soyuz manufacturer
+        - Russian Space Forces & Strategic Rocket Forces: military launches
+        - ISC Kosmotras: joint commercial ventures using repurposed ICBMs
+        This complex network defined Russian space activity throughout the Shuttle era.
+      `,
+    },
+    {
+      id: "commercial-space",
+      name: "Commercial Space Era",
+      startDate: "2012",
+      endDate: "2023",
+      description: `
+        🌐 From state-led to startup-fueled.
+        After the Shuttle’s retirement, private companies like SpaceX, Blue Origin, and Rocket Lab emerged as leaders in innovation.
+        Reusable rockets, lower costs, and a new space economy transformed access to orbit.
+        NASA and other agencies began contracting commercial providers, while new players entered the global launch market. 
+        This era marked a true shift in space exploration — from Cold War powers to commercial pioneers.
+      `,
+    },
+  ];
+}
+
+
 
 // Historical data mapping rockets to their respective eras
 export const historicalRocketsByEra: Record<string, Rocket[]> = {
