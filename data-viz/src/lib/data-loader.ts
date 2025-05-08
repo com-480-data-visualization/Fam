@@ -63,7 +63,116 @@ export const providerActors: Record<string, string> = {
 
 
 
+function getProviderMetadata(): Record<
+  string,
+  Pick<Provider, "descriptionTitle" | "description" | "question">
+> {
+  return {
+    spacex: {
+      descriptionTitle: "🚀 Pioneers of Reusability",
+      description:
+        "SpaceX has revolutionized launch economics with reusable rockets and a vision to colonize Mars. Founded by Elon Musk in 2002, it's the first private company to send humans to the ISS.",
+      question: "What made Falcon 9 a game-changer?",
+    },
+    nasa: {
+      descriptionTitle: "🌍 America's Space Trailblazer",
+      description:
+        "NASA, established in 1958, led legendary missions like Apollo 11 and now pushes the frontier with Artemis, Mars rovers, and deep-space exploration.",
+      question: "What historic steps has NASA taken on and off Earth?",
+    },
+    roscosmos: {
+      descriptionTitle: "🇷🇺 From Soviet Legacy to Modern Russia",
+      description:
+        "Roscosmos emerged from the Soviet space program and continues to be a key player in global spaceflight, including the ISS and Soyuz launches.",
+      question: "How has Roscosmos adapted through geopolitical change?",
+    },
+    isro: {
+      descriptionTitle: "🇮🇳 Efficient and Ambitious",
+      description:
+        "India's ISRO is known for high-impact missions on lean budgets — from Mars to the Moon — and is becoming a major force in global spaceflight.",
+      question: "How does ISRO achieve so much with so little?",
+    },
+    jaxa: {
+      descriptionTitle: "🇯🇵 Quiet Innovation",
+      description:
+        "JAXA, Japan’s space agency, focuses on robotics, sample return missions, and precision engineering — often playing a key role in international efforts.",
+      question: "Which missions showcase JAXA's unique strengths?",
+    },
+    // Add more as needed...
+  };
+}
 
+export function extractProviders(launches: Launch[]): Provider[] {
+  const providerMap = new Map<string, Provider>();
+
+  // Provider founding years from historical data
+  const providerFoundingYears: Record<string, number> = {
+    nasa: 1958,
+    roscosmos: 1992,
+    spacex: 2002,
+    esa: 1975,
+    "european-space-agency": 1975,
+    cnsa: 1993,
+    "china-national-space-administration": 1993,
+    "soviet-space-program": 1955,
+    jaxa: 2003,
+    isro: 1969,
+    "rocket-lab": 2006,
+    "blue-origin": 2000,
+    arianespace: 1980,
+    ula: 2006,
+    "united-launch-alliance": 2006,
+  };
+
+  // Provider country mappings
+  const providerCountries: Record<string, string> = {
+    nasa: "USA",
+    spacex: "USA",
+    ula: "USA",
+    "united-launch-alliance": "USA",
+    "blue-origin": "USA",
+    "rocket-lab": "USA/New Zealand",
+    roscosmos: "Russia",
+    "soviet-space-program": "USSR",
+    esa: "Europe",
+    "european-space-agency": "Europe",
+    arianespace: "Europe",
+    cnsa: "China",
+    "china-national-space-administration": "China",
+    isro: "India",
+    jaxa: "Japan",
+  };
+
+  const providerMetadata = getProviderMetadata(); // ✅ Get hardcoded descriptions
+
+  launches.forEach((launch) => {
+    const rawProviderId = launch.Provider.toLowerCase().replace(/\s+/g, "-");
+    const actorName = providerActors[rawProviderId] || launch.Provider;
+    const providerId = actorName.toLowerCase().replace(/\s+/g, "-");
+
+    const metadata = providerMetadata[providerId];
+
+    if (!providerMap.has(actorName)) {
+      providerMap.set(actorName, {
+        id: providerId,
+        name: actorName,
+        country: providerCountries[providerId] || "Unknown",
+        foundingYear: providerFoundingYears[providerId],
+        launchCount: 1,
+        descriptionTitle: metadata?.descriptionTitle || "None",
+        description: metadata?.description || "None",
+        question: metadata?.question || "None",
+      });
+    } else {
+      const provider = providerMap.get(actorName);
+      if (provider) {
+        provider.launchCount = (provider.launchCount || 0) + 1;
+      }
+    }
+  });
+
+  return Array.from(providerMap.values());
+}
 
 
 /**
@@ -77,6 +186,8 @@ export const providerActors: Record<string, string> = {
  * @param {Launch[]} launches - The source launch data
  * @returns {Provider[]} Array of unique providers with metadata
  */
+
+/**
 export function extractProviders(launches: Launch[]): Provider[] {
   const providerMap = new Map<string, Provider>();
 
@@ -123,13 +234,18 @@ export function extractProviders(launches: Launch[]): Provider[] {
     const actorName = providerActors[rawProviderId] || launch.Provider;
     const providerId = actorName.toLowerCase().replace(/\s+/g, "-");
 
+
     if (!providerMap.has(actorName)) {
+
       providerMap.set(actorName, {
         id: providerId,
         name: actorName,
         country: providerCountries[providerId] || "Unknown",
         foundingYear: providerFoundingYears[providerId],
         launchCount: 1,
+        descriptionTitle: "None",
+        description: "None",
+        question: "None"
       });
     } else {
       const provider = providerMap.get(actorName);
@@ -142,6 +258,11 @@ export function extractProviders(launches: Launch[]): Provider[] {
 
   return Array.from(providerMap.values());
 }
+*/
+
+
+
+
 
 /**
  * Extracts and organizes rocket information from launch data.

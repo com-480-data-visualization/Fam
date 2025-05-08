@@ -67,9 +67,6 @@ export default function HorizontalBarChart({
       name: "Others",
       launchCount: othersLaunchCount,
       country: "Various",
-      descriptionTitle: "None",
-      description: "None",
-      question: "None",
     });
   }
 

@@ -56,6 +56,14 @@ export interface Provider {
   foundingYear?: number;
   /** Total number of launches conducted by this provider */
   launchCount?: number;
+
+  /** ADDED THIS ----> not sure */
+  /** Title of the description */
+  descriptionTitle: string;  
+  /** Description of the era's historical significance */
+  description: string;
+  /** Question to head on to the provider section */
+  question: string;
 }
 
 /**

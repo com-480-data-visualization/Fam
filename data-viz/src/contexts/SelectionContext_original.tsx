@@ -6,7 +6,6 @@
  * - Selected historical era
  * - Selected launch provider
  * - Selected rocket
- * - Flag to toggle rocket selection UI
  *
  * @module contexts/SelectionContext
  */
@@ -25,16 +24,12 @@ interface SelectionContextType {
   selectedProvider: Provider | null;
   /** Currently selected rocket, or null if none selected */
   selectedRocket: Rocket | null;
-  /** Whether to show the Rocket Selector or skip to Rocket Info */
-  showRocketSelector: boolean;
   /** Updates the selected era */
   setSelectedEra: (era: Era | null) => void;
   /** Updates the selected provider */
   setSelectedProvider: (provider: Provider | null) => void;
   /** Updates the selected rocket */
   setSelectedRocket: (rocket: Rocket | null) => void;
-  /** Toggles whether the Rocket Selector UI is shown */
-  setShowRocketSelector: (show: boolean) => void;
 }
 
 /**
@@ -50,7 +45,7 @@ const SelectionContext = createContext<SelectionContextType | undefined>(
  * The selection follows a hierarchical pattern:
  * - User first selects an Era
  * - Then selects a Provider (available providers depend on the selected era)
- * - Then either selects a Rocket or views info directly
+ * - Finally selects a Rocket (available rockets depend on the selected provider)
  *
  * @param {object} props - Component props
  * @param {ReactNode} props.children - Child components that will have access to the context
@@ -58,9 +53,10 @@ const SelectionContext = createContext<SelectionContextType | undefined>(
  */
 export function SelectionProvider({ children }: { children: ReactNode }) {
   const [selectedEra, setSelectedEra] = useState<Era | null>(null);
-  const [selectedProvider, setSelectedProvider] = useState<Provider | null>(null);
+  const [selectedProvider, setSelectedProvider] = useState<Provider | null>(
+    null
+  );
   const [selectedRocket, setSelectedRocket] = useState<Rocket | null>(null);
-  const [showRocketSelector, setShowRocketSelector] = useState<boolean>(false);
 
   return (
     <SelectionContext.Provider
@@ -68,11 +64,9 @@ export function SelectionProvider({ children }: { children: ReactNode }) {
         selectedEra,
         selectedProvider,
         selectedRocket,
-        showRocketSelector,
         setSelectedEra,
         setSelectedProvider,
         setSelectedRocket,
-        setShowRocketSelector,
       }}
     >
       {children}

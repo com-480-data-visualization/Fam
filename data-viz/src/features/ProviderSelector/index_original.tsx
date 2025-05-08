@@ -1,28 +1,56 @@
+/**
+ * Provider selection component for space launch data visualization.
+ *
+ * This component displays available launch providers for the selected era
+ * and allows users to select a provider to view more detailed data.
+ *
+ * @module features/ProviderSelector
+ */
 import { RefObject, useEffect, useState } from "react";
 import { useSelection } from "../../contexts/SelectionContext";
 import { Provider } from "../../types";
 import HorizontalBarChart from "../../components/ui/horizontal-bar-chart";
 import { fetchLaunchData, extractProviders } from "../../lib/data-loader";
 
+/**
+ * Props for the ProviderSelector component.
+ *
+ * @interface ProviderSelectorProps
+ */
 interface ProviderSelectorProps {
+  /** Reference to the rocket section for smooth scrolling after selection */
   rocketSectionRef: RefObject<HTMLDivElement | null>;
 }
 
+
+
+
+
+/**
+ * Component that displays launch providers and allows user selection.
+ *
+ * This component:
+ * - Fetches and filters launch data based on the selected era
+ * - Extracts provider information from the launch data
+ * - Displays providers in a horizontal bar chart
+ * - Allows selection of a provider
+ * - Scrolls to the rocket section when a provider is selected
+ *
+ * @param {ProviderSelectorProps} props - Component properties
+ * @returns {JSX.Element} Rendered provider selector component
+ */
 export default function ProviderSelector({
   rocketSectionRef,
 }: ProviderSelectorProps) {
-  const {
-    selectedProvider,
-    setSelectedProvider,
-    selectedEra,
-    setSelectedRocket,
-    setShowRocketSelector,
-  } = useSelection();
-
+  const { selectedProvider, setSelectedProvider, selectedEra } = useSelection();
   const [providers, setProviders] = useState<Provider[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Load provider data when the selected era changes
   useEffect(() => {
+    /**
+     * Fetches launch data and extracts provider information
+     */
     async function loadData() {
       setLoading(true);
       try {
@@ -47,29 +75,23 @@ export default function ProviderSelector({
     loadData();
   }, [selectedEra]);
 
+  /**
+   * Handles the selection of a provider
+   *
+   * @param {Provider} provider - The selected provider
+   */
   const handleProviderClick = (provider: Provider) => {
     setSelectedProvider(provider);
-    setShowRocketSelector(false);
-    setSelectedRocket(null);
 
-    // Scroll down to the description box
+    // Scroll to the rocket section after a small delay to ensure rendering
     setTimeout(() => {
-      const descriptionBox = document.getElementById("provider-description");
-      if (descriptionBox) {
-        descriptionBox.scrollIntoView({ behavior: "smooth" });
+      if (rocketSectionRef.current) {
+        rocketSectionRef.current.scrollIntoView({ behavior: "smooth" });
       }
-    }, 100); // Delay to ensure the state is updated first
-  };
-
-  const handleContinueClick = () => {
-    if (!selectedProvider) return;
-
-    setShowRocketSelector(true);
-
-    setTimeout(() => {
-      rocketSectionRef.current?.scrollIntoView({ behavior: "smooth" });
     }, 100);
   };
+
+
 
   return (
     <section className="min-h-screen bg-background/5 text-foreground py-12 px-6">
@@ -78,46 +100,21 @@ export default function ProviderSelector({
 
         {loading ? (
           <div className="text-center p-12 bg-card rounded-lg shadow-md">
-            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent motion-reduce:animate-[spin_1.5s_linear_infinite]" />
+            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
             <p className="mt-4 text-lg">Loading provider data...</p>
           </div>
         ) : (
-          <div className="max-w-3xl mx-auto space-y-8">
+          <div className="max-w-3xl mx-auto">
             <HorizontalBarChart
               providers={providers}
               selectedProvider={selectedProvider}
               onProviderSelect={handleProviderClick}
             />
 
-            {selectedProvider && (
-              <div
-                id="provider-description"
-                className="bg-card p-6 rounded-lg shadow-md space-y-4 mt-12 mb-12" // Added mb-12 for more space after description box
-              >
-                <h3 className="text-xl font-semibold">
-                  {selectedProvider.descriptionTitle}
-                </h3>
-                <p className="text-base text-muted-foreground whitespace-pre-line">
-                  {selectedProvider.description}
-                </p>
-                <p className="text-sm italic text-muted-foreground">
-                  {selectedProvider.question}
-                </p>
-                <div className="flex flex-col items-center mt-4 space-y-2">
-                  <button
-                    className="w-full px-4 py-2 bg-primary text-white rounded hover:bg-primary/90"
-                    onClick={handleContinueClick}
-                  >
-                    Continue to Rocket Selection
-                  </button>
-                </div>
-              </div>
-            )}
-
             {!selectedProvider && (
               <div className="text-center p-6 bg-card rounded-lg shadow-md">
                 <p className="text-muted-foreground">
-                  Select a provider from the chart above to see its description
+                  Select a provider from the chart above to continue
                 </p>
               </div>
             )}
