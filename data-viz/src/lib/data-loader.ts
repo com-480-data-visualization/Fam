@@ -63,44 +63,50 @@ export const providerActors: Record<string, string> = {
 
 
 
-function getProviderMetadata(): Record<
-  string,
-  Pick<Provider, "descriptionTitle" | "description" | "question">
-> {
+
+
+/** Test */
+
+
+function getActorMetadata() {
   return {
-    spacex: {
-      descriptionTitle: "🚀 Pioneers of Reusability",
-      description:
-        "SpaceX has revolutionized launch economics with reusable rockets and a vision to colonize Mars. Founded by Elon Musk in 2002, it's the first private company to send humans to the ISS.",
-      question: "What made Falcon 9 a game-changer?",
+    "USA Gov. Agencies": {
+      descriptionTitle: "The Space Race (1957–1969)",
+      description: `
+        America’s early ventures into space were heavily influenced by Cold War tensions and the desire for technological superiority. 
+        The U.S. government's space efforts began with NASA’s creation in 1958, and it quickly became clear that military missile programs would provide the base technology for the nation’s space ambitions. 
+        Using modified ballistic missiles, such as the Redstone and Atlas rockets, the U.S. launched early reconnaissance and weather satellites, which were vital for military intelligence during the height of the Cold War. 
+        The U.S. also began testing human spaceflight, ultimately leading to the Mercury and Gemini programs, which proved essential in preparing for the iconic Apollo missions that would later land a man on the Moon.
+      `,
+      question: "What machines were behind these early launches?",
     },
-    nasa: {
-      descriptionTitle: "🌍 America's Space Trailblazer",
-      description:
-        "NASA, established in 1958, led legendary missions like Apollo 11 and now pushes the frontier with Artemis, Mars rovers, and deep-space exploration.",
-      question: "What historic steps has NASA taken on and off Earth?",
+    "Russian Gov. Agencies": {
+      descriptionTitle: "Soviet Space Leadership (1955–1991)",
+      description: `
+        The Soviet Union dominated the early space race with headline-grabbing firsts — first satellite, first man, first woman, and first spacewalk. 
+        Behind these triumphs were rugged, reliable rockets like Vostok and Voskhod, developed from military ICBMs. With unmatched launch frequency and bold crewed missions, the USSR made space a central front of Cold War competition. 
+        Soviet space leadership remained steadfast during this period, especially in the development of space stations and lunar ambitions that competed head-to-head with U.S. efforts.
+      `,
+      question: "What made the Soviet space program so successful in its early days?",
     },
-    roscosmos: {
-      descriptionTitle: "🇷🇺 From Soviet Legacy to Modern Russia",
-      description:
-        "Roscosmos emerged from the Soviet space program and continues to be a key player in global spaceflight, including the ISS and Soyuz launches.",
-      question: "How has Roscosmos adapted through geopolitical change?",
+    "China Gov. Agency": {
+      descriptionTitle: "China's Rise in Space (1990–Present)",
+      description: `
+        China has steadily emerged as a significant space power, developing an independent and reliable space program. 
+        With its Long March rocket family and growing focus on lunar exploration, planetary science, and space station development, China has positioned itself as a formidable force in space. 
+        Their ambitious plans for their own space station and exploration of the Moon and Mars highlight China’s growing influence in the global space race.
+      `,
+      question: "How did China rise as a major space power in recent decades?",
     },
-    isro: {
-      descriptionTitle: "🇮🇳 Efficient and Ambitious",
-      description:
-        "India's ISRO is known for high-impact missions on lean budgets — from Mars to the Moon — and is becoming a major force in global spaceflight.",
-      question: "How does ISRO achieve so much with so little?",
-    },
-    jaxa: {
-      descriptionTitle: "🇯🇵 Quiet Innovation",
-      description:
-        "JAXA, Japan’s space agency, focuses on robotics, sample return missions, and precision engineering — often playing a key role in international efforts.",
-      question: "Which missions showcase JAXA's unique strengths?",
-    },
-    // Add more as needed...
+    // Add metadata for other actor groups similarly...
   };
 }
+
+
+
+
+
+/** Problem : need to be able to keep track of era aswell */
 
 export function extractProviders(launches: Launch[]): Provider[] {
   const providerMap = new Map<string, Provider>();
@@ -143,14 +149,14 @@ export function extractProviders(launches: Launch[]): Provider[] {
     jaxa: "Japan",
   };
 
-  const providerMetadata = getProviderMetadata(); // ✅ Get hardcoded descriptions
+  const actorMetadata = getActorMetadata(); // ✅ Get hardcoded descriptions
 
   launches.forEach((launch) => {
     const rawProviderId = launch.Provider.toLowerCase().replace(/\s+/g, "-");
     const actorName = providerActors[rawProviderId] || launch.Provider;
     const providerId = actorName.toLowerCase().replace(/\s+/g, "-");
 
-    const metadata = providerMetadata[providerId];
+    const metadata = actorMetadata[actorName as keyof typeof actorMetadata];
 
     if (!providerMap.has(actorName)) {
       providerMap.set(actorName, {
@@ -175,90 +181,12 @@ export function extractProviders(launches: Launch[]): Provider[] {
 }
 
 
-/**
- * Extracts and organizes provider information from launch data.
- *
- * This function:
- * 1. Groups launches by provider
- * 2. Counts launches per provider
- * 3. Adds additional metadata like country and founding year
- *
- * @param {Launch[]} launches - The source launch data
- * @returns {Provider[]} Array of unique providers with metadata
- */
-
-/**
-export function extractProviders(launches: Launch[]): Provider[] {
-  const providerMap = new Map<string, Provider>();
-
-  // Provider founding years from historical data
-  const providerFoundingYears: Record<string, number> = {
-    nasa: 1958,
-    roscosmos: 1992,
-    spacex: 2002,
-    esa: 1975,
-    "european-space-agency": 1975,
-    cnsa: 1993,
-    "china-national-space-administration": 1993,
-    "soviet-space-program": 1955,
-    jaxa: 2003,
-    isro: 1969,
-    "rocket-lab": 2006,
-    "blue-origin": 2000,
-    arianespace: 1980,
-    ula: 2006,
-    "united-launch-alliance": 2006,
-  };
-
-  // Provider country mappings
-  const providerCountries: Record<string, string> = {
-    nasa: "USA",
-    spacex: "USA",
-    ula: "USA",
-    "united-launch-alliance": "USA",
-    "blue-origin": "USA",
-    "rocket-lab": "USA/New Zealand",
-    roscosmos: "Russia",
-    "soviet-space-program": "USSR",
-    esa: "Europe",
-    "european-space-agency": "Europe",
-    arianespace: "Europe",
-    cnsa: "China",
-    "china-national-space-administration": "China",
-    isro: "India",
-    jaxa: "Japan",
-  };
-
-  launches.forEach((launch) => {
-    const rawProviderId = launch.Provider.toLowerCase().replace(/\s+/g, "-");
-    const actorName = providerActors[rawProviderId] || launch.Provider;
-    const providerId = actorName.toLowerCase().replace(/\s+/g, "-");
 
 
-    if (!providerMap.has(actorName)) {
-
-      providerMap.set(actorName, {
-        id: providerId,
-        name: actorName,
-        country: providerCountries[providerId] || "Unknown",
-        foundingYear: providerFoundingYears[providerId],
-        launchCount: 1,
-        descriptionTitle: "None",
-        description: "None",
-        question: "None"
-      });
-    } else {
-      const provider = providerMap.get(actorName);
-      if (provider) {
-        provider.launchCount = (provider.launchCount || 0) + 1;
-      }
-    }
-  });
 
 
-  return Array.from(providerMap.values());
-}
-*/
+
+
 
 
 
@@ -289,52 +217,16 @@ export function extractRockets(launches: Launch[]): Rocket[] {
   return Array.from(rocketMap.values());
 }
 
+
+
+
+
+
 /**
  * Provides predefined historical eras for space exploration.
  *
  * @returns {Era[]} Array of historical era definitions
  */
-
-/*
-export function getHistoricalEras(): Era[] {
-  return [
-    {
-      id: "space-race",
-      name: "Space Race",
-      startDate: "1957",
-      endDate: "1969",
-      description:
-        "The period of competition between the US and USSR in space exploration, from Sputnik to Apollo 11.",
-    },
-    {
-      id: "early-space-stations",
-      name: "Early Space Station Era",
-      startDate: "1970",
-      endDate: "1989",
-      description:
-        "Period marked by the first space stations like Skylab and Mir, and increasing international cooperation.",
-    },
-    {
-      id: "shuttle-era",
-      name: "Shuttle Era",
-      startDate: "1990",
-      endDate: "2011",
-      description:
-        "The Space Shuttle program dominated human spaceflight during this period, enabling deployment of Hubble and construction of ISS.",
-    },
-    {
-      id: "commercial-space",
-      name: "Commercial Space Era",
-      startDate: "2012",
-      endDate: "2023",
-      description:
-        "Rise of private companies in space exploration and commercialization, with SpaceX, Blue Origin, and others leading innovation.",
-    },
-  ];
-}
-
- */
-
 export function getHistoricalEras(): Era[] {
   return [
     {
@@ -393,6 +285,17 @@ export function getHistoricalEras(): Era[] {
     },
   ];
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
