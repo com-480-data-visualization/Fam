@@ -65,102 +65,141 @@ export const providerActors: Record<string, string> = {
 
 
 
-/** Test ---> will add real data later on*/
+/** Test ---> we need to add a way to differentiate depending on era but the text seems pretty good to me*/
 
 function getActorMetadata() {
   return {
+
+    
+    // --- Space Race (1957–1969) ---
     "Russian Gov. Agencies": {
-      descriptionTitle: "Pioneers of Long-Duration Space Habitats",
+      descriptionTitle: "🇷🇺 First to orbit, first to awe",
       description: `
-        With the Moon race over, the USSR turned its attention to orbit. They pioneered long-duration spaceflight with Salyut stations and supported them with reliable launchers like Soyuz-U and Kosmos. 
-        The Soviet approach favored frequent, utilitarian missions that kept a steady presence in space and fostered early ideas of orbital habitation.
+        The Soviet Union stunned the world with a series of unprecedented firsts. 
+        From launching the first artificial satellite to sending the first human into space, they shaped the early narrative of the Space Age. 
+        Their approach was bold, secretive, and deeply symbolic — showcasing state power through astonishing technical feats.
+        These milestones weren’t just scientific wins — they were geopolitical messages written in rocket trails across the sky.
       `,
-      question: "So which machines helped them maintain this orbital legacy?",
+      question: "So what tools made these early leaps into orbit possible?",
     },
     "USA Gov. Agencies": {
-      descriptionTitle: "From Exploration to Versatile Space Capability",
+      descriptionTitle: "🇺🇸 Racing to catch — and pass — the lead",
       description: `
-        The U.S. pivoted from conquest to capability. Its rockets evolved to support satellite constellations, scientific missions, and deep space exploration. 
-        This period saw the debut of the Space Shuttle — a reusable vehicle symbolizing a more permanent human presence in space. 
-        Meanwhile, traditional rockets launched weather, comms, and planetary probes.
+        Initially caught off guard by Sputnik, the U.S. mobilized rapidly. 
+        NASA was born, astronauts were trained, and the goal was set: reach the Moon. 
+        From Project Mercury’s tentative first flights to Gemini’s spacewalks and rendezvous, the U.S. laid the foundation for Apollo’s giant leap.
+        This was an era of rapid acceleration, national pride, and relentless ambition to take the lead in space.
       `,
-      question: "What launch systems drove this flexible and future-looking agenda?",
+      question: "Which launch systems helped America close the gap?",
+    },
+
+
+
+    // --- Early Space Station Era (1970–1989) ---
+    "Russian Gov. Agencies (1970–1989)": {
+      descriptionTitle: "🇷🇺 Making orbit routine — and livable",
+      description: `
+        With the Moon race behind them, the Soviets redefined the mission: long-duration spaceflight. 
+        They launched the world’s first space stations — Salyut — and focused on endurance, utility, and orbital presence. 
+        It was less about spectacle and more about staying power, testing how humans could truly live and work off Earth.
+      `,
+      question: "Which launch systems supported this shift toward sustained space presence?",
+    },
+    "USA Gov. Agencies (1970–1989)": {
+      descriptionTitle: "🇺🇸 Pivoting from conquest to capability",
+      description: `
+        After Apollo, the U.S. scaled back crewed missions but ramped up versatility. 
+        Skylab proved Americans could live in space, while the Apollo-Soyuz mission marked a new diplomatic chapter.
+        Behind the scenes, efforts intensified to build a reusable spacecraft — something that would soon change everything.
+      `,
+      question: "What vehicles supported this transitional and forward-looking phase?",
     },
     "Arianespace": {
-      descriptionTitle: "Europe Enters the Commercial Launch Game",
+      descriptionTitle: "🇪🇺 Europe joins the launch game",
       description: `
-        Europe entered the space launch market not as a Cold War rival, but as a commercial disruptor. 
-        Arianespace became the first non-governmental launch provider, giving international customers a reliable alternative. 
-        The Ariane 1, 2, and 3 rockets helped Europe stake its claim in the global launch economy.
+        Europe stepped onto the stage with a commercial mindset and a collaborative spirit. 
+        Through Arianespace, it offered international customers an alternative to superpower dominance. 
+        This era saw Europe build its launch capability from the ground up — driven not by politics, but by potential.
       `,
-      question: "What launch vehicles gave Europe this competitive edge?",
+      question: "Which early systems carried Europe’s ambitions skyward?",
     },
     "Japan Gov. Agencies": {
-      descriptionTitle: "Quiet Progress, Steady Ambition",
+      descriptionTitle: "🇯🇵 Quiet innovation, steady rise",
       description: `
-        Japan emerged as a quiet but capable force in the 1970s and 80s. 
-        Collaborating with the U.S. but developing its own launchers, Japan built rockets like the N-I and Mu series to support science and weather monitoring. 
-        These early efforts laid the foundation for its modern launch capability.
+        Japan entered space cautiously but confidently. 
+        Focused on weather, science, and self-reliance, it developed early orbital capabilities while working alongside U.S. partners. 
+        This was the foundation-laying phase — one of methodical progress, not flashy breakthroughs.
       `,
-      question: "Which rockets powered Japan's emergence on the global stage?",
+      question: "Which early efforts powered Japan’s emergence in space?",
     },
+
+
+
+    // --- Shuttle Era (1990–2011) ---
     "USA Gov. Agencies (1990–2011)": {
-      descriptionTitle: "Builders of the International Space Station Era",
+      descriptionTitle: "🇺🇸 Architects of the orbital village",
       description: `
-        The U.S. government entered its most collaborative space period. 
-        The Space Shuttle became a hub for ISS assembly, satellite deployment, and interplanetary science. 
-        Meanwhile, expendable rockets like Delta II and Atlas IIAS launched GPS satellites, scientific probes, and military payloads with precision.
+        With the Shuttle as its centerpiece, the U.S. played a leading role in constructing the International Space Station. 
+        This was an era of integration: launching satellites, interplanetary missions, and building a home in orbit — all from a single, reusable platform. 
+        America's reach in space became broader, more collaborative, and more permanent.
       `,
-      question: "What launch vehicles shaped this era of global collaboration?",
+      question: "Which launch vehicles helped build this new era of partnership?",
     },
     "Russian Gov. Agencies (1990–2011)": {
-      descriptionTitle: "Spacefaring Through Transition",
+      descriptionTitle: "🇷🇺 Old tech, new world",
       description: `
-        Post-Soviet Russia maintained its reputation for reliable launch hardware. 
-        The Soyuz and Proton families supported both national and international missions, including ISS crew and cargo delivery. 
-        Despite budget constraints, Russian rockets remained vital in keeping space access alive during a turbulent era.
+        The Soviet collapse brought deep uncertainty — but Russia’s launch infrastructure held firm. 
+        Soyuz and Proton became global workhorses, ferrying astronauts and payloads to orbit with quiet reliability. 
+        Even during domestic upheaval, Russia remained indispensable to international spaceflight.
       `,
-      question: "Which trusted systems kept Russian spaceflight on course?",
+      question: "Which systems kept Russia flying through transition?",
     },
     "Arianespace (1990–2011)": {
-      descriptionTitle: "From Contender to Commercial Titan",
+      descriptionTitle: "🇪🇺 From upstart to industry leader",
       description: `
-        Arianespace matured into a global leader in commercial launches. 
-        The Ariane 4 and Ariane 5 families delivered dual-payload capacity and reliability that made Europe the preferred option for geostationary satellite launches. 
-        Its success helped shift space from politics to economics.
+        Arianespace grew into the world's most trusted commercial launch provider. 
+        It cornered the market on geostationary satellite launches and proved that reliability could compete with raw power. 
+        As space commercialized, Europe quietly became essential.
       `,
-      question: "Which rockets lifted Europe’s commercial ambitions?",
+      question: "Which rockets lifted Europe to the top of the commercial launch world?",
     },
-    "SpaceX": {
-      descriptionTitle: "Disruptor Turned Dominator",
-      description: `
-        SpaceX reshaped the launch landscape. 
-        With Falcon 9 and Falcon Heavy, it slashed costs and introduced rapid reusability. 
-        Starship prototypes signaled ambitions far beyond orbit — toward Mars. 
-        No longer just a contractor, SpaceX became a leader and cultural icon of a new space age.
-      `,
-      question: "What cutting-edge launchers fueled SpaceX’s rise?",
-    },
+
+
+
+
+    // --- Commercial Space Era (2012–2023) ---
     "Russian Gov. Agencies (2012–2023)": {
-      descriptionTitle: "Steady and Proven in a Fast-Moving Era",
+      descriptionTitle: "🇷🇺 Holding the line",
       description: `
-        Russia’s veteran launch vehicles continued to serve, especially in ferrying astronauts to the ISS. 
-        While newer variants like Soyuz-2.1a introduced digital systems, the country largely relied on proven technology, 
-        offering consistent — if not cutting-edge — orbital access.
+        In a rapidly changing launch industry, Russia stuck to its proven strengths. 
+        While others focused on innovation, it prioritized reliability. 
+        Soyuz launches remained a staple of ISS access, even as new players entered the scene.
       `,
-      question: "Which heritage rockets kept Russia in the launch game?",
+      question: "Which trusted systems kept Russia’s legacy alive in a new space age?",
     },
     "China Gov. Agency": {
-      descriptionTitle: "The Rise of a Space Superpower",
+      descriptionTitle: "🇨🇳 From contender to superpower",
       description: `
-        China rose as a major space power, developing the Long March rocket family into a reliable fleet. 
-        It launched lunar missions, Mars probes, and its own space station. 
-        Unlike earlier eras, China’s ambitions now rival those of historic leaders, and its state-led approach shows growing sophistication.
+        China transformed itself into a dominant spacefaring nation. 
+        It built its own space station, sent probes to the Moon and Mars, and rapidly scaled up its capabilities — all under a centralized, long-term strategy.
+        Where others evolved, China accelerated.
       `,
-      question: "What launch systems powered China’s dramatic ascent?",
-    }
+      question: "What launch infrastructure powered China’s dramatic rise?",
+    },
+    "SpaceX": {
+      descriptionTitle: "🇺🇸 From scrappy startup to space juggernaut",
+      description: `
+        SpaceX redefined what a launch provider could be. 
+        With reusable rockets, vertical landings, and aggressive timelines, it shifted the paradigm from cautious state missions to fast-paced iteration. 
+        It didn’t just enter the launch market — it disrupted and dominated it.
+      `,
+      question: "Which breakthrough systems powered SpaceX’s ascent?",
+    },
   };
 }
+
+
+
 
 
 
