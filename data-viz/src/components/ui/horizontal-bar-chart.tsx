@@ -21,6 +21,8 @@ interface HorizontalBarChartProps {
   selectedProvider?: Provider | null;
   /** Callback function triggered when a provider is selected */
   onProviderSelect: (provider: Provider) => void;
+  /**Treshold for cumulative launch count */
+  percentageThreshold?: number;
 }
 
 /**
@@ -39,8 +41,10 @@ export default function HorizontalBarChart({
   providers,
   selectedProvider,
   onProviderSelect,
+  percentageThreshold,
 }: HorizontalBarChartProps) {
   const chartRef = useRef<HTMLDivElement>(null);
+
 
   // Initialize arrays and counters for data processing
   const topProviders: Provider[] = [];
@@ -51,33 +55,43 @@ export default function HorizontalBarChart({
     (a, b) => (b.launchCount || 0) - (a.launchCount || 0)
   );
 
-  // Extract top 4 providers and accumulate the rest into "Others"
-  sortedProviders.forEach((provider, index) => {
-    if (index < 4) {
+
+  const totalLaunches = sortedProviders.reduce((sum, p) => sum + (p.launchCount || 0), 0);
+
+  // Step 3: Include providers up to treshold of total, group others
+  const threshold = percentageThreshold ?? 0.97;
+
+  let accumulated = 0;
+  for (const provider of sortedProviders) {
+    if (accumulated / totalLaunches < threshold) {
       topProviders.push(provider);
+      accumulated += provider.launchCount || 0;
     } else {
       othersLaunchCount += provider.launchCount || 0;
     }
-  });
+  }
 
-  // Add "Others" category if there are more than 4 providers
-  if (sortedProviders.length > 4) {
+  if (othersLaunchCount > 0) {
     topProviders.push({
       id: "others",
       name: "Others",
-      launchCount: othersLaunchCount,
       country: "Various",
+      launchCount: othersLaunchCount,
       descriptionTitle: "None",
       description: "None",
       question: "None",
     });
   }
 
+
+
+
   // Calculate maximum launch count for scaling bars
   const maxLaunchCount =
     topProviders.length > 0
       ? Math.max(...topProviders.map((p) => p.launchCount || 0))
       : 0;
+
 
   return (
     <div className="bg-card p-6 rounded-lg shadow-md mb-8">
