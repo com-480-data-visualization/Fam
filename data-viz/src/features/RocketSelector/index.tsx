@@ -21,6 +21,21 @@ interface RocketSelectorProps {
   rocketInfoSectionRef: RefObject<HTMLDivElement | null>;
 }
 
+
+
+const rocketImages = import.meta.glob("../../assets/*.png", {
+  eager: true,
+  as: "url",
+});
+
+function getRocketImageUrl(rocketId: string): string | null {
+  const entry = Object.entries(rocketImages).find(([path]) =>
+    path.includes(`/${rocketId}.png`)
+  );
+  return entry?.[1] || null;
+}
+
+
 /**
  * Component that displays rockets and allows user selection.
  *
@@ -103,9 +118,15 @@ export default function RocketSelector({
                   `}
                 >
                   <div className="w-full h-48 bg-muted rounded-md mb-4 flex items-center justify-center">
-                    <span className="text-muted-foreground">
-                      Rocket Image Placeholder
-                    </span>
+                    {getRocketImageUrl(rocket.id) ? (
+                      <img
+                        src={getRocketImageUrl(rocket.id)!}
+                        alt={rocket.name}
+                        className="object-contain h-full w-full"
+                      />
+                    ) : (
+                      <span className="text-muted-foreground">No Image</span>
+                    )}
                   </div>
                   <h3 className="text-xl font-semibold mb-2">{rocket.name}</h3>
                   <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
