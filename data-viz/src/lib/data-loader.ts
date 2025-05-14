@@ -62,17 +62,14 @@ export const providerActors: Record<string, string> = {
 };
 
 
-
-
-
-/** Test ---> we need to add a way to differentiate depending on era but the text seems pretty good to me*/
-
-function getActorMetadata() {
-  return {
-
-    
-    // --- Space Race (1957–1969) ---
-    "Russian Gov. Agencies": {
+export const historicalProvidersByEra: Record<string, Record<string, Provider>> = {
+  "space-race": {
+    "russian-gov.-agencies": {
+      id: "russian-gov.-agencies",
+      name: "Soviet Space Program",
+      country: "USSR",
+      foundingYear: 1955,
+      launchCount: 0,
       descriptionTitle: "🇷🇺 First to orbit, first to awe",
       description: `
         The Soviet Union stunned the world with a series of unprecedented firsts. 
@@ -82,7 +79,12 @@ function getActorMetadata() {
       `,
       question: "So what tools made these early leaps into orbit possible?",
     },
-    "USA Gov. Agencies": {
+    "usa-gov.-agencies": {
+      id: "usa-gov.-agencies",
+      name: "NASA",
+      country: "USA",
+      foundingYear: 1958,
+      launchCount: 0,
       descriptionTitle: "🇺🇸 Racing to catch — and pass — the lead",
       description: `
         Initially caught off guard by Sputnik, the U.S. mobilized rapidly. 
@@ -91,12 +93,15 @@ function getActorMetadata() {
         This was an era of rapid acceleration, national pride, and relentless ambition to take the lead in space.
       `,
       question: "Which launch systems helped America close the gap?",
-    },
-
-
-
-    // --- Early Space Station Era (1970–1989) ---
-    "Russian Gov. Agencies (1970–1989)": {
+    }
+  },
+  "early-space-stations": {
+    "russian-gov.-agencies": {
+      id: "russian-gov.-agencies",
+      name: "Soviet Space Program",
+      country: "USSR",
+      foundingYear: 1955,
+      launchCount: 0,
       descriptionTitle: "🇷🇺 Making orbit routine — and livable",
       description: `
         With the Moon race behind them, the Soviets redefined the mission: long-duration spaceflight. 
@@ -105,7 +110,12 @@ function getActorMetadata() {
       `,
       question: "Which launch systems supported this shift toward sustained space presence?",
     },
-    "USA Gov. Agencies (1970–1989)": {
+    "usa-gov.-agencies": {
+      id: "usa-gov.-agencies",
+      name: "NASA",
+      country: "USA",
+      foundingYear: 1958,
+      launchCount: 0,
       descriptionTitle: "🇺🇸 Pivoting from conquest to capability",
       description: `
         After Apollo, the U.S. scaled back crewed missions but ramped up versatility. 
@@ -114,7 +124,12 @@ function getActorMetadata() {
       `,
       question: "What vehicles supported this transitional and forward-looking phase?",
     },
-    "Arianespace": {
+    "arianespace": {
+      id: "arianespace",
+      name: "Arianespace",
+      country: "Europe",
+      foundingYear: 1980,
+      launchCount: 0,
       descriptionTitle: "🇪🇺 Europe joins the launch game",
       description: `
         Europe stepped onto the stage with a commercial mindset and a collaborative spirit. 
@@ -123,7 +138,12 @@ function getActorMetadata() {
       `,
       question: "Which early systems carried Europe’s ambitions skyward?",
     },
-    "Japan Gov. Agencies": {
+    "japan-gov.-agencies": {
+      id: "japan-gov.-agencies",
+      name: "NASDA (Japan)",
+      country: "Japan",
+      foundingYear: 1969,
+      launchCount: 0,
       descriptionTitle: "🇯🇵 Quiet innovation, steady rise",
       description: `
         Japan entered space cautiously but confidently. 
@@ -131,12 +151,15 @@ function getActorMetadata() {
         This was the foundation-laying phase — one of methodical progress, not flashy breakthroughs.
       `,
       question: "Which early efforts powered Japan’s emergence in space?",
-    },
-
-
-
-    // --- Shuttle Era (1990–2011) ---
-    "USA Gov. Agencies (1990–2011)": {
+    }
+  },
+  "shuttle-era": {
+    "usa-gov.-agencies": {
+      id: "usa-gov.-agencies",
+      name: "NASA",
+      country: "USA",
+      foundingYear: 1958,
+      launchCount: 0,
       descriptionTitle: "🇺🇸 Architects of the orbital village",
       description: `
         With the Shuttle as its centerpiece, the U.S. played a leading role in constructing the International Space Station. 
@@ -145,7 +168,12 @@ function getActorMetadata() {
       `,
       question: "Which launch vehicles helped build this new era of partnership?",
     },
-    "Russian Gov. Agencies (1990–2011)": {
+    "russian-gov.-agencies": {
+      id: "russian-gov.-agencies",
+      name: "Roscosmos",
+      country: "Russia",
+      foundingYear: 1992,
+      launchCount: 0,
       descriptionTitle: "🇷🇺 Old tech, new world",
       description: `
         The Soviet collapse brought deep uncertainty — but Russia’s launch infrastructure held firm. 
@@ -154,7 +182,12 @@ function getActorMetadata() {
       `,
       question: "Which systems kept Russia flying through transition?",
     },
-    "Arianespace (1990–2011)": {
+    "arianespace": {
+      id: "arianespace",
+      name: "Arianespace",
+      country: "Europe",
+      foundingYear: 1980,
+      launchCount: 0,
       descriptionTitle: "🇪🇺 From upstart to industry leader",
       description: `
         Arianespace grew into the world's most trusted commercial launch provider. 
@@ -162,13 +195,15 @@ function getActorMetadata() {
         As space commercialized, Europe quietly became essential.
       `,
       question: "Which rockets lifted Europe to the top of the commercial launch world?",
-    },
-
-
-
-
-    // --- Commercial Space Era (2012–2023) ---
-    "Russian Gov. Agencies (2012–2023)": {
+    }
+  },
+  "commercial-space": {
+    "russian-gov.-agencies": {
+      id: "russian-gov.-agencies",
+      name: "Roscosmos",
+      country: "Russia",
+      foundingYear: 1992,
+      launchCount: 0,
       descriptionTitle: "🇷🇺 Holding the line",
       description: `
         In a rapidly changing launch industry, Russia stuck to its proven strengths. 
@@ -177,7 +212,12 @@ function getActorMetadata() {
       `,
       question: "Which trusted systems kept Russia’s legacy alive in a new space age?",
     },
-    "China Gov. Agency": {
+    "china-gov.-agency": {
+      id: "china-gov.-agency",
+      name: "CNSA",
+      country: "China",
+      foundingYear: 1993,
+      launchCount: 0,
       descriptionTitle: "🇨🇳 From contender to superpower",
       description: `
         China transformed itself into a dominant spacefaring nation. 
@@ -186,7 +226,12 @@ function getActorMetadata() {
       `,
       question: "What launch infrastructure powered China’s dramatic rise?",
     },
-    "SpaceX": {
+    "spacex": {
+      id: "spacex",
+      name: "SpaceX",
+      country: "USA",
+      foundingYear: 2002,
+      launchCount: 0,
       descriptionTitle: "🇺🇸 From scrappy startup to space juggernaut",
       description: `
         SpaceX redefined what a launch provider could be. 
@@ -194,21 +239,15 @@ function getActorMetadata() {
         It didn’t just enter the launch market — it disrupted and dominated it.
       `,
       question: "Which breakthrough systems powered SpaceX’s ascent?",
-    },
-  };
-}
+    }
+  }
+};
 
 
 
-
-
-
-/** Problem : need to be able to keep track of era aswell */
-
-export function extractProviders(launches: Launch[]): Provider[] {
+export function extractProviders(launches: Launch[], era: string): Provider[] {
   const providerMap = new Map<string, Provider>();
 
-  // Provider founding years from historical data
   const providerFoundingYears: Record<string, number> = {
     nasa: 1958,
     roscosmos: 1992,
@@ -227,7 +266,6 @@ export function extractProviders(launches: Launch[]): Provider[] {
     "united-launch-alliance": 2006,
   };
 
-  // Provider country mappings
   const providerCountries: Record<string, string> = {
     nasa: "USA",
     spacex: "USA",
@@ -246,14 +284,19 @@ export function extractProviders(launches: Launch[]): Provider[] {
     jaxa: "Japan",
   };
 
-  const actorMetadata = getActorMetadata(); // ✅ Get hardcoded descriptions
+  const eraMetadata = historicalProvidersByEra[era];
+
+  if (!eraMetadata) {
+    console.warn(`Era not found: ${era}`);
+    return [];
+  }
 
   launches.forEach((launch) => {
     const rawProviderId = launch.Provider.toLowerCase().replace(/\s+/g, "-");
     const actorName = providerActors[rawProviderId] || launch.Provider;
     const providerId = actorName.toLowerCase().replace(/\s+/g, "-");
 
-    const metadata = actorMetadata[actorName as keyof typeof actorMetadata];
+    const metadata = eraMetadata[providerId];
 
     if (!providerMap.has(actorName)) {
       providerMap.set(actorName, {
@@ -262,9 +305,9 @@ export function extractProviders(launches: Launch[]): Provider[] {
         country: providerCountries[providerId] || "Unknown",
         foundingYear: providerFoundingYears[providerId],
         launchCount: 1,
-        descriptionTitle: metadata?.descriptionTitle || "None",
-        description: metadata?.description || "None",
-        question: metadata?.question || "None",
+        descriptionTitle: metadata?.descriptionTitle || "No title",
+        description: metadata?.description || "No description available.",
+        question: metadata?.question || "No question provided.",
       });
     } else {
       const provider = providerMap.get(actorName);
@@ -276,17 +319,6 @@ export function extractProviders(launches: Launch[]): Provider[] {
 
   return Array.from(providerMap.values());
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 /**
@@ -313,9 +345,6 @@ export function extractRockets(launches: Launch[]): Rocket[] {
 
   return Array.from(rocketMap.values());
 }
-
-
-
 
 
 
@@ -382,16 +411,6 @@ export function getHistoricalEras(): Era[] {
     },
   ];
 }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -766,6 +785,13 @@ export const historicalRocketsByEra: Record<string, Rocket[]> = {
     },
   ],
 };
+
+
+
+
+
+
+
 
 /**
  * Filters launches to a specific date range.

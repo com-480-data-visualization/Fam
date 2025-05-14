@@ -25,7 +25,6 @@ const getThresholdForEra = (era: string) => {
 };
 
 
-
 export default function ProviderSelector({
   rocketSectionRef,
 }: ProviderSelectorProps) {
@@ -45,6 +44,8 @@ export default function ProviderSelector({
       setLoading(true);
       try {
         const launches = await fetchLaunchData();
+
+        // Filter launches based on the selected era
         const filteredLaunches = selectedEra
           ? launches.filter(
               (launch) =>
@@ -53,7 +54,8 @@ export default function ProviderSelector({
             )
           : launches;
 
-        const providers = extractProviders(filteredLaunches);
+        // Pass era to extractProviders to get providers within that era
+        const providers = extractProviders(filteredLaunches, selectedEra?.id || "default");
         setProviders(providers);
       } catch (error) {
         console.error("Error loading provider data:", error);
@@ -63,7 +65,7 @@ export default function ProviderSelector({
     }
 
     loadData();
-  }, [selectedEra]);
+  }, [selectedEra]); // Re-run when selectedEra changes
 
   const handleProviderClick = (provider: Provider) => {
     setSelectedProvider(provider);
