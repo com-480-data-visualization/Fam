@@ -12,6 +12,7 @@
  */
 import { Launch, Provider, Rocket, Era } from "../types";
 
+
 /**
  * Fetches rocket launch data from the provided JSON file.
  *
@@ -847,3 +848,5 @@ export function filterLaunchesByRocket(
       launch.Rocket.toLowerCase().replace(/\s+/g, "-") === normalizedRocketId
   );
 }
+
+
