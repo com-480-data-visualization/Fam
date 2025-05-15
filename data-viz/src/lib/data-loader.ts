@@ -939,15 +939,15 @@ export const historicalRocketsByEra: Record<string, Rocket[]> = {
       },
       stats: { totalLaunches: "74", successRate: "0.96", firstLaunch: "2004" },
     },
-    //{
-    //  id: "soyuz-modern",
-    //  name: "Soyuz",
-    //  providerId: "russian-gov.-agencies",
-    //  description:
-    //    "The modern Soyuz variant continues Russia's legacy of dependable access to space, launching payloads for both government and commercial missions.",
-    //  specs: { height: "10 m", thrust: "placeholder", weight: "7 T", diameter: "2,65 m", stages: "", payloadCapacity: "placeholder" },
-    //  stats: { totalLaunches: "154", successRate: "0.97", firstLaunch: "1967" }
-    //},
+    {
+      id: "soyuz",
+      name: "Soyuz",
+      providerId: "russian-gov.-agencies",
+      description:
+        "The modern Soyuz variant continues Russia's legacy of dependable access to space, launching payloads for both government and commercial missions.",
+      specs: { height: "10 m", thrust: "placeholder", weight: "7 T", diameter: "2,65 m", stages: "", payloadCapacity: "placeholder" },
+      stats: { totalLaunches: "154", successRate: "0.97", firstLaunch: "1967" }
+    },
     {
       id: "soyuz-u",
       name: "Soyuz U",
