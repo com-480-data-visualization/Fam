@@ -512,22 +512,7 @@ export const historicalRocketsByEra: Record<string, Rocket[]> = {
 
   "early-space-stations": [
     // Arianespace
-    {
-      id: "ariane-3",
-      name: "Ariane 3",
-      providerId: "arianespace",
-      description:
-        "Ariane 3 was part of Europe's effort to build independent access to space, expanding on previous Ariane designs to support heavier payloads into geostationary transfer orbit.",
-      specs: {
-        height: "49.0 m",
-        thrust: "5100.0 kN",
-        weight: "	237.0 T",
-        diameter: "3.8 m",
-        stages: "3",
-        payloadCapacity: "2,650 kg",
-      },
-      stats: { totalLaunches: "11", successRate: "0.91", firstLaunch: "1984" },
-    },
+    
     {
       id: "ariane-1",
       name: "Ariane 1",
@@ -560,24 +545,24 @@ export const historicalRocketsByEra: Record<string, Rocket[]> = {
       },
       stats: { totalLaunches: "6", successRate: "0.83", firstLaunch: "1986" },
     },
+    {
+      id: "ariane-3",
+      name: "Ariane 3",
+      providerId: "arianespace",
+      description:
+        "Ariane 3 was part of Europe's effort to build independent access to space, expanding on previous Ariane designs to support heavier payloads into geostationary transfer orbit.",
+      specs: {
+        height: "49.0 m",
+        thrust: "5100.0 kN",
+        weight: "	237.0 T",
+        diameter: "3.8 m",
+        stages: "3",
+        payloadCapacity: "2,650 kg",
+      },
+      stats: { totalLaunches: "11", successRate: "0.91", firstLaunch: "1984" },
+    },
 
     // Japan Gov. Agencies
-    {
-      id: "n-2",
-      name: "N-2",
-      providerId: "japan-gov.-agencies",
-      description:
-        "Japan's N-2 rocket was developed with American assistance and based on the Delta family, marking a step toward autonomous launch capabilities.",
-      specs: {
-        height: "35.0 m",
-        thrust: "3196.0 kN",
-        weight: "132.7 T",
-        diameter: "2.44 m",
-        stages: "3",
-        payloadCapacity: "2,000 kg (LEO)\n730 kg (GTO)",
-      },
-      stats: { totalLaunches: "7", successRate: "1.00", firstLaunch: "1981" },
-    },
     {
       id: "n-i",
       name: "N-I",
@@ -593,6 +578,22 @@ export const historicalRocketsByEra: Record<string, Rocket[]> = {
         payloadCapacity: "1,200 kg (LEO)\n360 kg (GTO)",
       },
       stats: { totalLaunches: "7", successRate: "0.86", firstLaunch: "1975" },
+    },
+    {
+      id: "n-2",
+      name: "N-2",
+      providerId: "japan-gov.-agencies",
+      description:
+        "Japan's N-2 rocket was developed with American assistance and based on the Delta family, marking a step toward autonomous launch capabilities.",
+      specs: {
+        height: "35.0 m",
+        thrust: "3196.0 kN",
+        weight: "132.7 T",
+        diameter: "2.44 m",
+        stages: "3",
+        payloadCapacity: "2,000 kg (LEO)\n730 kg (GTO)",
+      },
+      stats: { totalLaunches: "7", successRate: "1.00", firstLaunch: "1981" },
     },
     {
       id: "mu-3c",
@@ -732,22 +733,6 @@ export const historicalRocketsByEra: Record<string, Rocket[]> = {
       stats: { totalLaunches: "40", successRate: "0.97", firstLaunch: "1989" },
     },
     {
-      id: "ariane-5-eca",
-      name: "Ariane 5 ECA",
-      providerId: "arianespace",
-      description:
-        "The Ariane 5 ECA is a heavy-lift launch vehicle designed to carry large payloads to geostationary transfer orbit, often used for commercial satellites.",
-      specs: {
-        height: "56 m",
-        thrust: "15510 kN",
-        weight: "780.0 T",
-        diameter: "5.4 m",
-        stages: "2",
-        payloadCapacity: "21000 (LEO)\n10500 (GTO)",
-      },
-      stats: { totalLaunches: "23", successRate: "0.95", firstLaunch: "2002" },
-    },
-    {
       id: "ariane-44lp",
       name: "Ariane 44LP",
       providerId: "arianespace",
@@ -762,6 +747,22 @@ export const historicalRocketsByEra: Record<string, Rocket[]> = {
         payloadCapacity: "9100 kg (LEO)\n4290 kg (GTO)",
       },
       stats: { totalLaunches: "26", successRate: "0.96", firstLaunch: "1988" },
+    },
+    {
+      id: "ariane-5-eca",
+      name: "Ariane 5 ECA",
+      providerId: "arianespace",
+      description:
+        "The Ariane 5 ECA is a heavy-lift launch vehicle designed to carry large payloads to geostationary transfer orbit, often used for commercial satellites.",
+      specs: {
+        height: "56 m",
+        thrust: "15510 kN",
+        weight: "780.0 T",
+        diameter: "5.4 m",
+        stages: "2",
+        payloadCapacity: "21000 (LEO)\n10500 (GTO)",
+      },
+      stats: { totalLaunches: "23", successRate: "0.95", firstLaunch: "2002" },
     },
 
     // Russian Gov. Agencies
@@ -853,7 +854,7 @@ export const historicalRocketsByEra: Record<string, Rocket[]> = {
       stats: { totalLaunches: "135", successRate: "0.98", firstLaunch: "1981" },
     },
     {
-      id: "atlas-iias",
+      id: " ",
       name: "Atlas IIAS",
       providerId: "usa-gov.-agencies",
       description:
@@ -873,20 +874,20 @@ export const historicalRocketsByEra: Record<string, Rocket[]> = {
   "commercial-space": [
     // China Gov. Agency
     {
-      id: "long-march-3",
-      name: "Long March 3",
+      id: "long-march-2",
+      name: "Long March 2",
       providerId: "china-gov.-agency",
       description:
-        "The Long March 3 series continues to serve China's space program, launching satellites to geostationary orbits and supporting lunar missions.",
+        "The Long March 2 family remains an integral part of China's launch strategy, often used for deploying satellites to low and medium Earth orbits.",
       specs: {
-        height: "43.25 m",
+        height: "	39.925 m",
         thrust: "2962 kN",
-        weight: "204.0 T",
-        diameter: "	3.35 m",
-        stages: "3",
-        payloadCapacity: "5000 kg (LEO)\n1500 kg (GTO)",
+        weight: "232.25 T",
+        diameter: "	3,35 m",
+        stages: "2",
+        payloadCapacity: "3850 kg (LEO)\n1250 kg (GTO)",
       },
-      stats: { totalLaunches: "95", successRate: "0.95", firstLaunch: "2000" },
+      stats: { totalLaunches: "78", successRate: "0.98", firstLaunch: "1982" },
     },
     {
       id: "long-march-2d",
@@ -905,20 +906,20 @@ export const historicalRocketsByEra: Record<string, Rocket[]> = {
       stats: { totalLaunches: "97", successRate: "0.99", firstLaunch: "1992" },
     },
     {
-      id: "long-march-2",
-      name: "Long March 2",
+      id: "long-march-3",
+      name: "Long March 3",
       providerId: "china-gov.-agency",
       description:
-        "The Long March 2 family remains an integral part of China's launch strategy, often used for deploying satellites to low and medium Earth orbits.",
+        "The Long March 3 series continues to serve China's space program, launching satellites to geostationary orbits and supporting lunar missions.",
       specs: {
-        height: "	39.925 m",
+        height: "43.25 m",
         thrust: "2962 kN",
-        weight: "232.25 T",
-        diameter: "	3,35 m",
-        stages: "2",
-        payloadCapacity: "3850 kg (LEO)\n1250 kg (GTO)",
+        weight: "204.0 T",
+        diameter: "	3.35 m",
+        stages: "3",
+        payloadCapacity: "5000 kg (LEO)\n1500 kg (GTO)",
       },
-      stats: { totalLaunches: "78", successRate: "0.98", firstLaunch: "1982" },
+      stats: { totalLaunches: "95", successRate: "0.95", firstLaunch: "2000" },
     },
 
     // Russian Gov. Agencies
