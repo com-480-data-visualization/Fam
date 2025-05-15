@@ -1,4 +1,4 @@
-c# Documentation Guide
+# Documentation Guide
 
 This document provides guidance on understanding and navigating the documentation for the Rocket Launch Data Visualization project.
 

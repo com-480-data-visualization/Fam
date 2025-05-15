@@ -8,40 +8,39 @@ import RocketInfo from "../../../features/RocketInfo";
 import Footer from "../../../features/Footer";
 
 export default function Layout() {
-  const { selectedEra, selectedProvider, selectedRocket, showRocketSelector } = useSelection();
-  
+  const { selectedEra, selectedProvider, selectedRocket, showRocketSelector } =
+    useSelection();
+
   // Refs for scroll behavior
   const providerSectionRef = useRef<HTMLDivElement>(null);
   const rocketSectionRef = useRef<HTMLDivElement>(null);
   const rocketInfoSectionRef = useRef<HTMLDivElement>(null);
-  
+
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
         <section id="main-viz">
           <MainViz />
         </section>
-        
+
         <section id="era-selector">
           <EraSelector providerSectionRef={providerSectionRef} />
         </section>
-        
+
+        {/* Only show Provider Selector when an era is selected */}
         {selectedEra && (
           <section id="provider-selector" ref={providerSectionRef}>
-            <ProviderSelector 
-              rocketSectionRef={rocketSectionRef} 
-              rocketInfoSectionRef={rocketInfoSectionRef}   /* Not sure why this is an error? */
-            />
+            <ProviderSelector rocketSectionRef={rocketSectionRef} />
           </section>
         )}
-        
+
         {/* Only show Rocket Selector when a provider is selected AND showRocketSelector is true */}
         {selectedProvider && showRocketSelector && (
           <section id="rocket-selector" ref={rocketSectionRef}>
             <RocketSelector rocketInfoSectionRef={rocketInfoSectionRef} />
           </section>
         )}
-        
+
         {/* Only show Rocket Info when a rocket is selected */}
         {selectedRocket && (
           <section id="rocket-info" ref={rocketInfoSectionRef}>

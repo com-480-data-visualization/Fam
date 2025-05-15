@@ -58,7 +58,9 @@ const SelectionContext = createContext<SelectionContextType | undefined>(
  */
 export function SelectionProvider({ children }: { children: ReactNode }) {
   const [selectedEra, setSelectedEra] = useState<Era | null>(null);
-  const [selectedProvider, setSelectedProvider] = useState<Provider | null>(null);
+  const [selectedProvider, setSelectedProvider] = useState<Provider | null>(
+    null
+  );
   const [selectedRocket, setSelectedRocket] = useState<Rocket | null>(null);
   const [showRocketSelector, setShowRocketSelector] = useState<boolean>(false);
 

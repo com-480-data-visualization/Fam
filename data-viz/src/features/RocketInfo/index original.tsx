@@ -8,8 +8,7 @@
 
 import { useSelection } from "../../contexts/SelectionContext";
 import { useMemo } from "react";
-import { filterLaunchesByRocket } from "../../lib/data-loader"
-
+// import { filterLaunchesByRocket } from "../../lib/data-loader";
 
 // Load rocket images dynamically
 const rocketImages = import.meta.glob("../../assets/*.png", {
@@ -24,15 +23,12 @@ function getRocketImageUrl(rocketId: string): string | null {
   return entry?.[1] || null;
 }
 
-
-
 /**
  * RocketInfo component displays detailed information about the currently selected rocket.
  * Includes specifications, launch statistics, launch history table, and visual placeholders.
  *
  * @returns JSX element containing rocket details or a prompt to select a rocket
  */
-
 
 /*
 export default function RocketInfo() {
@@ -203,8 +199,6 @@ export default function RocketInfo() {
 
 */
 
-
-
 export default function RocketInfo() {
   const { selectedRocket } = useSelection();
 
@@ -216,7 +210,6 @@ export default function RocketInfo() {
   const launchCount = selectedRocket ? Math.floor(Math.random() * 50) + 5 : 0;
   const successRate = selectedRocket ? Math.floor(Math.random() * 20) + 80 : 0;
   const firstLaunchYear = 2000 + Math.floor(Math.random() * 20);
-
 
   return (
     <section
@@ -246,7 +239,9 @@ export default function RocketInfo() {
 
               {/* RIGHT: Rocket Info */}
               <div className="w-full lg:w-[72%] text-left">
-                <h3 className="text-2xl font-semibold mb-4">{selectedRocket.name}</h3>
+                <h3 className="text-2xl font-semibold mb-4">
+                  {selectedRocket.name}
+                </h3>
                 <p className="mb-6">{selectedRocket.description}</p>
 
                 <h4 className="text-lg font-medium mb-4">Specifications</h4>
@@ -254,14 +249,16 @@ export default function RocketInfo() {
                 <div className="flex flex-col md:flex-row gap-8 mb-6">
                   {/* Specs */}
                   <div className="flex-1 space-y-4">
-                    {Object.entries(selectedRocket.specs || {}).map(([key, value]) => (
-                      <div key={key} className="flex flex-col">
-                        <span className="text-xs text-muted-foreground capitalize">
-                          {key}
-                        </span>
-                        <span className="text-sm font-medium">{value}</span>
-                      </div>
-                    ))}
+                    {Object.entries(selectedRocket.specs || {}).map(
+                      ([key, value]) => (
+                        <div key={key} className="flex flex-col">
+                          <span className="text-xs text-muted-foreground capitalize">
+                            {key}
+                          </span>
+                          <span className="text-sm font-medium">{value}</span>
+                        </div>
+                      )
+                    )}
                   </div>
 
                   {/* Stats */}
@@ -270,7 +267,9 @@ export default function RocketInfo() {
                       <span className="text-xs text-muted-foreground block">
                         First Launch
                       </span>
-                      <span className="text-xl font-bold">{firstLaunchYear}</span>
+                      <span className="text-xl font-bold">
+                        {firstLaunchYear}
+                      </span>
                     </div>
                     <div>
                       <span className="text-xs text-muted-foreground block">
@@ -300,4 +299,3 @@ export default function RocketInfo() {
     </section>
   );
 }
-

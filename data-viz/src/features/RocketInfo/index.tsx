@@ -3,10 +3,17 @@ import { useEffect, useState, useMemo } from "react";
 import {
   fetchLaunchData,
   filterLaunchesByRocket,
+  isLaunchSuccessful,
 } from "../../lib/data-loader";
+import {
+  PayloadCapacityIcon,
+  getSpecIcon,
+} from "../../components/ui/icons/SpecIcons";
+import SuccessFailureDonut from "../../components/ui/SuccessFailureDonut";
+
 import RocketLaunchLineChart from "../../components/ui/RocketLaunchLineChart";
 
-// Load rocket images dynamically
+// Load dynamically
 const rocketImages = import.meta.glob("../../assets/*.png", {
   eager: true,
   as: "url",
@@ -19,189 +26,14 @@ function getRocketImageUrl(rocketId: string): string | null {
   return entry?.[1] || null;
 }
 
-
-/**
- * RocketInfo component displays detailed information about the currently selected rocket.
- * Includes specifications, launch statistics, launch history table, and visual placeholders.
- *
- * @returns JSX element containing rocket details or a prompt to select a rocket
- */
-
-
-/*
 export default function RocketInfo() {
   const { selectedRocket } = useSelection();
-
-  const imageUrl = useMemo(
-    () => (selectedRocket ? getRocketImageUrl(selectedRocket.id) : null),
-    [selectedRocket]
-  );
-
-  const launchCount = selectedRocket ? Math.floor(Math.random() * 50) + 5 : 0;
-  const successRate = selectedRocket ? Math.floor(Math.random() * 20) + 80 : 0;
-
-  return (
-    <section
-      id="rocket-info"
-      className="min-h-screen bg-background/5 text-foreground py-12 px-6"
-    >
-      <div className="container mx-auto">
-        <h2 className="text-3xl font-bold mb-8">Rocket Details</h2>
-
-        {selectedRocket ? (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div>
-              <div className="bg-card p-6 rounded-lg shadow-md mb-6">
-                <h3 className="text-2xl font-semibold mb-4">
-                  {selectedRocket.name}
-                </h3>
-                <p className="mb-6">{selectedRocket.description}</p>
-
-                <h4 className="text-lg font-medium mb-4">Specifications</h4>
-                <div className="grid grid-cols-3 gap-6 items-start mb-6">
-  
-                  <div className="space-y-4">
-                    {Object.entries(selectedRocket.specs || {})
-                      .filter((_, idx, arr) => idx < arr.length / 2)
-                      .map(([key, value]) => (
-                        <div key={key} className="flex flex-col">
-                          <span className="text-xs text-muted-foreground capitalize">{key}</span>
-                          <span className="text-sm font-medium">{value}</span>
-                        </div>
-                      ))}
-                  </div>
-
-
-                  <div className="flex items-center justify-center">
-                    {imageUrl ? (
-                      <img
-                        src={imageUrl}
-                        alt={selectedRocket.name}
-                        className="max-h-72 object-contain"
-                      />
-                    ) : (
-                      <div className="text-sm text-muted-foreground italic text-center">
-                        No image available
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="space-y-4">
-                    {Object.entries(selectedRocket.specs || {})
-                      .filter((_, idx, arr) => idx >= arr.length / 2)
-                      .map(([key, value]) => (
-                        <div key={key} className="flex flex-col">
-                          <span className="text-xs text-muted-foreground capitalize">{key}</span>
-                          <span className="text-sm font-medium">{value}</span>
-                        </div>
-                      ))}
-                  </div>
-                </div>
-
-                <div className="flex justify-between">
-                  <div>
-                    <span className="text-xs text-muted-foreground block">
-                      Total Launches
-                    </span>
-                    <span className="text-xl font-bold">{launchCount}</span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-muted-foreground block">
-                      Success Rate
-                    </span>
-                    <span className="text-xl font-bold">{successRate}%</span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-muted-foreground block">
-                      First Launch
-                    </span>
-                    <span className="text-xl font-bold">
-                      {2000 + Math.floor(Math.random() * 20)}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-card p-6 rounded-lg shadow-md">
-                <h4 className="text-lg font-medium mb-4">Launch History</h4>
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead>
-                      <tr className="border-b border-border">
-                        <th className="text-left py-2 px-4 text-sm text-muted-foreground">
-                          Date
-                        </th>
-                        <th className="text-left py-2 px-4 text-sm text-muted-foreground">
-                          Mission
-                        </th>
-                        <th className="text-left py-2 px-4 text-sm text-muted-foreground">
-                          Status
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {[1, 2, 3, 4, 5].map((i) => (
-                        <tr key={i} className="border-b border-border">
-                          <td className="py-2 px-4">
-                            2023-{Math.floor(Math.random() * 12) + 1}-
-                            {Math.floor(Math.random() * 28) + 1}
-                          </td>
-                          <td className="py-2 px-4">Example Mission {i}</td>
-                          <td className="py-2 px-4">
-                            <span className="inline-block px-2 py-1 text-xs rounded bg-green-100 text-green-800">
-                              Success
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-
-    
-            <div>
-              <div className="bg-card rounded-lg shadow-md mb-6 h-[400px] flex items-center justify-center">
-                <span className="text-muted-foreground">
-                  Interactive 3D Rocket Model Placeholder
-                </span>
-              </div>
-
-              <div className="bg-card p-6 rounded-lg shadow-md">
-                <h4 className="text-lg font-medium mb-4">Launch Statistics</h4>
-                <div className="h-[200px] bg-muted rounded flex items-center justify-center mb-4">
-                  <span className="text-muted-foreground">
-                    Launch Statistics Chart Placeholder
-                  </span>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  This rocket has completed {launchCount} missions since its
-                  first launch, with a success rate of {successRate}%. The
-                  visualization above shows launches by year and outcome.
-                </p>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="text-center p-12 bg-card rounded-lg shadow-md">
-            <p className="text-lg text-muted-foreground">
-              Please select a rocket to view detailed information.
-            </p>
-          </div>
-        )}
-      </div>
-    </section>
-  );
-}
-
-*/
-
-export default function RocketInfo() {
-  const { selectedRocket } = useSelection();
-  const [launchData, setLaunchData] = useState<{ year: number; count: number }[]>([]);
-  const [totalLaunches, setTotalLaunches] = useState(0);
-  /*const [successRate, setSuccessRate] = useState<number | null>(null);*/
+  const [launchData, setLaunchData] = useState<
+    { year: number; count: number; successRate?: number }[]
+  >([]);
+  const [_, setTotalLaunches] = useState(0);
+  const [successCount, setSuccessCount] = useState(0);
+  const [failureCount, setFailureCount] = useState(0);
 
   const imageUrl = useMemo(
     () => (selectedRocket ? getRocketImageUrl(selectedRocket.id) : null),
@@ -211,15 +43,24 @@ export default function RocketInfo() {
   useEffect(() => {
     const loadLaunchData = async () => {
       const allLaunches = await fetchLaunchData();
-      const rocketLaunches = filterLaunchesByRocket(allLaunches, selectedRocket?.id || "");
+      const rocketLaunches = filterLaunchesByRocket(
+        allLaunches,
+        selectedRocket?.id || ""
+      );
+
+      // Calculate successes and failures
+      const successes = rocketLaunches.filter(isLaunchSuccessful).length;
+      const failures = rocketLaunches.length - successes;
+
+      setSuccessCount(successes);
+      setFailureCount(failures);
+
+      // Aggregate data by year with success rate
       const aggregatedData = aggregateLaunchesByYear(rocketLaunches);
       setLaunchData(aggregatedData);
 
-      // Total launches and success rate
+      // Total launches
       setTotalLaunches(rocketLaunches.length);
-      /*const successes = rocketLaunches.filter((l) => l.success).length;
-      const rate = rocketLaunches.length > 0 ? (successes / rocketLaunches.length) * 100 : null;
-      setSuccessRate(rate);*/
     };
 
     if (selectedRocket) {
@@ -228,72 +69,182 @@ export default function RocketInfo() {
   }, [selectedRocket]);
 
   const aggregateLaunchesByYear = (launches: any[]) => {
-    const aggregatedData: Record<number, number> = {};
+    const yearData: Record<number, { count: number; successes: number }> = {};
+
     launches.forEach((launch) => {
-      if (aggregatedData[launch.year]) {
-        aggregatedData[launch.year] += 1;
-      } else {
-        aggregatedData[launch.year] = 1;
+      const year = launch.year;
+      const isSuccess = isLaunchSuccessful(launch);
+
+      if (!yearData[year]) {
+        yearData[year] = { count: 0, successes: 0 };
+      }
+
+      yearData[year].count += 1;
+      if (isSuccess) {
+        yearData[year].successes += 1;
       }
     });
-    return Object.entries(aggregatedData).map(([year, count]) => ({
-      year: Number(year),
-      count,
-    }));
+
+    return Object.entries(yearData)
+      .map(([year, data]) => ({
+        year: Number(year),
+        count: data.count,
+        successRate: data.count > 0 ? (data.successes / data.count) * 100 : 0,
+      }))
+      .sort((a, b) => a.year - b.year);
   };
+
+  const specOrder = ["height", "diameter", "weight", "thrust", "stages"];
 
   return (
     <section
       id="rocket-info"
-      className="min-h-screen bg-background/5 text-foreground py-12 px-6"
+      className="min-h-screen bg-background/5 text-foreground py-8 px-4"
     >
       <div className="container mx-auto">
-        <h2 className="text-3xl font-bold mb-8">Rocket Details</h2>
+        <h2 className="text-3xl font-bold mb-4 text-center lg:text-left">
+          Rocket Details
+        </h2>
 
         {selectedRocket ? (
-          <div className="bg-card p-6 rounded-lg shadow-md">
-            <div className="flex flex-col lg:flex-row gap-6 lg:gap-10">
+          <div className="bg-card p-4 rounded-lg shadow-md flex flex-col">
+            <div className="flex flex-col lg:flex-row gap-4">
               {/* LEFT: Rocket Image */}
-              <div className="w-full lg:w-[28%]">
+              <div className="w-full lg:w-1/4 flex items-center justify-center lg:items-start">
                 {imageUrl ? (
                   <img
                     src={imageUrl}
                     alt={selectedRocket.name}
-                    className="w-full h-auto object-contain rounded"
+                    className="max-h-96 lg:max-h-full object-contain"
                   />
                 ) : (
-                  <div className="text-sm text-muted-foreground italic">
+                  <div className="text-sm text-muted-foreground italic flex items-center justify-center h-40 w-full">
                     No image available
                   </div>
                 )}
               </div>
-
               {/* RIGHT: Rocket Info */}
-              <div className="w-full lg:w-[72%] text-left">
-                <h3 className="text-2xl font-semibold mb-4">{selectedRocket.name}</h3>
-                <p className="mb-6">{selectedRocket.description}</p>
-
-                <h4 className="text-lg font-medium mb-4">Specifications & Launch History</h4>
-
-                <div className="flex flex-col lg:flex-row gap-8">
-                  {/* Specs */}
-                  <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    {Object.entries(selectedRocket.specs || {}).map(([key, value]) => (
-                      <div key={key} className="flex flex-col">
-                        <span className="text-xs text-muted-foreground capitalize">{key}</span>
-                        <span className="text-sm font-medium">{value}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Launch Chart */}
-                  <div className="flex-1 -mt-4 -ml-2">
-                    <RocketLaunchLineChart data={launchData} />
-
-                    {/* Extra stats below chart */}
-                    <div className="mt-4 text-sm text-muted-foreground">
-                      <div>Total Launches: <span className="font-semibold text-foreground">{totalLaunches}</span></div>
+              <div className="w-full lg:w-3/4 flex flex-col">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
+                  <h3 className="text-2xl font-semibold">
+                    {selectedRocket.name}
+                  </h3>
+                  {selectedRocket.stats?.firstLaunch && (
+                    <div className="text-xs text-muted-foreground mt-1 sm:mt-0">
+                      First Launch:{" "}
+                      <span className="font-medium">
+                        {String(selectedRocket.stats.firstLaunch)}
+                      </span>
                     </div>
+                  )}
+                </div>
+                <p className="mb-4 text-sm leading-relaxed">
+                  {selectedRocket.description}
+                </p>
+                <div className="grid grid-cols-12 gap-4">
+                  <div className="col-span-12 md:col-span-2">
+                    <h4 className="text-base text-left text-lg font-semibold mb-4">
+                      Specifications
+                    </h4>
+                    <div className="grid grid-cols-1 gap-y-3 mb-3">
+                      {selectedRocket.specs &&
+                        specOrder.map((key) => {
+                          if (!selectedRocket.specs) return null;
+                          const value = selectedRocket.specs[key];
+                          if (!value) return null;
+                          const IconComponent = getSpecIcon(key);
+                          return (
+                            <div
+                              key={key}
+                              className="flex items-center text-left"
+                            >
+                              {IconComponent && (
+                                <div className="mr-2 text-muted-foreground">
+                                  <IconComponent size={12} />
+                                </div>
+                              )}
+                              <div>
+                                <div className="text-xs text-muted-foreground leading-none mb-1 capitalize">
+                                  {key.replace(/([A-Z])/g, " $1")}
+                                </div>
+                                <div className="text-sm font-medium leading-tight">
+                                  {String(value)}
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                    </div>
+                    {selectedRocket.specs?.payloadCapacity && (
+                      <div>
+                        <div className="flex items-center text-left mb-1">
+                          <div className="mr-2 text-muted-foreground">
+                            <PayloadCapacityIcon size={12} />
+                          </div>
+                          <div className="text-xs text-muted-foreground leading-tight">
+                            Payload Capacity
+                          </div>
+                        </div>
+                        <div className="pl-5">
+                          {typeof selectedRocket.specs.payloadCapacity ===
+                          "string"
+                            ? selectedRocket.specs.payloadCapacity
+                                .split("\n")
+                                .map((line, i) => {
+                                  const orbitMatch =
+                                    line.match(/(.*?)\s*\((.*)\)/);
+                                  const capacity = orbitMatch
+                                    ? orbitMatch[1].trim()
+                                    : line.trim();
+                                  const orbitType = orbitMatch
+                                    ? orbitMatch[2].trim()
+                                    : "";
+                                  return (
+                                    <div
+                                      key={i}
+                                      className="flex items-baseline"
+                                    >
+                                      <span className="text-sm font-medium whitespace-nowrap leading-tight">
+                                        {capacity}
+                                      </span>
+                                      {orbitType && (
+                                        <span className="text-xs text-muted-foreground ml-1 whitespace-nowrap leading-tight">
+                                          ({orbitType})
+                                        </span>
+                                      )}
+                                    </div>
+                                  );
+                                })
+                            : Object.entries(
+                                selectedRocket.specs.payloadCapacity
+                              ).map(([orbit, capacityValue]) => (
+                                <div
+                                  key={orbit}
+                                  className="flex items-baseline"
+                                >
+                                  <span className="text-sm font-medium whitespace-nowrap leading-tight">
+                                    {String(capacityValue)}
+                                  </span>
+                                  <span className="text-xs text-muted-foreground ml-1 whitespace-nowrap leading-tight">
+                                    ({orbit.toUpperCase()})
+                                  </span>
+                                </div>
+                              ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  {/* Launch Chart + Donut */}
+                  <div className="col-span-12 md:col-span-7 flex items-center">
+                    <RocketLaunchLineChart data={launchData} />
+                  </div>
+                  <div className="col-span-12 md:col-span-2 flex items-center">
+                    <SuccessFailureDonut
+                      success={successCount}
+                      failure={failureCount}
+                      size={85}
+                      strokeWidth={7}
+                    />
                   </div>
                 </div>
               </div>

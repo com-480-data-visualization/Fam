@@ -8,7 +8,6 @@ interface ProviderSelectorProps {
   rocketSectionRef: RefObject<HTMLDivElement | null>;
 }
 
-
 const getThresholdForEra = (era: string) => {
   switch (era) {
     case "space-race":
@@ -23,7 +22,6 @@ const getThresholdForEra = (era: string) => {
       return 0.8;
   }
 };
-
 
 export default function ProviderSelector({
   rocketSectionRef,
@@ -55,7 +53,10 @@ export default function ProviderSelector({
           : launches;
 
         // Pass era to extractProviders to get providers within that era
-        const providers = extractProviders(filteredLaunches, selectedEra?.id || "default");
+        const providers = extractProviders(
+          filteredLaunches,
+          selectedEra?.id || "default"
+        );
         setProviders(providers);
       } catch (error) {
         console.error("Error loading provider data:", error);
@@ -106,9 +107,11 @@ export default function ProviderSelector({
               providers={providers}
               selectedProvider={selectedProvider}
               onProviderSelect={handleProviderClick}
-              percentageThreshold={getThresholdForEra(selectedEra?.id ?? "default")}
+              percentageThreshold={getThresholdForEra(
+                selectedEra?.id ?? "default"
+              )}
             />
-            
+
             {selectedProvider ? (
               <div
                 id="provider-description"
