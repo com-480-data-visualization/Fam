@@ -37,6 +37,7 @@ interface EraSelectorProps {
 export default function EraSelector({ providerSectionRef }: EraSelectorProps) {
   const { selectedEra, setSelectedEra } = useSelection();
   const [hoveredEra, setHoveredEra] = useState<Era | null>(null);
+  const { setSelectedProvider } = useSelection();
 
   /**
    * Handles a click on an era element
@@ -45,13 +46,26 @@ export default function EraSelector({ providerSectionRef }: EraSelectorProps) {
    */
   const handleEraClick = (era: Era) => {
     setSelectedEra(era);
+    setSelectedProvider(null); // <-- Reset selected provider here
 
     // Scroll to the provider section after a small delay to ensure rendering
+    /*setTimeout(() => {
+      if (providerSectionRef.current) {
+        providerSectionRef.current.scrollIntoView({ behavior: "smooth", block: "start"  });
+      }
+    }, 100);*/
     setTimeout(() => {
       if (providerSectionRef.current) {
-        providerSectionRef.current.scrollIntoView({ behavior: "smooth" });
+        const top = providerSectionRef.current.getBoundingClientRect().top + window.pageYOffset;
+        const offset = 0; // or adjust if needed later
+
+        window.scrollTo({
+          top: top + offset,
+          behavior: "smooth",
+        });
       }
     }, 100);
+
   };
 
   // Display either the hovered era's description or the selected era's description

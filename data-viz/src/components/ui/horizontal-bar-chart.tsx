@@ -21,10 +21,13 @@ interface HorizontalBarChartProps {
   selectedProvider?: Provider | null;
   /** Callback function triggered when a provider is selected */
   onProviderSelect: (provider: Provider) => void;
+  /** Callback function triggered when a provider is hovered */
+  onProviderHover?: (provider: Provider) => void;
+  /** Callback function triggered when hover leaves a provider */
+  onProviderHoverLeave?: () => void;
   /**Treshold for cumulative launch count */
   percentageThreshold?: number;
 }
-
 /**
  * Renders a horizontal bar chart showing launch counts by provider.
  *
@@ -41,9 +44,12 @@ export default function HorizontalBarChart({
   providers,
   selectedProvider,
   onProviderSelect,
+  onProviderHover,
+  onProviderHoverLeave,
   percentageThreshold,
 }: HorizontalBarChartProps) {
   const chartRef = useRef<HTMLDivElement>(null);
+
 
 
   // Initialize arrays and counters for data processing
@@ -101,7 +107,7 @@ export default function HorizontalBarChart({
       </p>
 
       <div className="space-y-4" ref={chartRef}>
-        {topProviders.map((provider) => {
+        {topProviders.map((provider, index) => {
           const barWidth =
             maxLaunchCount > 0
               ? `${((provider.launchCount || 0) / maxLaunchCount) * 100}%`
@@ -112,13 +118,25 @@ export default function HorizontalBarChart({
             <div
               key={provider.id}
               onClick={() =>
-                provider.id !== "others" && onProviderSelect(provider)
+                 index < 3 && onProviderSelect(provider) // Can change by provider.id !== "others"
               }
+              onMouseEnter={() =>
+                index < 3 && onProviderHover?.(provider)
+              }
+              onMouseLeave={() =>
+                index < 3 && onProviderHoverLeave?.()
+              }/*
               className={`
                 cursor-pointer transition-all duration-200
                 ${provider.id !== "others" ? "hover:opacity-90" : ""}
                 ${isSelected ? "opacity-100" : "opacity-80"}
+              `}*/
+              className={`
+                transition-all duration-200
+                ${index < 3 ? "cursor-pointer hover:opacity-90" : "cursor-default"}
+                ${isSelected ? "opacity-100" : "opacity-80"}
               `}
+
             >
               <div className="flex justify-between mb-1">
                 <span
