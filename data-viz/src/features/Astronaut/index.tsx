@@ -25,28 +25,33 @@ export default function Astronaut({ eraSectionRef }: AstronautProps) {
   };
 
   return (
-    <div style={{ display: 'flex', width: '100vw', height: '600px', background: 'black' }}>
-      <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '40px', marginBottom: '60px' }}>
-        <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
-          <ambientLight intensity={0.8} />
-          <directionalLight position={[1, 2, 3]} intensity={1} />
-          <OrbitControls autoRotate autoRotateSpeed={5} enableZoom={false} enablePan={false} />
-          <AstronautModel />
-        </Canvas>
-      </div>
+<div className="flex w-screen h-[600px] bg-black">
+  {/* Left: 3D Canvas */}
+  <div className="flex-1 flex justify-center items-center mt-10 mb-14">
+    <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
+      <ambientLight intensity={0.8} />
+      <directionalLight position={[1, 2, 3]} intensity={1} />
+      <OrbitControls autoRotate autoRotateSpeed={5} enableZoom={false} enablePan={false} />
+      <AstronautModel />
+    </Canvas>
+  </div>
 
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', padding: '40px', textAlign: 'left' }}>
-        <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Come explore space history with us.</h1>
-        <p style={{ marginBottom: '1.5rem' }}>
-          Explore the milestones of space exploration — from the first Moon landings to the latest missions. Discover the science, challenges, and achievements that have shaped humanity's journey beyond Earth.
-        </p>
-        <button
-          onClick={handleClick}
-          style={{ padding: '10px 20px', fontSize: '1rem', backgroundColor: '#1e293b', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer' }}
-        >
-          Start Exploring →
-        </button>
-      </div>
-    </div>
+  {/* Right: Text + Button */}
+  <div className="flex-1 flex flex-col justify-center items-start p-10 text-left">
+    <h1 className="text-xl md:text-4xl font-bold leading-tight mb-6">
+      Explore space history with us
+    </h1>
+    <p className="text-base md:text-lm mb-6 pr-10">
+      Explore the milestones of space exploration — from the first Moon landings to the latest missions. Discover the science, challenges, and achievements that have shaped humanity's journey beyond Earth.
+    </p>
+    <button
+      onClick={handleClick}
+      className="px-10 py-2.5 text-base font-bold bg-slate-800 text-white rounded-md border-none cursor-pointer"
+    >
+      Start Exploring →
+    </button>
+  </div>
+</div>
+
   );
 }
