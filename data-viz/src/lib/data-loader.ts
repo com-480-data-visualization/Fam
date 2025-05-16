@@ -518,7 +518,7 @@ export const historicalProvidersByEra: Record<
       question: "Which launch systems kept Europe relevant in a transforming market?",
     },
     united_launch_alliance: {
-      id: "united_launch_alliance",
+      id: "united-launch-alliance",
       name: "United Launch Alliance (ULA)",
       country: "USA",
       foundingYear: 2006,
@@ -532,7 +532,7 @@ export const historicalProvidersByEra: Record<
       question: "Which legacy systems gave ULA its unmatched reliability?",
     },
     indian_space_research_organization: {
-      id: "indian_space_research_organization",
+      id: "indian-space-research-organization",
       name: "ISRO",
       country: "India",
       foundingYear: 1969,
@@ -560,7 +560,7 @@ export const historicalProvidersByEra: Record<
       question: "Which vehicles brought the edge of space within reach of civilians?",
     },
     "rocket_lab": {
-      id: "rocket_lab",
+      id: "rocket-lab",
       name: "Rocket Lab",
       country: "New Zealand / USA",
       foundingYear: 2006,

@@ -121,10 +121,10 @@ export default function HorizontalBarChart({
                  index < 3 && onProviderSelect(provider) // Can change by provider.id !== "others"
               }
               onMouseEnter={() =>
-                index < 3 && onProviderHover?.(provider)
+                onProviderHover?.(provider)
               }
               onMouseLeave={() =>
-                index < 3 && onProviderHoverLeave?.()
+                onProviderHoverLeave?.()
               }/*
               className={`
                 cursor-pointer transition-all duration-200
