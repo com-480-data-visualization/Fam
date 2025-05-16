@@ -27,7 +27,7 @@ interface HorizontalBarChartProps {
   /** Callback function triggered when hover leaves a provider */
   onProviderHoverLeave?: () => void;
   /*Era*/
-  era: string; // 👈 Add this
+  era: string;
 }
 
 
@@ -133,7 +133,7 @@ export default function HorizontalBarChart({
             <div
               key={provider.id}
               onClick={() =>
-                 index < 3 && onProviderSelect(provider) // Can change by provider.id !== "others"
+                 provider.id !== "others" && index < 3 && onProviderSelect(provider) // Can change by provider.id !== "others"
               }
               onMouseEnter={() =>
                 onProviderHover?.(provider)
@@ -148,7 +148,7 @@ export default function HorizontalBarChart({
               `}*/
               className={`
                 transition-all duration-200
-                ${index < 3 ? "cursor-pointer hover:opacity-90" : "cursor-default"}
+                ${provider.id !== "others" && index < 3 ? "cursor-pointer hover:opacity-90" : "cursor-default"}
                 ${isSelected ? "opacity-100" : "opacity-80"}
               `}
 

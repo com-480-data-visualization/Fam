@@ -57,26 +57,14 @@ export default function ProviderSelector({
 
   const handleProviderClick = (provider: Provider) => {
     setSelectedProvider(provider);
-    setShowRocketSelector(false);
-    setSelectedRocket(null);
-
-    setTimeout(() => {
-      const descriptionBox = document.getElementById("provider-description");
-      if (descriptionBox) {
-        descriptionBox.scrollIntoView({ behavior: "smooth" });
-      }
-    }, 100);
-  };
-
-  const handleContinueClick = () => {
-    if (!selectedProvider) return;
-
     setShowRocketSelector(true);
+    setSelectedRocket(null);
 
     setTimeout(() => {
       rocketSectionRef.current?.scrollIntoView({ behavior: "smooth" });
     }, 100);
   };
+
   const displayedProvider = hoveredProvider || selectedProvider;
 
   return (
@@ -116,21 +104,10 @@ export default function ProviderSelector({
                     <p className="font-bold mb-2">{displayedProvider.descriptionTitle}</p>
                     <p className="text-justify max-w-xl mx-auto">{displayedProvider.description}</p>
                     <p className="font-bold italic mt-4">{displayedProvider.question}</p>
-
-                    {selectedProvider?.id === displayedProvider.id && (
-                      <div className="mt-6">
-                        <button
-                          className="px-8 py-2 bg-primary text-white rounded hover:bg-primary/90 transition-colors"
-                          onClick={handleContinueClick}
-                        >
-                          Continue to Rocket Selection
-                        </button>
-                      </div>
-                    )}
                   </>
                 ) : (
                   <p className="text-muted-foreground italic mt-6">
-                    Hover over or select a provider to see its description
+                    Hover over a provider to see its description
                   </p>
                 )}
               </div>
