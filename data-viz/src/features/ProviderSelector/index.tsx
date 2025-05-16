@@ -104,8 +104,19 @@ export default function ProviderSelector({
             <p className="mt-4 text-lg">Loading provider data...</p>
           </div>
         ) : (
-          <div className="max-w-6xl mx-auto mt-12 mb-12">
+          <div className="w-full mx-auto mt-12 mb-12">
             <div className="bg-card p-6 rounded-lg shadow-md flex flex-col md:flex-row gap-8">
+              {/* Right: Horizontal Bar Chart */}
+              <div className="md:w-1/2">
+                <HorizontalBarChart
+                  providers={providers}
+                  selectedProvider={selectedProvider}
+                  onProviderSelect={handleProviderClick}
+                  onProviderHover={setHoveredProvider}
+                  onProviderHoverLeave={() => setHoveredProvider(null)}
+                  percentageThreshold={getThresholdForEra(selectedEra?.id ?? "default")}
+                />
+              </div>
               {/* Left: Description */}
               <div className="md:w-1/2 space-y-4 mt-6">
                 {displayedProvider ? (
@@ -117,7 +128,7 @@ export default function ProviderSelector({
                       </p>
                     )}
                     <p className="font-bold mb-2">{displayedProvider.descriptionTitle}</p>
-                    <p>{displayedProvider.description}</p>
+                    <p className="text-justify max-w-xl mx-auto">{displayedProvider.description}</p>
                     <p className="font-bold italic mt-4">{displayedProvider.question}</p>
 
                     {selectedProvider?.id === displayedProvider.id && (
@@ -138,17 +149,7 @@ export default function ProviderSelector({
                 )}
               </div>
 
-              {/* Right: Horizontal Bar Chart */}
-              <div className="md:w-1/2">
-                <HorizontalBarChart
-                  providers={providers}
-                  selectedProvider={selectedProvider}
-                  onProviderSelect={handleProviderClick}
-                  onProviderHover={setHoveredProvider}
-                  onProviderHoverLeave={() => setHoveredProvider(null)}
-                  percentageThreshold={getThresholdForEra(selectedEra?.id ?? "default")}
-                />
-              </div>
+              
             </div>
           </div>
 

@@ -102,13 +102,13 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-4">Data Sources</h3>
             <ul className="text-sm text-muted-foreground space-y-2">
-              <li>Space Launch Dataset (Placeholder)</li>
-              <li>NASA Open Data Portal</li>
-              <li>European Space Agency Archives</li>
-              <li>Space Launch Report Database</li>
+              <li><a href="https://spacelaunchnow.me/" className="no-underline text-inherit">Space Launch Now Dataset</a></li>
+              <li><a href="http://www.astronautix.com/" className="no-underline text-inherit">Astronautix</a></li>
+              <li><a href="https://www.ulalaunch.com/" className="no-underline text-inherit">ULA Launch</a></li>
+              <li><a href="https://en.wikipedia.org/" className="no-underline text-inherit">Wikipédia</a></li>
             </ul>
             <p className="text-xs text-muted-foreground mt-4">
-              Last updated: April 2025
+              Last updated: May 2025
             </p>
           </div>
         </div>

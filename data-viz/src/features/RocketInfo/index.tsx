@@ -124,7 +124,7 @@ export default function RocketInfo() {
                 )}
               </div>
               {/* RIGHT: Rocket Info */}
-              <div className="w-full lg:w-3/4 flex flex-col">
+              <div className="w-full lg:w-3/4 flex flex-col mt-6">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
                   <h3 className="text-2xl font-semibold">
                     {selectedRocket.name}
@@ -138,10 +138,10 @@ export default function RocketInfo() {
                     </div>
                   )}
                 </div>
-                <p className="mb-4 text-sm leading-relaxed">
+                <p className="mb-4 text-sm leading-relaxed text-left">
                   {selectedRocket.description}
                 </p>
-                <div className="grid grid-cols-12 gap-4">
+                <div className="grid grid-cols-12 gap-4 mt-4">
                   <div className="col-span-12 md:col-span-2">
                     <h4 className="text-base text-left text-lg font-semibold mb-4">
                       Specifications

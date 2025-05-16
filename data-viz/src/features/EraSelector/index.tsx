@@ -78,7 +78,6 @@ export default function EraSelector({ providerSectionRef }: EraSelectorProps) {
     >
       <div className="container mx-auto">
         <h2 className="text-3xl font-bold mb-8">Choose Your Era</h2>
-
         <div className="w-full bg-card rounded-lg shadow-lg p-6 mb-8">
           <div className="flex justify-between items-center mb-6">
             {mockEras.map((era) => (
@@ -121,7 +120,7 @@ export default function EraSelector({ providerSectionRef }: EraSelectorProps) {
                   {displayedEra.descriptionTitle}  
                 </p>
 
-                <p>{displayedEra.description}</p>
+                <p className="text-justify max-w-6xl mx-auto">{displayedEra.description}</p>
 
                 <p className="font-bold italic mt-4">
                   {displayedEra.question}
