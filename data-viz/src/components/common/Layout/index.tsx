@@ -6,6 +6,9 @@ import ProviderSelector from "../../../features/ProviderSelector";
 import RocketSelector from "../../../features/RocketSelector";
 import RocketInfo from "../../../features/RocketInfo";
 import Footer from "../../../features/Footer";
+import Earth3D from "../../../features/Earth3d";
+import Astronaut from "../../../features/Astronaut";
+
 
 export default function Layout() {
   const { selectedEra, selectedProvider, selectedRocket, showRocketSelector } =
@@ -19,8 +22,16 @@ export default function Layout() {
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
+        <section id="earth-3d">
+          <Earth3D />
+        </section>
+
         <section id="main-viz">
           <MainViz />
+        </section>
+
+        <section id="astronaut">
+          <Astronaut />
         </section>
 
         <section id="era-selector">
