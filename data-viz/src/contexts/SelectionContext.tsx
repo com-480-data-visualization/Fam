@@ -19,6 +19,8 @@ import { Era, Provider, Rocket } from "../types";
  * @interface SelectionContextType
  */
 interface SelectionContextType {
+  /** Whether to show the Era Selector*/
+  showEraSelector: boolean;
   /** Currently selected historical era, or null if none selected */
   selectedEra: Era | null;
   /** Currently selected launch provider, or null if none selected */
@@ -27,6 +29,8 @@ interface SelectionContextType {
   selectedRocket: Rocket | null;
   /** Whether to show the Rocket Selector or skip to Rocket Info */
   showRocketSelector: boolean;
+  /** Toggles whether the Era Selector UI is shown */
+  setShowEraSelector: (show: boolean) => void;
   /** Updates the selected era */
   setSelectedEra: (era: Era | null) => void;
   /** Updates the selected provider */
@@ -57,6 +61,7 @@ const SelectionContext = createContext<SelectionContextType | undefined>(
  * @returns {JSX.Element} The provider component
  */
 export function SelectionProvider({ children }: { children: ReactNode }) {
+  const [showEraSelector, setShowEraSelector] = useState<boolean>(false);
   const [selectedEra, setSelectedEra] = useState<Era | null>(null);
   const [selectedProvider, setSelectedProvider] = useState<Provider | null>(
     null
@@ -67,10 +72,12 @@ export function SelectionProvider({ children }: { children: ReactNode }) {
   return (
     <SelectionContext.Provider
       value={{
+        showEraSelector,
         selectedEra,
         selectedProvider,
         selectedRocket,
         showRocketSelector,
+        setShowEraSelector,
         setSelectedEra,
         setSelectedProvider,
         setSelectedRocket,

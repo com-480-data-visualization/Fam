@@ -10,10 +10,9 @@ import Earth3D from "../../../features/Earth3d";
 import Astronaut from "../../../features/Astronaut";
 
 export default function Layout() {
-  const { selectedEra, selectedProvider, selectedRocket, showRocketSelector } = useSelection();
+  const { showEraSelector, selectedEra, selectedProvider, selectedRocket, showRocketSelector } = useSelection();
 
-  const [showEraSelector, setShowEraSelector] = useState(false);
-
+  const eraSectionRef = useRef<HTMLDivElement>(null);
   const providerSectionRef = useRef<HTMLDivElement>(null);
   const rocketSectionRef = useRef<HTMLDivElement>(null);
   const rocketInfoSectionRef = useRef<HTMLDivElement>(null);
@@ -30,12 +29,13 @@ export default function Layout() {
         </section>
 
         <section id="astronaut">
-          <Astronaut onContinue={() => setShowEraSelector(true)} />
+          <Astronaut eraSectionRef={eraSectionRef} />
         </section>
+        
 
         {/* SHOW ERA SELECTOR ONLY WHEN BUTTON CLICKED */}
         {showEraSelector && (
-          <section id="era-selector">
+          <section id="era-selector" ref ={eraSectionRef}>
             <EraSelector providerSectionRef={providerSectionRef} />
           </section>
         )}

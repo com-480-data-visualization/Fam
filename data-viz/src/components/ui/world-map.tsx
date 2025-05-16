@@ -176,7 +176,7 @@ const WorldMap = ({
         .duration(750)
         .call(zoomBehaviorRef.current.transform, d3.zoomIdentity);
 
-      setZoomLevel(1);
+      setZoomLevel(10);
     }
   };
 
