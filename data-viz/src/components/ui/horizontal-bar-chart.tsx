@@ -8,6 +8,7 @@
  */
 import { useRef } from "react";
 import { Provider } from "../../types";
+import { historicalProvidersByEra } from "../../lib/data-loader"; // adjust path if needed
 
 /**
  * Props for the HorizontalBarChart component.
@@ -25,9 +26,26 @@ interface HorizontalBarChartProps {
   onProviderHover?: (provider: Provider) => void;
   /** Callback function triggered when hover leaves a provider */
   onProviderHoverLeave?: () => void;
-  /**Treshold for cumulative launch count */
-  percentageThreshold?: number;
+  /*Era*/
+  era: string; // 👈 Add this
 }
+
+
+ const getThresholdForEra = (era: string) => {
+  switch (era) {
+    case "space-race":
+      return 0.97;
+    case "early-space-stations":
+      return 0.97;
+    case "shuttle-era":
+      return 0.8;
+    case "commercial-space":
+      return 0.8;
+    default:
+      return 0.8;
+  }
+};
+
 /**
  * Renders a horizontal bar chart showing launch counts by provider.
  *
@@ -46,7 +64,7 @@ export default function HorizontalBarChart({
   onProviderSelect,
   onProviderHover,
   onProviderHoverLeave,
-  percentageThreshold,
+  era,
 }: HorizontalBarChartProps) {
   const chartRef = useRef<HTMLDivElement>(null);
 
@@ -65,7 +83,7 @@ export default function HorizontalBarChart({
   const totalLaunches = sortedProviders.reduce((sum, p) => sum + (p.launchCount || 0), 0);
 
   // Step 3: Include providers up to treshold of total, group others
-  const threshold = percentageThreshold ?? 0.97;
+  const threshold = getThresholdForEra(era ?? "default")
 
   let accumulated = 0;
   for (const provider of sortedProviders) {
@@ -78,15 +96,12 @@ export default function HorizontalBarChart({
   }
 
   if (othersLaunchCount > 0) {
+    const othersData = historicalProvidersByEra[era]?.["others"];
     topProviders.push({
-      id: "others",
-      name: "Others",
-      country: "Various",
-      launchCount: othersLaunchCount,
-      descriptionTitle: "None",
-      description: "None",
-      question: "None",
-    });
+      ...othersData,
+    id: "others", // Ensure this stays consistent
+    launchCount: othersLaunchCount, // ✅ override only the count
+  });
   }
 
 

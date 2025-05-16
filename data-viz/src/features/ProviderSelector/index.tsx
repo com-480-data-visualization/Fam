@@ -8,20 +8,6 @@ interface ProviderSelectorProps {
   rocketSectionRef: RefObject<HTMLDivElement | null>;
 }
 
-const getThresholdForEra = (era: string) => {
-  switch (era) {
-    case "space-race":
-      return 0.97;
-    case "early-space-stations":
-      return 0.97;
-    case "shuttle-era":
-      return 0.8;
-    case "commercial-space":
-      return 0.8;
-    default:
-      return 0.8;
-  }
-};
 
 export default function ProviderSelector({
   rocketSectionRef,
@@ -114,7 +100,7 @@ export default function ProviderSelector({
                   onProviderSelect={handleProviderClick}
                   onProviderHover={setHoveredProvider}
                   onProviderHoverLeave={() => setHoveredProvider(null)}
-                  percentageThreshold={getThresholdForEra(selectedEra?.id ?? "default")}
+                  era = {selectedEra?.id ?? "default"}
                 />
               </div>
               {/* Left: Description */}

@@ -289,9 +289,8 @@ export const historicalProvidersByEra: Record<
     },
     others: {
       id: "others",
-      name: "Other Participants",
+      name: "Others",
       country: "Global",
-      foundingYear: 0,
       launchCount: 0,
       descriptionTitle: "🌍 The global ripple effect",
       description: `
@@ -361,9 +360,8 @@ export const historicalProvidersByEra: Record<
     },
     others: {
       id: "others",
-      name: "Other Participants",
+      name: "Others",
       country: "Global",
-      foundingYear: 0,
       launchCount: 0,
       descriptionTitle: "🌍 Growing curiosity, wider reach",
       description: `
@@ -447,9 +445,8 @@ export const historicalProvidersByEra: Record<
     },
     others: {
       id: "others",
-      name: "Other Participants",
+      name: "Others",
       country: "Global",
-      foundingYear: 0,
       launchCount: 0,
       descriptionTitle: "🌍 Persistence from the periphery",
       description: `
@@ -575,9 +572,8 @@ export const historicalProvidersByEra: Record<
     },
     others: {
       id: "others",
-      name: "Other Participants",
+      name: "Others",
       country: "Global",
-      foundingYear: 0,
       launchCount: 0,
       descriptionTitle: "🌍 A flourishing ecosystem",
       description: `
