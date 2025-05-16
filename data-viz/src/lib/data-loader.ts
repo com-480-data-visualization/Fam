@@ -60,6 +60,8 @@ export const providerActors: Record<string, string> = {
   "russian-aerospace-defence-forces": "Russian Gov. Agencies",
 };
 
+
+/*
 export const historicalProvidersByEra: Record<
   string,
   Record<string, Provider>
@@ -245,6 +247,344 @@ export const historicalProvidersByEra: Record<
         It didn’t just enter the launch market — it disrupted and dominated it.
       `,
       question: "Which breakthrough systems powered SpaceX’s ascent?",
+    },
+  },
+};
+*/
+
+export const historicalProvidersByEra: Record<
+  string,
+  Record<string, Provider>
+> = {
+  "space-race": {
+    "russian-gov.-agencies": {
+      id: "russian-gov.-agencies",
+      name: "Soviet Space Program",
+      country: "USSR",
+      foundingYear: 1955,
+      launchCount: 0,
+      descriptionTitle: "🇷🇺 First to orbit, first to awe",
+      description: `
+        The Soviet Union stunned the world with a series of unprecedented firsts. 
+        From launching the first artificial satellite to sending the first human into space, they shaped the early narrative of the Space Age. 
+        Their approach was bold, secretive, and deeply symbolic — showcasing state power through astonishing technical feats.
+        These milestones weren’t just scientific wins — they were geopolitical messages written in rocket trails across the sky.
+      `,
+      question: "So what tools made these early leaps into orbit possible?",
+    },
+    "usa-gov.-agencies": {
+      id: "usa-gov.-agencies",
+      name: "NASA",
+      country: "USA",
+      foundingYear: 1958,
+      launchCount: 0,
+      descriptionTitle: "🇺🇸 Racing to catch — and pass — the lead",
+      description: `
+        Initially caught off guard by Sputnik, the U.S. mobilized rapidly. 
+        NASA was born, astronauts were trained, and the goal was set: reach the Moon. 
+        From Project Mercury’s tentative first flights to Gemini’s spacewalks and rendezvous, the U.S. laid the foundation for Apollo’s giant leap.
+        This was an era of rapid acceleration, national pride, and relentless ambition to take the lead in space.
+      `,
+      question: "Which launch systems helped America close the gap?",
+    },
+    others: {
+      id: "others",
+      name: "Other Participants",
+      country: "Global",
+      foundingYear: 0,
+      launchCount: 0,
+      descriptionTitle: "🌍 The global ripple effect",
+      description: `
+        While the U.S. and USSR dominated headlines, other nations began investing in space science and rocketry. 
+        Countries like France and the UK laid groundwork for future collaboration, even if they weren’t yet launch leaders.
+      `,
+      question: "Which countries quietly took early steps into space?",
+    },
+  },
+
+  "early-space-stations": {
+    "russian-gov.-agencies": {
+      id: "russian-gov.-agencies",
+      name: "Soviet Space Program",
+      country: "USSR",
+      foundingYear: 1955,
+      launchCount: 0,
+      descriptionTitle: "🇷🇺 Making orbit routine — and livable",
+      description: `
+        With the Moon race behind them, the Soviets redefined the mission: long-duration spaceflight. 
+        They launched the world’s first space stations — Salyut — and focused on endurance, utility, and orbital presence. 
+        It was less about spectacle and more about staying power, testing how humans could truly live and work off Earth.
+      `,
+      question: "Which launch systems supported this shift toward sustained space presence?",
+    },
+    "usa-gov.-agencies": {
+      id: "usa-gov.-agencies",
+      name: "NASA",
+      country: "USA",
+      foundingYear: 1958,
+      launchCount: 0,
+      descriptionTitle: "🇺🇸 Pivoting from conquest to capability",
+      description: `
+        After Apollo, the U.S. scaled back crewed missions but ramped up versatility. 
+        Skylab proved Americans could live in space, while the Apollo-Soyuz mission marked a new diplomatic chapter.
+        Behind the scenes, efforts intensified to build a reusable spacecraft — something that would soon change everything.
+      `,
+      question: "What vehicles supported this transitional and forward-looking phase?",
+    },
+    arianespace: {
+      id: "arianespace",
+      name: "Arianespace",
+      country: "Europe",
+      foundingYear: 1980,
+      launchCount: 0,
+      descriptionTitle: "🇪🇺 Europe joins the launch game",
+      description: `
+        Europe stepped onto the stage with a commercial mindset and a collaborative spirit. 
+        Through Arianespace, it offered international customers an alternative to superpower dominance. 
+        This era saw Europe build its launch capability from the ground up — driven not by politics, but by potential.
+      `,
+      question: "Which early systems carried Europe’s ambitions skyward?",
+    },
+    "japan-gov.-agencies": {
+      id: "japan-gov.-agencies",
+      name: "NASDA (Japan)",
+      country: "Japan",
+      foundingYear: 1969,
+      launchCount: 0,
+      descriptionTitle: "🇯🇵 Quiet innovation, steady rise",
+      description: `
+        Japan entered space cautiously but confidently. 
+        Focused on weather, science, and self-reliance, it developed early orbital capabilities while working alongside U.S. partners. 
+        This was the foundation-laying phase — one of methodical progress, not flashy breakthroughs.
+      `,
+      question: "Which early efforts powered Japan’s emergence in space?",
+    },
+    others: {
+      id: "others",
+      name: "Other Participants",
+      country: "Global",
+      foundingYear: 0,
+      launchCount: 0,
+      descriptionTitle: "🌍 Growing curiosity, wider reach",
+      description: `
+        Countries like India and China began to accelerate their space efforts during this period, often behind closed doors.
+        Their first satellites and launch tests marked early steps toward future autonomy.
+      `,
+      question: "What emerging agencies began laying groundwork in this era?",
+    },
+  },
+
+  "shuttle-era": {
+    "usa-gov.-agencies": {
+      id: "usa-gov.-agencies",
+      name: "NASA",
+      country: "USA",
+      foundingYear: 1958,
+      launchCount: 0,
+      descriptionTitle: "🇺🇸 Architects of the orbital village",
+      description: `
+        With the Shuttle as its centerpiece, the U.S. played a leading role in constructing the International Space Station. 
+        This was an era of integration: launching satellites, interplanetary missions, and building a home in orbit — all from a single, reusable platform. 
+        America's reach in space became broader, more collaborative, and more permanent.
+      `,
+      question: "Which launch vehicles helped build this new era of partnership?",
+    },
+    "russian-gov.-agencies": {
+      id: "russian-gov.-agencies",
+      name: "Roscosmos",
+      country: "Russia",
+      foundingYear: 1992,
+      launchCount: 0,
+      descriptionTitle: "🇷🇺 Old tech, new world",
+      description: `
+        The Soviet collapse brought deep uncertainty — but Russia’s launch infrastructure held firm. 
+        Soyuz and Proton became global workhorses, ferrying astronauts and payloads to orbit with quiet reliability. 
+        Even during domestic upheaval, Russia remained indispensable to international spaceflight.
+      `,
+      question: "Which systems kept Russia flying through transition?",
+    },
+    arianespace: {
+      id: "arianespace",
+      name: "Arianespace",
+      country: "Europe",
+      foundingYear: 1980,
+      launchCount: 0,
+      descriptionTitle: "🇪🇺 From upstart to industry leader",
+      description: `
+        Arianespace grew into the world's most trusted commercial launch provider. 
+        It cornered the market on geostationary satellite launches and proved that reliability could compete with raw power. 
+        As space commercialized, Europe quietly became essential.
+      `,
+      question: "Which rockets lifted Europe to the top of the commercial launch world?",
+    },
+    "china-gov.-agency": {
+      id: "china-gov.-agency",
+      name: "CNSA",
+      country: "China",
+      foundingYear: 1993,
+      launchCount: 0,
+      descriptionTitle: "🇨🇳 Quiet buildup, growing ambition",
+      description: `
+        During the Shuttle Era, China quietly developed its own space program — methodical, deliberate, and inward-facing.
+        Early Long March rockets laid the groundwork for bigger goals to come. 
+        While the world watched other powers, China was engineering a future space superpower behind the scenes.
+      `,
+      question: "Which early systems formed the backbone of China’s first steps beyond Earth?",
+    },
+    "orbital-sciences-corporation": {
+      id: "orbital-sciences-corporation",
+      name: "Orbital Sciences Corporation",
+      country: "USA",
+      foundingYear: 1982,
+      launchCount: 0,
+      descriptionTitle: "🇺🇸 Small payloads, serious progress",
+      description: `
+        As NASA focused on the Shuttle, Orbital Sciences carved out a niche: cost-effective launches for smaller satellites. 
+        Its Pegasus rocket — air-launched from a plane — was a radical departure from traditional systems.
+        It marked the start of nimble, private-sector innovation in an era dominated by government giants.
+      `,
+      question: "What made Orbital’s approach different — and ahead of its time?",
+    },
+    others: {
+      id: "others",
+      name: "Other Participants",
+      country: "Global",
+      foundingYear: 0,
+      launchCount: 0,
+      descriptionTitle: "🌍 Persistence from the periphery",
+      description: `
+        Agencies in Canada, Brazil, and Israel made modest orbital progress during this era, often contributing to global partnerships.
+        They added diversity and capability to the increasingly interconnected space community.
+      `,
+      question: "Which lesser-known players quietly made orbital strides?",
+    },
+  },
+
+  "commercial-space": {
+    "russian-gov.-agencies": {
+      id: "russian-gov.-agencies",
+      name: "Roscosmos",
+      country: "Russia",
+      foundingYear: 1992,
+      launchCount: 0,
+      descriptionTitle: "🇷🇺 Holding the line",
+      description: `
+        In a rapidly changing launch industry, Russia stuck to its proven strengths. 
+        While others focused on innovation, it prioritized reliability. 
+        Soyuz launches remained a staple of ISS access, even as new players entered the scene.
+      `,
+      question: "Which trusted systems kept Russia’s legacy alive in a new space age?",
+    },
+    "china-gov.-agency": {
+      id: "china-gov.-agency",
+      name: "CNSA",
+      country: "China",
+      foundingYear: 1993,
+      launchCount: 0,
+      descriptionTitle: "🇨🇳 From contender to superpower",
+      description: `
+        China transformed itself into a dominant spacefaring nation. 
+        It built its own space station, sent probes to the Moon and Mars, and rapidly scaled up its capabilities — all under a centralized, long-term strategy.
+        Where others evolved, China accelerated.
+      `,
+      question: "What launch infrastructure powered China’s dramatic rise?",
+    },
+    spacex: {
+      id: "spacex",
+      name: "SpaceX",
+      country: "USA",
+      foundingYear: 2002,
+      launchCount: 0,
+      descriptionTitle: "🇺🇸 From scrappy startup to space juggernaut",
+      description: `
+        SpaceX redefined what a launch provider could be. 
+        With reusable rockets, vertical landings, and aggressive timelines, it shifted the paradigm from cautious state missions to fast-paced iteration. 
+        It didn’t just enter the launch market — it disrupted and dominated it.
+      `,
+      question: "Which breakthrough systems powered SpaceX’s ascent?",
+    },
+    arianespace: {
+      id: "arianespace",
+      name: "Arianespace",
+      country: "Europe",
+      foundingYear: 1980,
+      launchCount: 0,
+      descriptionTitle: "🇪🇺 Adapting to disruption",
+      description: `
+        In the commercial era, Arianespace faced new pressure from private competitors — especially SpaceX.
+        But Europe doubled down on Ariane 5’s reliability while preparing the next-gen Ariane 6. 
+        Still vital, still global — but now in a race to evolve.
+      `,
+      question: "Which launch systems kept Europe relevant in a transforming market?",
+    },
+    united_launch_alliance: {
+      id: "united_launch_alliance",
+      name: "United Launch Alliance (ULA)",
+      country: "USA",
+      foundingYear: 2006,
+      launchCount: 0,
+      descriptionTitle: "🇺🇸 The legacy alliance",
+      description: `
+        Formed from Boeing and Lockheed Martin’s launch divisions, ULA became the go-to for secure, dependable missions. 
+        With Atlas and Delta rockets, it carried military and scientific payloads into orbit — with near-perfect records.
+        Even as new players emerged, ULA was the rock-steady standard.
+      `,
+      question: "Which legacy systems gave ULA its unmatched reliability?",
+    },
+    indian_space_research_organization: {
+      id: "indian_space_research_organization",
+      name: "ISRO",
+      country: "India",
+      foundingYear: 1969,
+      launchCount: 0,
+      descriptionTitle: "🇮🇳 Efficiency meets ambition",
+      description: `
+        India became a powerhouse in low-cost, high-impact missions. 
+        From the Mars Orbiter Mission to dozens of international satellite launches, ISRO showed how smart engineering could outperform big budgets.
+        It proved you don’t need extravagance to reach space — just vision and precision.
+      `,
+      question: "What systems helped India deliver so much with so little?",
+    },
+    "virgin-galactic": {
+      id: "virgin-galactic",
+      name: "Virgin Galactic",
+      country: "USA",
+      foundingYear: 2004,
+      launchCount: 0,
+      descriptionTitle: "🇺🇸 Space — for tourists",
+      description: `
+        Virgin Galactic aimed to make spaceflight personal. 
+        Using air-launched spaceplanes, it promised civilians a glimpse of the cosmos. 
+        The journey was long, setbacks many — but it kept the dream of space tourism alive.
+      `,
+      question: "Which vehicles brought the edge of space within reach of civilians?",
+    },
+    "rocket_lab": {
+      id: "rocket_lab",
+      name: "Rocket Lab",
+      country: "New Zealand / USA",
+      foundingYear: 2006,
+      launchCount: 0,
+      descriptionTitle: "🇳🇿 Small payloads, giant leap",
+      description: `
+        Rocket Lab proved you didn’t need to be big to be bold. 
+        Its Electron rocket made launching small satellites fast, frequent, and affordable. 
+        From a remote New Zealand coast, it became a global contender in the small launch race.
+      `,
+      question: "How did Rocket Lab redefine the lower-cost launch segment?",
+    },
+    others: {
+      id: "others",
+      name: "Other Participants",
+      country: "Global",
+      foundingYear: 0,
+      launchCount: 0,
+      descriptionTitle: "🌍 A flourishing ecosystem",
+      description: `
+        Dozens of private companies joined the launch landscape — from Blue Origin’s bold ambitions to Firefly, Astra, and Relativity’s rapid iterations.
+        Innovation spread fast and wide, with orbital access no longer the privilege of nations alone.
+      `,
+      question: "Which other commercial firms began reshaping space access?",
     },
   },
 };
