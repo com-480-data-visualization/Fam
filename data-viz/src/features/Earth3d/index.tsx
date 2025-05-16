@@ -19,16 +19,17 @@ export default function Earth3D() {
       {/* Right side: 3D Earth */}
       <div className="flex-1">
         <Canvas camera={{ position: [0, 0, 5], fov: 45 }} style={{ background: "black" }}>
-            <ambientLight intensity={0.3} />             {/* Soft ambient fill */}
-            <directionalLight
-                position={[10, 10, 10]}
-                intensity={1.2}
-                castShadow
-                shadow-mapSize-width={1024}
-                shadow-mapSize-height={1024}
-            />
-            <pointLight position={[-10, 0, 10]} intensity={0.8} />   {/* Adds warmth from another angle */}
+            {/* Subtle ambient blue light for shadows */}
+          <ambientLight intensity={3} color="#446688" />
 
+{/* Fixed warm directional light (sun) from top-left */}
+<directionalLight
+  position={[-5, 5, -5]}
+  intensity={2}
+  color="#ffe3b5"
+  castShadow
+/>
+<pointLight position={[-10, 0, 10]} intensity={0.8} />   {/* Adds warmth from another angle */}
             <OrbitControls  enableZoom={false} 
                             enablePan={false}   
                             autoRotate autoRotateSpeed={1} />
