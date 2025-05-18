@@ -203,7 +203,6 @@ const WorldMap = ({
           onResetView={resetView}
         />
       </div>
-
       <StatusPanel
         showLaunchStatus={showLaunchStatus}
         showLaunchStats={showLaunchStats}

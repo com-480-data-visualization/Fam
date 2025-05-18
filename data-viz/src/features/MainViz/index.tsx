@@ -32,7 +32,7 @@ export default function MainViz() {
   return (
     <section className="flex flex-col bg-background min-h-screen">
       <div
-        className="w-full bg-[#0a0f1c] relative overflow-hidden"
+        className="w-full bg-[#000000] relative overflow-hidden"
         style={{
           maxWidth: "100vw",
           height: "calc(70vh - 1rem)",
