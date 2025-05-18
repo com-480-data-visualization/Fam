@@ -29,15 +29,16 @@ export default function MainViz() {
     formatTimeDisplay,
   } = useTimeline();
 
+  
   return (
     <section className="flex flex-col bg-background min-h-screen">
       <div
         className="w-full bg-[#000000] relative overflow-hidden"
         style={{
           maxWidth: "100vw",
-          height: "calc(70vh - 1rem)",
+          height: "calc(70vh - 1rem)", /*70vh*/
           maxHeight: "70vh",
-          minHeight: "630px",
+          minHeight: "630px", /*630*/
         }}
       >
         <WorldMap launchData={currentMonthLaunches} isLoading={isLoading} />
