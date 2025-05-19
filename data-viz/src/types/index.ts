@@ -11,6 +11,30 @@
  */
 
 /**
+ * Enum representing possible launch statuses.
+ */
+export enum LaunchStatus {
+  /** Launch completed successfully */
+  Successful = "Launch Successful",
+  /** Launch failed to achieve mission objectives */
+  Failure = "Launch Failure",
+  /** Launch achieved some but not all mission objectives */
+  PartialFailure = "Launch was a Partial Failure",
+}
+
+/**
+ * Determines if a launch status is counted as successful.
+ *
+ * @param status - Launch status to check
+ * @returns True if the launch is successful
+ */
+export function isSuccessfulLaunchStatus(
+  status: LaunchStatus | string
+): boolean {
+  return status === LaunchStatus.Successful;
+}
+
+/**
  * Represents a single rocket launch event.
  *
  * @interface Launch
@@ -18,8 +42,8 @@
 export interface Launch {
   /** Name of the launch mission */
   Name: string;
-  /** Status of the launch (e.g., "Launch Successful", "Launch Failure") */
-  Status: string;
+  /** Status of the launch */
+  Status: string | LaunchStatus;
   /** Name of the organization that conducted the launch */
   Provider: string;
   /** Name of the rocket used for the launch */

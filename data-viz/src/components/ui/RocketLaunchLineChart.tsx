@@ -100,6 +100,11 @@ export default function RocketLaunchLineChart({
     setTooltip(null);
   };
 
+  // Tooltip dimensions
+  const tooltipWidth = 120;
+  const tooltipHeight = 50;
+  const tooltipMargin = 10;
+
   return (
     <div className="w-full">
       {/* Title */}
@@ -235,46 +240,57 @@ export default function RocketLaunchLineChart({
         ))}
 
         {/* Tooltip */}
-        {tooltip && (
-          <g>
-            <rect
-              x={tooltip.x + 10}
-              y={tooltip.y - 60}
-              width={120}
-              height={50}
-              rx={4}
-              ry={4}
-              fill="#1f2937" // Dark background
-              opacity={0.9}
-            />
-            <text
-              x={tooltip.x + 20}
-              y={tooltip.y - 40}
-              fontSize="12"
-              fill="#ffffff"
-            >
-              Year: {tooltip.year}
-            </text>
-            <text
-              x={tooltip.x + 20}
-              y={tooltip.y - 25}
-              fontSize="12"
-              fill="#ffffff"
-            >
-              Launches: {tooltip.count}
-            </text>
-            {tooltip.successRate !== undefined && (
-              <text
-                x={tooltip.x + 20}
-                y={tooltip.y - 10}
-                fontSize="12"
-                fill="#ffffff"
-              >
-                Success: {tooltip.successRate.toFixed(0)}%
-              </text>
-            )}
-          </g>
-        )}
+        {tooltip &&
+          (() => {
+            // Determine if tooltip would overflow right edge
+            const rightEdge = tooltip.x + tooltipWidth + tooltipMargin;
+            const leftEdge = tooltip.x - tooltipWidth - tooltipMargin;
+            const showLeft = rightEdge > width && leftEdge > 0;
+            const tooltipX = showLeft
+              ? tooltip.x - tooltipWidth - tooltipMargin
+              : tooltip.x + tooltipMargin;
+            const tooltipY = Math.max(tooltip.y - tooltipHeight, padding);
+            return (
+              <g>
+                <rect
+                  x={tooltipX}
+                  y={tooltipY}
+                  width={tooltipWidth}
+                  height={tooltipHeight}
+                  rx={4}
+                  ry={4}
+                  fill="#1f2937"
+                  opacity={0.9}
+                />
+                <text
+                  x={tooltipX + 10}
+                  y={tooltipY + 20}
+                  fontSize="12"
+                  fill="#ffffff"
+                >
+                  Year: {tooltip.year}
+                </text>
+                <text
+                  x={tooltipX + 10}
+                  y={tooltipY + 35}
+                  fontSize="12"
+                  fill="#ffffff"
+                >
+                  Launches: {tooltip.count}
+                </text>
+                {tooltip.successRate !== undefined && (
+                  <text
+                    x={tooltipX + 10}
+                    y={tooltipY + 50}
+                    fontSize="12"
+                    fill="#ffffff"
+                  >
+                    Success: {tooltip.successRate.toFixed(0)}%
+                  </text>
+                )}
+              </g>
+            );
+          })()}
       </svg>
     </div>
   );

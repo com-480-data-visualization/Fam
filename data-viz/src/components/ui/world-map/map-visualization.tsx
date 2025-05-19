@@ -21,7 +21,6 @@ import { processLaunchData } from "./data-utils";
 import { Launch } from "../../../types";
 import { Launchpad, StatusColorMap } from "./types";
 import { TimelineViewMode } from "../../../contexts/TimelineContext";
-import { isFutureStatus } from "./statistics/yearly-launch-data";
 
 interface MapVisualizationProps {
   svgRef: RefObject<SVGSVGElement | null>;
@@ -37,6 +36,7 @@ interface MapVisualizationProps {
   statusColors: StatusColorMap;
   hoverStatusColors: StatusColorMap;
   viewMode: TimelineViewMode;
+  resetViewTrigger?: number;
 }
 
 /**
@@ -59,6 +59,7 @@ export function MapVisualization({
   statusColors,
   hoverStatusColors,
   viewMode,
+  resetViewTrigger,
 }: MapVisualizationProps) {
   // Create projection and path generator for the map
   const { projection, path } = useMemo(() => {
@@ -80,11 +81,32 @@ export function MapVisualization({
     };
   }, [dimensions.width, dimensions.height]);
 
-  // Configure zoom behavior
   const zoom = useMemo(() => {
+    const zoomFilter = (event: Event): boolean => {
+      // For wheel events, only allow if Ctrl key is pressed.
+      if (event.type === "wheel") {
+        return (event as WheelEvent).ctrlKey;
+      }
+      // Allow panning with left mouse button (button === 0) and touch events.
+      if (event.type === "mousedown" || event.type === "touchstart") {
+        // For mousedown, check it's the primary button.
+        // For touchstart, (event as MouseEvent).button will be undefined or 0, allow.
+        return (
+          event.type === "touchstart" || (event as MouseEvent).button === 0
+        );
+      }
+      // Allow double click with left mouse button.
+      if (event.type === "dblclick") {
+        return (event as MouseEvent).button === 0;
+      }
+      // Disallow other events from initiating a zoom/pan.
+      return false;
+    };
+
     return d3
       .zoom<SVGSVGElement, unknown>()
       .scaleExtent([1, 12])
+      .filter(zoomFilter) // Apply the custom filter
       .on("zoom", (event) => {
         const { transform } = event;
         const newZoomLevel = transform.k;
@@ -126,6 +148,12 @@ export function MapVisualization({
 
     svg.call(zoom as any);
 
+    // Reset to initial view when trigger changes
+    if (resetViewTrigger !== undefined && resetViewTrigger > 0) {
+      svg.call(zoom.transform as any, d3.zoomIdentity);
+      setZoomLevel(1);
+    }
+
     d3.json<any>(
       "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json"
     ).then((data) => {
@@ -147,7 +175,16 @@ export function MapVisualization({
         .attr("stroke", "#ffffff")
         .attr("stroke-width", 0.5);
     });
-  }, [path, initialRenderComplete, dimensions.width, dimensions.height, zoom, svgRef]);
+  }, [
+    path,
+    initialRenderComplete,
+    dimensions.width,
+    dimensions.height,
+    zoom,
+    svgRef,
+    resetViewTrigger,
+    setZoomLevel,
+  ]);
 
   // Update launch site visualizations when data changes
   useEffect(() => {
@@ -197,7 +234,6 @@ export function MapVisualization({
       hoverStatusColors,
       tooltip,
       setHoveredSite,
-      isFutureStatus,
       launchpadCounts,
       hoveredSite,
       svgRef,

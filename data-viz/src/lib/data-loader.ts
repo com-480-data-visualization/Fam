@@ -37,7 +37,7 @@ export const providerActors: Record<string, string> = {
   // 1957-1970
   "united-states-air-force": "USA Gov. Agencies",
   "us-navy": "USA Gov. Agencies",
-  "army-ballistic-missile-agency" : "USA Gov. Agencies",
+  "army-ballistic-missile-agency": "USA Gov. Agencies",
 
   // 1970-1990
   "national-aeronautics-and-space-administration": "USA Gov. Agencies",
@@ -61,12 +61,10 @@ export const providerActors: Record<string, string> = {
   "russian-aerospace-defence-forces": "Russian Gov. Agencies",
 };
 
-
 export const historicalProvidersByEra: Record<
   string,
   Record<string, Provider>
 > = {
-
   "space-race": {
     "russian-gov.-agencies": {
       id: "russian-gov.-agencies",
@@ -98,7 +96,7 @@ export const historicalProvidersByEra: Record<
       `,
       question: "Which launch systems helped America close the gap?",
     },
-    "others": {
+    others: {
       id: "others",
       name: "Others",
       country: "Global",
@@ -111,7 +109,6 @@ export const historicalProvidersByEra: Record<
       question: " ",
     },
   },
-
 
   "early-space-stations": {
     "russian-gov.-agencies": {
@@ -126,7 +123,8 @@ export const historicalProvidersByEra: Record<
         They launched the world’s first space stations — Salyut — and focused on endurance, utility, and orbital presence. 
         It was less about spectacle and more about staying power, testing how humans could truly live and work off Earth.
       `,
-      question: "Which launch systems supported this shift toward sustained space presence?",
+      question:
+        "Which launch systems supported this shift toward sustained space presence?",
     },
     "usa-gov.-agencies": {
       id: "usa-gov.-agencies",
@@ -140,7 +138,8 @@ export const historicalProvidersByEra: Record<
         Skylab proved Americans could live in space, while the Apollo-Soyuz mission marked a new diplomatic chapter.
         Behind the scenes, efforts intensified to build a reusable spacecraft — something that would soon change everything.
       `,
-      question: "What vehicles supported this transitional and forward-looking phase?",
+      question:
+        "What vehicles supported this transitional and forward-looking phase?",
     },
     arianespace: {
       id: "arianespace",
@@ -170,7 +169,7 @@ export const historicalProvidersByEra: Record<
       `,
       question: " ",
     },
-    "others": {
+    others: {
       id: "others",
       name: "Others",
       country: "Global",
@@ -183,7 +182,6 @@ export const historicalProvidersByEra: Record<
       question: " ",
     },
   },
-
 
   "shuttle-era": {
     "usa-gov.-agencies": {
@@ -198,7 +196,8 @@ export const historicalProvidersByEra: Record<
         This was an era of integration: launching satellites, interplanetary missions, and building a home in orbit — all from a single, reusable platform. 
         America's reach in space became broader, more collaborative, and more permanent.
       `,
-      question: "Which launch vehicles helped build this new era of partnership?",
+      question:
+        "Which launch vehicles helped build this new era of partnership?",
     },
     "russian-gov.-agencies": {
       id: "russian-gov.-agencies",
@@ -226,7 +225,8 @@ export const historicalProvidersByEra: Record<
         It cornered the market on geostationary satellite launches and proved that reliability could compete with raw power. 
         As space commercialized, Europe quietly became essential.
       `,
-      question: "Which rockets lifted Europe to the top of the commercial launch world?",
+      question:
+        "Which rockets lifted Europe to the top of the commercial launch world?",
     },
     "china-gov.-agency": {
       id: "china-gov.-agency",
@@ -256,7 +256,7 @@ export const historicalProvidersByEra: Record<
       `,
       question: " ",
     },
-    "others": {
+    others: {
       id: "others",
       name: "Others",
       country: "Global",
@@ -269,7 +269,6 @@ export const historicalProvidersByEra: Record<
       question: " ",
     },
   },
-
 
   "commercial-space": {
     "russian-gov.-agencies": {
@@ -284,7 +283,8 @@ export const historicalProvidersByEra: Record<
         While others focused on innovation, it prioritized reliability. 
         Soyuz launches remained a staple of ISS access, even as new players entered the scene.
       `,
-      question: "Which trusted systems kept Russia’s legacy alive in a new space age?",
+      question:
+        "Which trusted systems kept Russia’s legacy alive in a new space age?",
     },
     "china-gov.-agency": {
       id: "china-gov.-agency",
@@ -384,7 +384,7 @@ export const historicalProvidersByEra: Record<
       `,
       question: " ",
     },
-    "others": {
+    others: {
       id: "others",
       name: "Others",
       country: "Global",
@@ -394,7 +394,7 @@ export const historicalProvidersByEra: Record<
         Dozens of private companies joined the launch landscape — from Blue Origin’s bold ambitions to Firefly, Astra, and Relativity’s rapid iterations.
         Innovation spread fast and wide, with orbital access no longer the privilege of nations alone.
       `,
-      question:" ",
+      question: " ",
     },
   },
 };
@@ -662,7 +662,7 @@ export const historicalRocketsByEra: Record<string, Rocket[]> = {
 
   "early-space-stations": [
     // Arianespace
-    
+
     {
       id: "ariane-1",
       name: "Ariane 1",
@@ -1095,8 +1095,15 @@ export const historicalRocketsByEra: Record<string, Rocket[]> = {
       providerId: "russian-gov.-agencies",
       description:
         "The modern Soyuz variant continues Russia's legacy of dependable access to space, launching payloads for both government and commercial missions.",
-      specs: { height: "10 m", thrust: "placeholder", weight: "7 T", diameter: "2,65 m", stages: "", payloadCapacity: "placeholder" },
-      stats: { totalLaunches: "154", successRate: "0.97", firstLaunch: "1967" }
+      specs: {
+        height: "10 m",
+        thrust: "placeholder",
+        weight: "7 T",
+        diameter: "2,65 m",
+        stages: "",
+        payloadCapacity: "placeholder",
+      },
+      stats: { totalLaunches: "154", successRate: "0.97", firstLaunch: "1967" },
     },
     {
       id: "soyuz-u",
@@ -1232,7 +1239,3 @@ export function filterLaunchesByRocket(
  * @param {Launch} launch - The launch to check
  * @returns {boolean} True if the launch was successful, false otherwise
  */
-export function isLaunchSuccessful(launch: Launch): boolean {
-  const status = launch.Status.toLowerCase();
-  return status.includes("success") || status.includes("successful");
-}

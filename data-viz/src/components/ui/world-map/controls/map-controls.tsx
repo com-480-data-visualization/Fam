@@ -48,52 +48,56 @@ export function MapControls({
   };
 
   return (
-    <div className="flex gap-2 px-4">
-      <button
-        onClick={onResetView}
-        className="px-3 py-1 rounded text-xs bg-card text-foreground border border-muted hover:bg-muted transition-colors"
-      >
-        Reset View
-      </button>
-      <button
-        onClick={handleStatusToggle}
-        className={`px-3 py-1 rounded text-xs border ${
-          showLaunchStatus
-            ? "bg-primary text-primary-foreground border-primary"
-            : "bg-card text-foreground border-muted hover:bg-muted"
-        } transition-colors`}
-        title={
-          showLaunchStatus
-            ? "Hide Launch Status Legend"
-            : "Show Launch Status Legend"
-        }
-      >
-        Status
-      </button>
-      <button
-        onClick={handleStatsToggle}
-        className={`px-3 py-1 rounded text-xs border ${
-          showLaunchStats
-            ? "bg-primary text-primary-foreground border-primary"
-            : "bg-card text-foreground border-muted hover:bg-muted"
-        } transition-colors`}
-        title={
-          showLaunchStats ? "Hide Launch Statistics" : "Show Launch Statistics"
-        }
-      >
-        Stats
-      </button>
-      <button
-        onClick={() => setShowSpaceEvents(!showSpaceEvents)}
-        className={`px-3 py-1 rounded text-xs border ${
-          showSpaceEvents
-            ? "bg-primary text-primary-foreground border-primary"
-            : "bg-card text-foreground border-muted hover:bg-muted"
-        } transition-colors`}
-        title={showSpaceEvents ? "Hide Space Events" : "Show Space Events"}
-      >
-        Events
-      </button>
+    <div className="flex flex-col gap-2 px-4">
+      <div className="flex gap-2">
+        <button
+          onClick={onResetView}
+          className="px-3 py-1 rounded text-xs bg-card text-foreground border border-muted hover:bg-muted transition-colors"
+        >
+          Reset View
+        </button>
+        <button
+          onClick={handleStatusToggle}
+          className={`px-3 py-1 rounded text-xs border ${
+            showLaunchStatus
+              ? "bg-primary text-primary-foreground border-primary"
+              : "bg-card text-foreground border-muted hover:bg-muted"
+          } transition-colors`}
+          title={
+            showLaunchStatus
+              ? "Hide Launch Status Legend"
+              : "Show Launch Status Legend"
+          }
+        >
+          Status
+        </button>
+        <button
+          onClick={handleStatsToggle}
+          className={`px-3 py-1 rounded text-xs border ${
+            showLaunchStats
+              ? "bg-primary text-primary-foreground border-primary"
+              : "bg-card text-foreground border-muted hover:bg-muted"
+          } transition-colors`}
+          title={
+            showLaunchStats
+              ? "Hide Launch Statistics"
+              : "Show Launch Statistics"
+          }
+        >
+          Stats
+        </button>
+        <button
+          onClick={() => setShowSpaceEvents(!showSpaceEvents)}
+          className={`px-3 py-1 rounded text-xs border ${
+            showSpaceEvents
+              ? "bg-primary text-primary-foreground border-primary"
+              : "bg-card text-foreground border-muted hover:bg-muted"
+          } transition-colors`}
+          title={showSpaceEvents ? "Hide Space Events" : "Show Space Events"}
+        >
+          Events
+        </button>
+      </div>
     </div>
   );
 }

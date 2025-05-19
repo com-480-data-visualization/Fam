@@ -10,6 +10,7 @@ import { StatusColorMap } from "../types";
 import { YearlyLaunchData } from "../statistics/yearly-launch-data";
 import { LaunchCountChart } from "../charts/launch-count-chart";
 import { SuccessRateChart } from "../charts/success-rate-chart";
+import { LaunchStatus } from "../../../../types";
 
 interface StatusPanelProps {
   showLaunchStatus: boolean;
@@ -62,13 +63,12 @@ export function StatusPanel({
 
   // Status legend items
   const statusItems = [
-    { label: "Successful", color: statusColors["Launch Successful"] },
-    { label: "Failed", color: statusColors["Launch Failure"] },
+    { label: "Successful", color: statusColors[LaunchStatus.Successful] },
+    { label: "Failed", color: statusColors[LaunchStatus.Failure] },
     {
       label: "Partial Failure",
-      color: statusColors["Launch was a Partial Failure"],
+      color: statusColors[LaunchStatus.PartialFailure],
     },
-    { label: "Planned/Future", color: statusColors["To Be Determined"] },
   ];
 
   return (

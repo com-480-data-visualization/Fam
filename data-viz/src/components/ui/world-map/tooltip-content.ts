@@ -20,7 +20,6 @@ const { statusColors } = COLOR_SETS;
  * - Creates a formatted HTML tooltip with launch site details
  * - Shows a breakdown of launch statuses with appropriate colors
  * - Displays a list of recent launches with dates and missions
- * - Highlights future launches with a different visual style
  * - Limits the number of displayed launches to avoid overcrowding
  *
  * @param {Launchpad} launchpad - The launchpad data to display in the tooltip
@@ -37,7 +36,6 @@ export function generateTooltipContent(
     return 0;
   });
 
-  const currentDate = new Date();
   const launchesToShow = sortedLaunches.slice(0, 8);
   const yearInfo =
     launchData && launchData.length > 0 && launchData[0].year
@@ -78,12 +76,8 @@ export function generateTooltipContent(
     <div class="launch-list">
       ${launchesToShow
         .map((launch) => {
-          const launchDate = new Date(launch.datetime_iso);
-          const isFuture = launchDate > currentDate;
-          const futureClass = isFuture ? "border-blue-200 bg-blue-50" : "";
-
           return `
-          <div class="border-t border-gray-100 pt-1 pb-1 ${futureClass}">
+          <div class="border-t border-gray-100 pt-1 pb-1">
             <div class="font-medium flex items-center">
               <div class="w-2 h-2 mr-2 rounded-full" style="background-color: ${
                 statusColors[launch.Status] || statusColors.default

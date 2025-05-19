@@ -33,8 +33,6 @@ interface UpdateCirclesParams {
   tooltip: d3.Selection<HTMLDivElement | null, unknown, null, undefined>;
   /** React state setter for the currently hovered site */
   setHoveredSite: React.Dispatch<React.SetStateAction<string | null>>;
-  /** Function that determines if a status represents a future launch */
-  isFutureStatus: (status: string) => boolean;
   /** Record of launchpad data indexed by their keys */
   launchpadCounts: Record<string, Launchpad>;
   /** ID of the currently hovered launch site */
@@ -57,7 +55,6 @@ interface UpdateCirclesParams {
  * - Sets appropriate sizes, colors, and styles based on launch data
  * - Adds interaction handlers for hover/mouseover events
  * - Updates visual properties based on the current zoom level
- * - Applies special styling for future launch sites
  * - Adjusts circle sizes based on the current view mode (month/year)
  *
  * @param {UpdateCirclesParams} params - Parameters for updating circles
@@ -72,7 +69,6 @@ export function updateCircles(params: UpdateCirclesParams): void {
     hoverStatusColors,
     tooltip,
     setHoveredSite,
-    isFutureStatus,
     launchpadCounts,
     svgRef,
     launchData,
@@ -104,15 +100,9 @@ export function updateCircles(params: UpdateCirclesParams): void {
     // Use consistent white border for all circles
     .attr("stroke", "#ffffff")
     .attr("stroke-width", standardStrokeWidth)
-    // Apply dashed stroke only for future launches
-    .attr("stroke-dasharray", (d) =>
-      isFutureStatus(d.primaryStatus) ? "3,2" : "none"
-    )
-    .attr(
-      "class",
-      (d) =>
-        `launch-site ${isFutureStatus(d.primaryStatus) ? "future-launch" : ""}`
-    )
+    // No dashed strokes needed anymore
+    .attr("stroke-dasharray", "none")
+    .attr("class", "launch-site")
     .transition()
     .duration(100)
     .attr("r", (d) => {
@@ -188,18 +178,12 @@ export function updateCircles(params: UpdateCirclesParams): void {
   circles
     .enter()
     .append("circle")
-    .attr(
-      "class",
-      (d) =>
-        `launch-site ${isFutureStatus(d.primaryStatus) ? "future-launch" : ""}`
-    )
+    .attr("class", "launch-site")
     .attr("data-launchpad", (d) => d.name.replace(/[^\w]/g, "_"))
     .attr("fill", (d) => statusColors[d.primaryStatus] || statusColors.default)
     .attr("stroke", "#ffffff")
     .attr("stroke-width", standardStrokeWidth)
-    .attr("stroke-dasharray", (d) =>
-      isFutureStatus(d.primaryStatus) ? "3,2" : "none"
-    )
+    .attr("stroke-dasharray", "none")
     .attr("cx", (d) => d.x!)
     .attr("cy", (d) => d.y!)
     .attr("r", 0)

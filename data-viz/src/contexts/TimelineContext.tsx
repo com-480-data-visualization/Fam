@@ -74,34 +74,48 @@ interface TimelineContextType {
 }
 
 // Constants for timeline boundaries and default values
-const MIN_YEAR = 1957;
-const MIN_MONTH = 10;
-const MAX_YEAR = 2025;
-const MAX_MONTH = 5;
-const DEFAULT_PLAYBACK_SPEED = 300; // Base playback interval in milliseconds
+// Default playback interval in milliseconds
+const DEFAULT_PLAYBACK_SPEED = 300;
+
+// Initial values for timeline boundaries (used before data is loaded)
+const INITIAL_MIN_YEAR = 1957; // First Space Age year (Sputnik)
+const INITIAL_MIN_MONTH = 10; // October (Sputnik launch)
 
 /**
  * Calculate the absolute month index from year and month
  * @param year The year (e.g. 1957)
  * @param month The month (1-12)
- * @returns The absolute month count since MIN_YEAR/MIN_MONTH
+ * @param baseYear The base year to calculate from
+ * @param baseMonth The base month to calculate from
+ * @returns The absolute month count since baseYear/baseMonth
  */
-function calculateMonthIndex(year: number, month: number): number {
-  const yearDiff = year - MIN_YEAR;
-  const monthDiff = month - MIN_MONTH;
+function calculateMonthIndex(
+  year: number,
+  month: number,
+  baseYear: number,
+  baseMonth: number
+): number {
+  const yearDiff = year - baseYear;
+  const monthDiff = month - baseMonth;
   return yearDiff * 12 + monthDiff;
 }
 
 /**
  * Calculate the year and month from an absolute month index
- * @param monthIndex The absolute month count since MIN_YEAR/MIN_MONTH
+ * @param monthIndex The absolute month count since baseYear/baseMonth
+ * @param baseYear The base year to calculate from
+ * @param baseMonth The base month to calculate from
  * @returns An object with year and month properties
  */
-function calculateYearAndMonth(monthIndex: number): {
+function calculateYearAndMonth(
+  monthIndex: number,
+  baseYear: number,
+  baseMonth: number
+): {
   year: number;
   month: number;
 } {
-  const totalMonths = monthIndex + (MIN_MONTH - 1);
+  const totalMonths = monthIndex + (baseMonth - 1);
   const yearOffset = Math.floor(totalMonths / 12);
   let monthValue = (totalMonths % 12) + 1;
 
@@ -110,7 +124,7 @@ function calculateYearAndMonth(monthIndex: number): {
   }
 
   return {
-    year: MIN_YEAR + yearOffset,
+    year: baseYear + yearOffset,
     month: monthValue,
   };
 }
@@ -133,12 +147,17 @@ const TimelineContext = createContext<TimelineContextType | undefined>(
  * @returns {JSX.Element} The provider component
  */
 export function TimelineProvider({ children }: { children: ReactNode }) {
-  // Calculate the min and max month indices
-  const minMonthIndex = 0; // Starting point (Oct 1957)
-  const maxMonthIndex = calculateMonthIndex(MAX_YEAR, MAX_MONTH);
-  const totalMonthCount = maxMonthIndex + 1;
+  // Use refs for timeline boundary values - they don't change after initialization
+  const minYearRef = useRef<number>(INITIAL_MIN_YEAR);
+  const minMonthRef = useRef<number>(INITIAL_MIN_MONTH);
+  const minMonthIndexRef = useRef<number>(0);
+  const maxMonthIndexRef = useRef<number>(0);
+  const totalMonthCountRef = useRef<number>(0);
 
-  const [currentMonthIndex, setCurrentMonthIndex] = useState(minMonthIndex);
+  // Initialize at the minimum month index
+  const [currentMonthIndex, setCurrentMonthIndex] = useState(
+    minMonthIndexRef.current
+  );
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
   const [viewMode, setViewMode] = useState<TimelineViewMode>("month");
@@ -153,16 +172,19 @@ export function TimelineProvider({ children }: { children: ReactNode }) {
   const animationRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
   // Calculate year and month from currentMonthIndex
-  const { year: currentYear, month: currentMonth } =
-    calculateYearAndMonth(currentMonthIndex);
+  const { year: currentYear, month: currentMonth } = calculateYearAndMonth(
+    currentMonthIndex,
+    minYearRef.current,
+    minMonthRef.current
+  );
 
   /**
    * Sets the current position in the timeline using month index
    */
   const handleSetMonthIndex = (monthIndex: number): void => {
     const boundedIndex = Math.max(
-      minMonthIndex,
-      Math.min(monthIndex, maxMonthIndex)
+      minMonthIndexRef.current,
+      Math.min(monthIndex, maxMonthIndexRef.current)
     );
     setCurrentMonthIndex(boundedIndex);
   };
@@ -229,9 +251,57 @@ export function TimelineProvider({ children }: { children: ReactNode }) {
           }
           byYear[year].push(launch);
         });
-
         setLaunchesByYearMonth(byYearMonth);
         setLaunchesByYear(byYear);
+
+        // Find both the earliest and latest launch dates to set timeline boundaries
+        let earliestYear = 3000; // Set to a future date to ensure it gets updated
+        let earliestMonth = 12;
+        let latestYear = 1000; // Set to a past date to ensure it gets updated
+        let latestMonth = 1;
+
+        data.forEach((launch) => {
+          if (launch.datetime_iso) {
+            const date = new Date(launch.datetime_iso);
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1;
+
+            // Update earliest date if this launch is older
+            if (
+              year < earliestYear ||
+              (year === earliestYear && month < earliestMonth)
+            ) {
+              earliestYear = year;
+              earliestMonth = month;
+            }
+
+            // Update latest date if this launch is more recent
+            if (
+              year > latestYear ||
+              (year === latestYear && month > latestMonth)
+            ) {
+              latestYear = year;
+              latestMonth = month;
+            }
+          }
+        });
+
+        // Update the refs with the calculated bounds - we only need to do this once
+        minYearRef.current = earliestYear;
+        minMonthRef.current = earliestMonth;
+        minMonthIndexRef.current = 0; // Always start at 0 for relative indexing
+
+        // Calculate the maximum timeline index based on the data
+        const calculatedMaxMonthIndex = calculateMonthIndex(
+          latestYear,
+          latestMonth,
+          earliestYear,
+          earliestMonth
+        );
+
+        maxMonthIndexRef.current = calculatedMaxMonthIndex;
+        totalMonthCountRef.current = calculatedMaxMonthIndex + 1;
+
         setIsLoading(false);
       } catch (error) {
         console.error("Error loading rocket launch data:", error);
@@ -269,7 +339,7 @@ export function TimelineProvider({ children }: { children: ReactNode }) {
         }
 
         // Stop playback if we reach the end
-        if (nextIndex > maxMonthIndex) {
+        if (nextIndex > maxMonthIndexRef.current) {
           clearInterval(animationRef.current);
           setIsPlaying(false);
           return prevIndex;
@@ -285,7 +355,7 @@ export function TimelineProvider({ children }: { children: ReactNode }) {
         clearInterval(animationRef.current);
       }
     };
-  }, [isPlaying, playbackSpeed, viewMode, maxMonthIndex]);
+  }, [isPlaying, playbackSpeed, viewMode]);
 
   // Current time value in YYYYMM format for data lookup
   const timeValue = currentYear * 100 + currentMonth;
@@ -310,7 +380,7 @@ export function TimelineProvider({ children }: { children: ReactNode }) {
    */
   const resetTimeline = () => {
     setIsPlaying(false);
-    setCurrentMonthIndex(minMonthIndex);
+    setCurrentMonthIndex(minMonthIndexRef.current);
   };
 
   /**
@@ -334,15 +404,15 @@ export function TimelineProvider({ children }: { children: ReactNode }) {
         currentMonthLaunches: displayLaunches,
         currentYearLaunches,
         isLoading,
-        minMonthIndex,
-        maxMonthIndex,
+        minMonthIndex: minMonthIndexRef.current,
+        maxMonthIndex: maxMonthIndexRef.current,
         setMonthIndex: handleSetMonthIndex,
         togglePlayback,
         setPlaybackSpeed,
         setViewMode: handleSetViewMode,
         resetTimeline,
         formatTimeDisplay,
-        totalMonthCount,
+        totalMonthCount: totalMonthCountRef.current,
       }}
     >
       {children}

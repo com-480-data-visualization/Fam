@@ -7,7 +7,7 @@
  * @module components/ui/world-map/statistics/yearly-launch-data
  */
 
-import { Launch } from "../../../../types";
+import { Launch, isSuccessfulLaunchStatus } from "../../../../types";
 
 /**
  * Data structure to track yearly launch statistics
@@ -43,7 +43,8 @@ export function processYearlyLaunchData(
 
     const yearData = dataByYear.get(year)!;
     yearData.count += 1;
-    if (launch.Status === "Launch Successful") {
+
+    if (isSuccessfulLaunchStatus(launch.Status)) {
       yearData.successCount += 1;
     }
   });
@@ -56,15 +57,4 @@ export function processYearlyLaunchData(
       successRate: data.count > 0 ? (data.successCount / data.count) * 100 : 0,
     }))
     .sort((a, b) => a.year - b.year);
-}
-
-/**
- * Determines if a launch status indicates a future/planned launch
- * @param {string} status - Launch status string
- * @returns {boolean} True if the status indicates a future launch
- */
-export function isFutureStatus(status: string): boolean {
-  return ["To Be Determined", "Go for Launch", "To Be Confirmed"].includes(
-    status
-  );
 }

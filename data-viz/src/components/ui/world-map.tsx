@@ -13,7 +13,6 @@
  * @module components/ui/world-map
  */
 import { useEffect, useRef, useMemo, useState, useLayoutEffect } from "react";
-import * as d3 from "d3";
 import { useTimeline } from "../../contexts/TimelineContext";
 import { COLOR_SETS } from "./world-map/color-constants";
 import { WorldMapProps, SpaceTweet } from "./world-map/types";
@@ -21,6 +20,7 @@ import { MapControls } from "./world-map/controls/map-controls";
 import { StatusPanel } from "./world-map/panels/status-panel";
 import { EventsPanel } from "./world-map/panels/events-panel";
 import { MapVisualization } from "./world-map/map-visualization";
+import { LaunchStatus, isSuccessfulLaunchStatus } from "../../types";
 import {
   YearlyLaunchData,
   processYearlyLaunchData,
@@ -53,16 +53,13 @@ const WorldMap = ({
   const launchChartRef = useRef<SVGSVGElement | null>(null);
   const successChartRef = useRef<SVGSVGElement | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const zoomBehaviorRef = useRef<d3.ZoomBehavior<
-    SVGSVGElement,
-    unknown
-  > | null>(null);
 
   // Component state
   const [dimensions, setDimensions] = useState({ width, height });
   const [initialRenderComplete, setInitialRenderComplete] = useState(false);
   const [hoveredSite, setHoveredSite] = useState<string | null>(null);
   const [zoomLevel, setZoomLevel] = useState<number>(1);
+  const [resetViewTrigger, setResetViewTrigger] = useState(0);
   const [tweets, setTweets] = useState<SpaceTweet[]>([]);
   const [currentYear, setCurrentYear] = useState<number>(1950);
   const [yearlyData, setYearlyData] = useState<YearlyLaunchData[]>([]);
@@ -78,7 +75,7 @@ const WorldMap = ({
   // Calculate statistics for current launch data
   const totalLaunches = launchData ? launchData.length : 0;
   const successfulLaunches = launchData
-    ? launchData.filter((l) => l.Status === "Launch Successful").length
+    ? launchData.filter((l) => isSuccessfulLaunchStatus(l.Status)).length
     : 0;
   const otherLaunches = totalLaunches - successfulLaunches;
   const successPercentage =
@@ -90,7 +87,7 @@ const WorldMap = ({
       ? new Set(launchData.map((l) => l.LaunchPad)).size
       : 0;
 
-  const successColor = statusColors["Launch Successful"];
+  const successColor = statusColors[LaunchStatus.Successful];
   const otherColor = "#a2a2a2";
 
   // Load tweet data on component mount
@@ -144,40 +141,12 @@ const WorldMap = ({
     return () => window.removeEventListener("resize", updateDimensions);
   }, [width, height]);
 
-  // Initialize zoom behavior
-  useEffect(() => {
-    if (svgRef.current && initialRenderComplete) {
-      const zoom = d3
-        .zoom<SVGSVGElement, unknown>()
-        .scaleExtent([1, 12])
-        .on("zoom", (event) => {
-          const { transform } = event;
-          const newZoomLevel = transform.k;
-          setZoomLevel(newZoomLevel);
-
-          const svg = d3.select(svgRef.current);
-          svg.selectAll("g").attr("transform", transform);
-        });
-
-      zoomBehaviorRef.current = zoom;
-
-      d3.select(svgRef.current).call(zoom);
-    }
-  }, [initialRenderComplete]);
-
   /**
    * Resets the map view to its initial state
    */
   const resetView = () => {
-    if (svgRef.current && zoomBehaviorRef.current) {
-      const svg = d3.select(svgRef.current);
-      svg
-        .transition()
-        .duration(750)
-        .call(zoomBehaviorRef.current.transform, d3.zoomIdentity);
-
-      setZoomLevel(10);
-    }
+    setResetViewTrigger((prev) => prev + 1);
+    // The zoomLevel state will be updated by MapVisualization via its zoom event handler
   };
 
   return (
@@ -245,6 +214,7 @@ const WorldMap = ({
         statusColors={statusColors}
         hoverStatusColors={hoverStatusColors}
         viewMode={viewMode}
+        resetViewTrigger={resetViewTrigger}
       />
 
       <svg
@@ -258,6 +228,10 @@ const WorldMap = ({
         <g className="countries" />
         <g className="launch-sites" />
       </svg>
+
+      <div className="absolute bottom-4 right-4 bg-background/70 backdrop-blur-sm px-2 py-1 rounded-md shadow-md text-xs text-muted-foreground">
+        Hold Ctrl + Scroll to zoom
+      </div>
 
       <div
         ref={tooltipRef}

@@ -1,10 +1,7 @@
 import { useSelection } from "../../contexts/SelectionContext";
 import { useEffect, useState, useMemo } from "react";
-import {
-  fetchLaunchData,
-  filterLaunchesByRocket,
-  isLaunchSuccessful,
-} from "../../lib/data-loader";
+import { fetchLaunchData, filterLaunchesByRocket } from "../../lib/data-loader";
+import { isSuccessfulLaunchStatus } from "../../types";
 import {
   PayloadCapacityIcon,
   getSpecIcon,
@@ -49,7 +46,9 @@ export default function RocketInfo() {
       );
 
       // Calculate successes and failures
-      const successes = rocketLaunches.filter(isLaunchSuccessful).length;
+      const successes = rocketLaunches.filter((launch) =>
+        isSuccessfulLaunchStatus(launch.Status)
+      ).length;
       const failures = rocketLaunches.length - successes;
 
       setSuccessCount(successes);
@@ -73,7 +72,7 @@ export default function RocketInfo() {
 
     launches.forEach((launch) => {
       const year = launch.year;
-      const isSuccess = isLaunchSuccessful(launch);
+      const isSuccess = isSuccessfulLaunchStatus(launch.Status);
 
       if (!yearData[year]) {
         yearData[year] = { count: 0, successes: 0 };
@@ -141,7 +140,7 @@ export default function RocketInfo() {
                 <p className="mb-4 text-sm leading-relaxed text-left">
                   {selectedRocket.description}
                 </p>
-                <div className="grid grid-cols-12 gap-4 mt-4">
+                <div className="grid grid-cols-12 gap-8 mt-4">
                   <div className="col-span-12 md:col-span-2">
                     <h4 className="text-base text-left text-lg font-semibold mb-4">
                       Specifications
