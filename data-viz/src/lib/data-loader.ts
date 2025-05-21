@@ -153,7 +153,7 @@ export const historicalProvidersByEra: Record<
         Through Arianespace, it offered international customers an alternative to superpower dominance. 
         This era saw Europe build its launch capability from the ground up — driven not by politics, but by potential.
       `,
-      question: "Which early systems carried Europe’s ambitions skyward?",
+      question: " ",
     },
     "japan-gov.-agencies": {
       id: "japan-gov.-agencies",
@@ -167,7 +167,7 @@ export const historicalProvidersByEra: Record<
         Focused on weather, science, and self-reliance, it developed early orbital capabilities while working alongside U.S. partners. 
         This was the foundation-laying phase — one of methodical progress, not flashy breakthroughs.
       `,
-      question: " ",
+      question: "Which early systems carried Japan’s ambitions skyward?",
     },
     others: {
       id: "others",
