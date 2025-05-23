@@ -39,6 +39,9 @@ export default function Footer() {
               An interactive visualization of global rocket launches throughout
               history, exploring the evolution of space exploration.
             </p>
+            <p className="text-xs text-muted-foreground mb-4">
+              Rocket images were generated using AI via ChatGPT and may not accurately represent the real vehicles.
+            </p>
             <p className="text-sm text-muted-foreground">
               © {new Date().getFullYear()} Rocket Launch Data Visualization
               Project
