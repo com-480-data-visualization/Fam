@@ -89,7 +89,7 @@ const WorldMap = ({
     return () => window.removeEventListener("resize", updateDimensions);
   }, []); // Remove width and height dependencies to prevent circular updates
 
-  // Track large screen mode at md breakpoint (768px)
+  // Track large screen mode at md breakpoint (768px) to match CSS breakpoints
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 768);
   useEffect(() => {
     const onResize = () => setIsLargeScreen(window.innerWidth >= 768);
@@ -101,7 +101,9 @@ const WorldMap = ({
   useEffect(() => {
     if (containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect();
-      setDimensions({ width: rect.width, height: rect.height });
+      if (rect.width > 0 && rect.height > 0) {
+        setDimensions({ width: rect.width, height: rect.height });
+      }
     }
   }, [isLargeScreen]);
 
@@ -198,7 +200,7 @@ const WorldMap = ({
     });
     observer.observe(containerRef.current);
     return () => observer.disconnect();
-  }, [containerRef]);
+  }, [containerRef, isLargeScreen]); // Re-observe when layout changes
 
   // Memoized SVG with static <g> containers to persist between timeline updates
   const svgElement = useMemo(
@@ -216,7 +218,7 @@ const WorldMap = ({
         <g className="launch-sites" />
       </svg>
     ),
-    [dimensions.width, dimensions.height, isLoading]
+    [dimensions.width, dimensions.height, isLoading, isLargeScreen]
   );
 
   return (
@@ -262,6 +264,7 @@ const WorldMap = ({
             </div>
             <div className="relative w-full h-full overflow-hidden bg-background">
               <MapVisualization
+                key={`map-${isLargeScreen ? "desktop" : "mobile"}`}
                 svgRef={svgRef}
                 tooltipRef={tooltipRef}
                 launchData={launchData}
@@ -278,6 +281,7 @@ const WorldMap = ({
                 hoverStatusColors={hoverStatusColors}
                 viewMode={viewMode}
                 resetViewTrigger={resetTrigger}
+                isLargeScreen={isLargeScreen}
               />
               {svgElement}
               <div
@@ -335,6 +339,7 @@ const WorldMap = ({
             ref={containerRef}
           >
             <MapVisualization
+              key={`map-${isLargeScreen ? "desktop" : "mobile"}`}
               svgRef={svgRef}
               tooltipRef={tooltipRef}
               launchData={launchData}
@@ -351,21 +356,9 @@ const WorldMap = ({
               hoverStatusColors={hoverStatusColors}
               viewMode={viewMode}
               resetViewTrigger={resetTrigger}
+              isLargeScreen={isLargeScreen}
             />
-            <svg
-              ref={svgRef}
-              className={`w-full h-full max-w-full max-h-full ${
-                isLoading ? "opacity-30" : ""
-              }`}
-              viewBox={`0 0 ${dimensions.width || 800} ${
-                dimensions.height || 600
-              }`}
-              width={dimensions.width || 800}
-              height={dimensions.height || 600}
-            >
-              <g className="countries" />
-              <g className="launch-sites" />
-            </svg>
+            {svgElement}
             <div
               ref={tooltipRef}
               className="tooltip absolute bg-card p-3 rounded-md shadow-lg border border-border text-sm pointer-events-auto opacity-0 transition-opacity z-50 max-w-xs"

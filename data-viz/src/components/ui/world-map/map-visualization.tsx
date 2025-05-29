@@ -38,6 +38,7 @@ interface MapVisualizationProps {
   hoverStatusColors: StatusColorMap;
   viewMode: TimelineViewMode;
   resetViewTrigger?: number;
+  isLargeScreen?: boolean;
 }
 
 /**
@@ -63,6 +64,7 @@ export function MapVisualization({
   hoverStatusColors,
   viewMode,
   resetViewTrigger,
+  isLargeScreen = true,
 }: MapVisualizationProps) {
   // Create projection and path generator for the map
   const { projection, path } = useMemo(() => {
@@ -203,9 +205,17 @@ export function MapVisualization({
     const launchpads: Launchpad[] = Object.values(launchpadCounts);
     const tooltip = d3.select(tooltipRef.current);
 
-    // Base circle size parameters
-    const circleMinRadius = Math.min(5, dimensions.width / 300);
-    const circleMaxRadius = Math.min(15, dimensions.width / 100);
+    // Responsive circle size parameters based on screen size and dimensions
+    // For large screens (≥768px): scale with map width but maintain reasonable minimums
+    // For mobile screens (<768px): use smaller but visible circles that scale appropriately
+    // The circles are further scaled by zoomLevel in circle-utils.ts, so need to account for that
+    const circleMinRadius = isLargeScreen
+      ? Math.max(3, Math.min(8, dimensions.width / 180))
+      : Math.max(3, Math.min(5, dimensions.width / 160));
+
+    const circleMaxRadius = isLargeScreen
+      ? Math.max(10, Math.min(25, dimensions.width / 50))
+      : Math.max(6, Math.min(12, dimensions.width / 60));
 
     // Different domain scaling based on view mode
     // For month view: scale from 1-15 launches
