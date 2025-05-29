@@ -16,9 +16,10 @@ import { Launchpad } from "./types";
  * This function:
  * - Uses D3's force simulation to prevent marker overlapping
  * - Applies forces to keep markers near their original geographic positions
- * - Adjusts collision radius based on the size of each marker
+ * - Adjusts collision radius based on the size of each marker and force strength
  * - Makes minor position adjustments to markers in very close proximity
  * - Maintains consistent behavior across all zoom levels
+ * - Adapts simulation parameters based on force strength for better mobile performance
  *
  * @param {Launchpad[]} launchpads - Array of launchpad objects to position
  * @param {d3.ScalePower<number, number>} radiusScale - Scale function for determining marker sizes
@@ -45,7 +46,9 @@ export function applyForceSimulation(
       const baseRadius = radiusScale(Math.min(d.count, 20));
       // Adjust collision radius to account for zoom level scaling
       // Circles get smaller visually when zoomed in, so collision should too
-      return (baseRadius + 1.5) / zoomLevel;
+      // For weaker forces, use slightly tighter collision radius to prevent over-separation
+      const paddingMultiplier = forceStrength < 0.5 ? 1.0 : 1.5;
+      return (baseRadius + paddingMultiplier) / zoomLevel;
     })
     .strength(forceStrength);
 
@@ -56,7 +59,12 @@ export function applyForceSimulation(
     .force("collide", collideForce)
     .stop();
 
-  for (let i = 0; i < 100; i++) {
+  // Adjust number of iterations based on force strength
+  // Weaker forces need fewer iterations to prevent over-processing
+  // Stronger forces can benefit from more iterations for better settling
+  const iterations = forceStrength < 0.5 ? 50 : 100;
+
+  for (let i = 0; i < iterations; i++) {
     simulation.tick();
   }
 
@@ -76,10 +84,15 @@ export function applyForceSimulation(
 
   positionMap.forEach((sites) => {
     if (sites.length > 1) {
+      // Scale random adjustment based on force strength
+      // Weaker forces (mobile) need smaller adjustments
+      const adjustmentScale = Math.max(forceStrength, 0.3);
+      const maxAdjustment = 2 * adjustmentScale;
+
       sites.forEach((site, i) => {
         if (i > 0) {
-          site.x! += (Math.random() - 0.5) * 2;
-          site.y! += (Math.random() - 0.5) * 2;
+          site.x! += (Math.random() - 0.5) * maxAdjustment;
+          site.y! += (Math.random() - 0.5) * maxAdjustment;
         }
       });
     }

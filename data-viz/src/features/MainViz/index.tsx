@@ -39,7 +39,7 @@ export default function MainViz() {
   return (
     <section id="main-viz" className="flex flex-col min-h-screen">
       {/* Main map visualization container */}
-      <div className="relative overflow-hidden pt-2 w-full max-w-4xl mx-auto md:mx-0 md:max-w-full h-auto md:h-[70vh]">
+      <div className="relative overflow-hidden pt-2 w-full max-w-4xl mx-auto lg:mx-0 lg:max-w-full h-auto lg:h-[70vh]">
         <WorldMap
           launchData={currentMonthLaunches}
           isLoading={isLoading}
@@ -47,7 +47,7 @@ export default function MainViz() {
           onResetView={() => setMapResetTrigger((p) => p + 1)}
         />
       </div>
-      <div className="md:hidden w-full max-w-4xl mx-auto px-4">
+      <div className="lg:hidden w-full max-w-4xl mx-auto px-4">
         <AnimationControls
           isPlaying={isPlaying}
           isLoading={isLoading}
@@ -56,8 +56,8 @@ export default function MainViz() {
           onReset={resetTimeline}
         />
       </div>
-      <div className="md:hidden w-full max-w-4xl mx-auto px-4 mt-3">
-        <div className="bg-card rounded-lg border py-1 px-3 md:py-2 md:px-4 lg:py-3 lg:px-6">
+      <div className="lg:hidden w-full max-w-4xl mx-auto px-4 mt-3">
+        <div className="bg-card rounded-lg border py-1 px-3 lg:py-2 lg:px-4 xl:py-3 xl:px-6">
           <div className="bg-muted/20 p-2 rounded text-sm">
             {currentYear < 1970 ? (
               <p>
@@ -92,7 +92,7 @@ export default function MainViz() {
         </div>
       </div>
       {/* Desktop-only bottom controls and toolbar */}
-      <div className="hidden md:flex-shrink-0 md:flex w-full max-w-4xl mx-auto px-4 space-y-2 bg-background flex-col items-center">
+      <div className="hidden lg:flex-shrink-0 lg:flex w-full max-w-4xl mx-auto px-4 space-y-2 bg-background flex-col items-center">
         {/* Map toolbar: legend, zoom hint, reset */}
         <div className="w-full px-1 flex items-center bg-background/70 backdrop-blur-sm">
           <div className="flex-1">
@@ -118,7 +118,7 @@ export default function MainViz() {
           onReset={resetTimeline}
         />
         <div className="max-w-4xl mx-auto bg-card rounded-md border border-border">
-          <div className="bg-muted/20 p-2 rounded text-sm md:text-base">
+          <div className="bg-muted/20 p-2 rounded text-sm lg:text-base">
             {currentYear < 1970 ? (
               <p>
                 <span className="font-semibold">Space Race Era:</span> Fierce

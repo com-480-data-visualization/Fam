@@ -89,10 +89,10 @@ const WorldMap = ({
     return () => window.removeEventListener("resize", updateDimensions);
   }, []); // Remove width and height dependencies to prevent circular updates
 
-  // Track large screen mode at md breakpoint (768px) to match CSS breakpoints
-  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 768);
+  // Track large screen mode at lg breakpoint (1024px) to match CSS breakpoints
+  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1024);
   useEffect(() => {
-    const onResize = () => setIsLargeScreen(window.innerWidth >= 768);
+    const onResize = () => setIsLargeScreen(window.innerWidth >= 1024);
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
@@ -190,6 +190,7 @@ const WorldMap = ({
   // Measure container size with ResizeObserver and set dimensions
   useEffect(() => {
     if (!containerRef.current) return;
+    
     const observer = new ResizeObserver((entries) => {
       const entry = entries[0];
       const { width, height } = entry.contentRect;
@@ -198,7 +199,9 @@ const WorldMap = ({
         setInitialRenderComplete(true);
       }
     });
+    
     observer.observe(containerRef.current);
+    
     return () => observer.disconnect();
   }, [containerRef, isLargeScreen]); // Re-observe when layout changes
 

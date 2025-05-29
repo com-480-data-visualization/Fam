@@ -206,8 +206,8 @@ export function MapVisualization({
     const tooltip = d3.select(tooltipRef.current);
 
     // Responsive circle size parameters based on screen size and dimensions
-    // For large screens (≥768px): scale with map width but maintain reasonable minimums
-    // For mobile screens (<768px): use smaller but visible circles that scale appropriately
+    // For large screens (≥1024px): scale with map width but maintain reasonable minimums
+    // For mobile screens (<1024px): use smaller but visible circles that scale appropriately
     // The circles are further scaled by zoomLevel in circle-utils.ts, so need to account for that
     const circleMinRadius = isLargeScreen
       ? Math.max(3, Math.min(8, dimensions.width / 180))
@@ -231,7 +231,25 @@ export function MapVisualization({
 
     initializePositions(launchpads, projection);
 
-    applyForceSimulation(launchpads, radiusScale, 0.7, zoomLevel);
+    const baseForceStrength = 0.7;
+
+    // Scale force strength based on map dimensions
+    const dimensionScale = Math.min(dimensions.width / 800, 1.0);
+    const adjustedForceStrength = baseForceStrength * dimensionScale;
+
+    // Further reduce force strength based on circle sizes
+    const circleScale = Math.min(circleMaxRadius / 15, 1.0);
+    const finalForceStrength = Math.max(
+      0.2,
+      adjustedForceStrength * circleScale
+    );
+
+    applyForceSimulation(
+      launchpads,
+      radiusScale,
+      finalForceStrength,
+      zoomLevel
+    );
 
     updateCircles({
       svg,

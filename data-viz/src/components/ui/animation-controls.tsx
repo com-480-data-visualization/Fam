@@ -107,32 +107,32 @@ export function AnimationControls({
   const timelineStep = viewMode === "month" ? 1 : 12;
 
   return (
-    <div className="flex flex-col w-full items-center mt-1 py-1 px-3 md:py-2 md:px-4 lg:py-3 lg:px-6 bg-card rounded-lg border shadow-sm">
+    <div className="flex flex-col w-full items-center mt-1 py-1 px-3 lg:py-2 lg:px-4 xl:py-3 xl:px-6 bg-card rounded-lg border shadow-sm">
       {/* Main controls row */}
-      <div className="flex w-full flex-wrap items-center gap-2 md:gap-4">
-        <div className="flex items-center gap-1 md:gap-2">
+      <div className="flex w-full flex-wrap items-center gap-2 lg:gap-4">
+        <div className="flex items-center gap-1 lg:gap-2">
           <Button
             onClick={onReset}
             variant="outline"
-            className="h-6.5 px-2 md:px-3 text-xs md:text-sm flex items-center justify-center box-border"
+            className="h-6.5 px-2 lg:px-3 text-xs lg:text-sm flex items-center justify-center box-border"
           >
-            <SkipBack className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
+            <SkipBack className="h-3 w-3 lg:h-4 lg:w-4 mr-1 lg:mr-2" />
             <span>Reset</span>
           </Button>
           <Button
             onClick={onPlayPause}
             variant="default"
             disabled={isLoading}
-            className="h-6 px-2 md:px-3 text-xs md:text-sm flex items-center justify-center box-border min-w-16 md:min-w-24"
+            className="h-6 px-2 lg:px-3 text-xs lg:text-sm flex items-center justify-center box-border min-w-16 lg:min-w-24"
           >
             {isPlaying ? (
               <>
-                <Pause className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
+                <Pause className="h-3 w-3 lg:h-4 lg:w-4 mr-1 lg:mr-2" />
                 <span>Pause</span>
               </>
             ) : (
               <>
-                <Play className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
+                <Play className="h-3 w-3 lg:h-4 lg:w-4 mr-1 lg:mr-2" />
                 <span>Play</span>
               </>
             )}
@@ -140,7 +140,7 @@ export function AnimationControls({
         </div>
 
         <div className="flex items-center">
-          <span className="text-base md:text-lg font-semibold whitespace-nowrap">
+          <span className="text-base lg:text-lg font-semibold whitespace-nowrap">
             {formattedTime}
           </span>
         </div>
@@ -166,7 +166,7 @@ export function AnimationControls({
       <div className="w-full">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <Label className="text-xs md:text-sm font-medium">
+            <Label className="text-xs lg:text-sm font-medium">
               Speed:{" "}
               <span className="font-bold">{currentSpeed.toFixed(2)}x</span>
             </Label>
@@ -175,22 +175,22 @@ export function AnimationControls({
             variant="ghost"
             size="sm"
             onClick={() => setShowSpeedControls(!showSpeedControls)}
-            className="h-6 md:h-8 px-2 text-xs md:text-sm"
+            className="h-6 lg:h-8 px-2 text-xs lg:text-sm"
           >
             {showSpeedControls ? (
               <>
-                <ChevronUp className="h-3 w-3 md:h-4 md:w-4 mr-1" /> Hide
+                <ChevronUp className="h-3 w-3 lg:h-4 lg:w-4 mr-1" /> Hide
               </>
             ) : (
               <>
-                <ChevronDown className="h-3 w-3 md:h-4 md:w-4 mr-1" /> Show
+                <ChevronDown className="h-3 w-3 lg:h-4 lg:w-4 mr-1" /> Show
               </>
             )}
           </Button>
         </div>
 
         {showSpeedControls && (
-          <div className="md:mt-1 space-y-1 md:space-y-2 md:pt-1">
+          <div className="lg:mt-1 space-y-1 lg:space-y-2 lg:pt-1">
             <Slider
               value={currentSpeed}
               min={0.25}
@@ -202,14 +202,14 @@ export function AnimationControls({
               showMarkLabels={true}
             />
 
-            <div className="flex flex-wrap gap-1 mt-2 md:mt-4">
+            <div className="flex flex-wrap gap-1 mt-2 lg:mt-4">
               {speedPresets.map((preset) => (
                 <Button
                   key={preset}
                   variant={currentSpeed === preset ? "default" : "outline"}
                   size="sm"
                   onClick={() => handleSpeedPresetClick(preset)}
-                  className="h-6 md:h-7 px-1 md:px-2 text-xs"
+                  className="h-6 lg:h-7 px-1 lg:px-2 text-xs"
                 >
                   {preset === 1 ? "Normal" : `${preset}x`}
                 </Button>

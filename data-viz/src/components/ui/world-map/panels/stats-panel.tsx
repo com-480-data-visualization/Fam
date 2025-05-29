@@ -58,7 +58,7 @@ export function StatsPanel({
   const chartHeight = isLargeScreen ? 140 : 100;
 
   return (
-    <div className="w-full md:w-64">
+    <div className="w-full lg:w-64">
       <div className="bg-background/70 backdrop-blur-sm rounded-md shadow-md border border-border">
         {/* Panel header */}
         <div className="p-3 border-b border-muted/40">

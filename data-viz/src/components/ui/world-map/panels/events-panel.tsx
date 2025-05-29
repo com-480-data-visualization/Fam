@@ -27,7 +27,7 @@ export function EventsPanel({
   currentYear,
 }: EventsPanelProps) {
   return (
-    <div className="w-full md:w-64 pb-2">
+    <div className="w-full lg:w-64 pb-2">
       <div className="bg-background/70 backdrop-blur-sm rounded-md shadow-md border border-border">
         {/* Panel header */}
         <div className="p-3 border-b border-muted/40">
@@ -50,7 +50,7 @@ export function EventsPanel({
         {showSpaceEvents && (
           <div
             id="tweet-container"
-            className="overflow-y-auto p-3 md:h-48 h-64 lg:h-80 space-y-2 tweet-scroll"
+            className="overflow-y-auto p-3 lg:h-48 h-64 lg:h-80 space-y-2 tweet-scroll"
           >
             {visibleTweets.length > 0 ? (
               visibleTweets.map((tweet) => (
