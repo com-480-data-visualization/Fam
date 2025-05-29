@@ -161,7 +161,7 @@ export function TimelineProvider({ children }: { children: ReactNode }) {
   );
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
-  const [viewMode, setViewMode] = useState<TimelineViewMode>("month");
+  const [viewMode, setViewMode] = useState<TimelineViewMode>("year");
   const [allLaunchData, setAllLaunchData] = useState<Launch[]>([]);
   const [launchesByYearMonth, setLaunchesByYearMonth] = useState<
     Record<number, Launch[]>

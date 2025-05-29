@@ -8,7 +8,7 @@
  */
 import * as d3 from "d3";
 import React from "react";
-import { generateTooltipContent } from "./tooltip-content";
+import { updateExistingTooltip } from "./tooltip-utils";
 import { Launch } from "../../../types";
 import { Launchpad, StatusColorMap } from "./types";
 import { TimelineViewMode } from "../../../contexts/TimelineContext";
@@ -103,10 +103,8 @@ export function updateCircles(params: UpdateCirclesParams): void {
     .attr("cy", (d) => d.y!)
     .attr("fill", (d) => statusColors[d.primaryStatus] || statusColors.default)
     .attr("data-launchpad", (d) => d.name.replace(/[^\w]/g, "_"))
-    // Use consistent white border for all circles
     .attr("stroke", "#ffffff")
     .attr("stroke-width", standardStrokeWidth)
-    // No dashed strokes needed anymore
     .attr("stroke-dasharray", "none")
     .attr("class", "launch-site-circle")
     .transition()
@@ -141,27 +139,23 @@ export function updateCircles(params: UpdateCirclesParams): void {
     const currentData = launchpadCounts[key];
     if (!currentData) return;
 
-    const circleRect = this.getBoundingClientRect();
-    const svgRect = svgRef.current?.getBoundingClientRect();
-
-    if (svgRect) {
-      const tooltipX = circleRect.left - svgRect.left + circleRect.width + 15;
-      const tooltipY = circleRect.top - svgRect.top - 15;
-
+    if (svgRef.current) {
       // Only show hover tooltip if this site is not pinned
       const isPinned = pinnedSite === key;
-      const isCompact = !isPinned;
 
-      tooltip
-        .interrupt()
-        .style("display", "block")
-        .style("pointer-events", "auto")
-        .style("left", `${tooltipX}px`)
-        .style("top", `${tooltipY}px`)
-        .html(
-          generateTooltipContent(currentData, launchData, isPinned, isCompact)
-        )
-        .style("opacity", 1);
+      if (!isPinned) {
+        const params = {
+          svg,
+          hoveredSite: key,
+          pinnedSite: null,
+          launchpadCounts,
+          tooltip,
+          svgRef,
+          launchData,
+        };
+
+        updateExistingTooltip(params);
+      }
     }
   }
 
@@ -179,38 +173,23 @@ export function updateCircles(params: UpdateCirclesParams): void {
     const key = d.key;
 
     if (setPinnedSite) {
-      // Toggle pinned state
       if (pinnedSite === key) {
-        // Unpin if already pinned
         setPinnedSite(null);
         tooltip.interrupt().style("opacity", 0).style("pointer-events", "none");
       } else {
-        // Pin this tooltip
         setPinnedSite(key);
 
-        // Update tooltip content to expanded view
-        const currentData = launchpadCounts[key];
-        if (currentData) {
-          const circleRect = this.getBoundingClientRect();
-          const svgRect = svgRef.current?.getBoundingClientRect();
+        const params = {
+          svg,
+          hoveredSite: null,
+          pinnedSite: key,
+          launchpadCounts,
+          tooltip,
+          svgRef,
+          launchData,
+        };
 
-          if (svgRect) {
-            const tooltipX =
-              circleRect.left - svgRect.left + circleRect.width + 15;
-            const tooltipY = circleRect.top - svgRect.top - 15;
-
-            tooltip
-              .interrupt()
-              .style("display", "block")
-              .style("pointer-events", "auto")
-              .style("left", `${tooltipX}px`)
-              .style("top", `${tooltipY}px`)
-              .html(
-                generateTooltipContent(currentData, launchData, true, false)
-              )
-              .style("opacity", 1);
-          }
-        }
+        updateExistingTooltip(params);
       }
     }
   }

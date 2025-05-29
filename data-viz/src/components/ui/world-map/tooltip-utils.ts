@@ -23,17 +23,6 @@ import { Launchpad } from "./types";
  * @param {string | null} pinnedSite - The currently pinned site ID or null if none
  * @returns {void}
  */
-/**
- * Sets up mouse interaction behaviors for the tooltip.
- *
- * This function configures how the tooltip responds to mouse events,
- * including hover persistence and fade-out behavior.
- *
- * @param {d3.Selection<HTMLDivElement | null, unknown, null, undefined>} tooltip - The tooltip D3 selection
- * @param {string | null} hoveredSite - The currently hovered site ID or null if none
- * @param {string | null} pinnedSite - The currently pinned site ID or null if none
- * @returns {void}
- */
 export function setupTooltipInteractions(
   tooltip: d3.Selection<HTMLDivElement | null, unknown, null, undefined>,
   hoveredSite: string | null,
@@ -137,25 +126,54 @@ export function updateExistingTooltip(
     return;
   }
 
-  // Ensure tooltip stays within viewport
-  const tooltipX = Math.max(
-    0,
-    circleRect.left - svgRect.left + circleRect.width + 15
-  );
-  const tooltipY = Math.max(0, circleRect.top - svgRect.top - 15);
-
   // Determine tooltip display mode
   const isPinned = pinnedSite === targetSite;
   const isCompact = !isPinned;
+
+  const tooltipMargin = 15;
+
+  // Calculate circle position relative to SVG container
+  const circleRelativeX = circleRect.left - svgRect.left;
+  const circleRelativeY = circleRect.top - svgRect.top;
+
+  // Simple logic: if circle is in right half of container, show tooltip to the left
+  const showLeft = circleRelativeX > svgRect.width / 2;
+
+  // Fixed tooltip heights
+  const tooltipHeight = isPinned ? 300 : 150;
+
+  // Position tooltip as mirror image when on the right side
+  const tooltipX = showLeft
+    ? circleRelativeX - tooltipMargin
+    : circleRelativeX + circleRect.width + tooltipMargin;
+
+  // Handle vertical positioning with overflow protection
+  let tooltipY = circleRelativeY - 15;
+
+  // Add bottom margin as safety buffer
+  const bottomMargin = 100;
+
+  // Check if tooltip would overflow bottom of container
+  if (tooltipY + tooltipHeight + bottomMargin > svgRect.height) {
+    tooltipY = circleRelativeY - tooltipHeight + 15;
+  }
+
+  tooltipY = Math.max(10, tooltipY);
 
   // Update tooltip content and position
   tooltip
     .interrupt()
     .style("display", "block")
-    .style("pointer-events", isPinned ? "auto" : "auto")
+    .style("pointer-events", "auto")
     .html(generateTooltipContent(currentData, launchData, isPinned, isCompact))
     .style("left", `${tooltipX}px`)
     .style("top", `${tooltipY}px`)
+    .style("transform", showLeft ? "translateX(-100%)" : "none")
+    .style("width", "280px")
+    .style("min-width", "280px")
+    .style("max-width", "280px")
+    .style("white-space", "normal")
+    .style("word-wrap", "break-word")
     .style("opacity", 1);
 }
 

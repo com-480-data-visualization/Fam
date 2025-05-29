@@ -66,6 +66,12 @@ const WorldMap = ({
     return () => mql.removeEventListener("change", handler);
   }, []);
 
+  // Update panel visibility when screen size changes
+  useEffect(() => {
+    setShowLaunchStats(isLargeScreen);
+    setShowSpaceEvents(isLargeScreen);
+  }, [isLargeScreen]);
+
   // Component state
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 }); // Start with 0 to force container measurement
   const [initialRenderComplete, setInitialRenderComplete] = useState(false);
@@ -77,8 +83,10 @@ const WorldMap = ({
   const [yearlyData, setYearlyData] = useState<YearlyLaunchData[]>([]);
 
   // UI visibility toggles - responsive defaults
-  const [showLaunchStats, setShowLaunchStats] = useState<boolean>(false);
-  const [showSpaceEvents, setShowSpaceEvents] = useState<boolean>(false);
+  const [showLaunchStats, setShowLaunchStats] =
+    useState<boolean>(isLargeScreen);
+  const [showSpaceEvents, setShowSpaceEvents] =
+    useState<boolean>(isLargeScreen);
 
   useLayoutEffect(() => {
     if (!containerEl) return;
