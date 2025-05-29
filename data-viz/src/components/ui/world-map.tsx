@@ -12,12 +12,11 @@
  *
  * @module components/ui/world-map
  */
-import { useEffect, useRef, useMemo, useState, useLayoutEffect } from "react";
+import { useEffect, useRef, useMemo, useState } from "react";
 import { useTimeline } from "../../contexts/TimelineContext";
 import { COLOR_SETS } from "./world-map/color-constants";
 import { WorldMapProps, SpaceTweet } from "./world-map/types";
-import { MapControls } from "./world-map/controls/map-controls";
-import { StatusPanel } from "./world-map/panels/status-panel";
+import { StatsPanel } from "./world-map/panels/stats-panel";
 import { EventsPanel } from "./world-map/panels/events-panel";
 import { MapVisualization } from "./world-map/map-visualization";
 import { LaunchStatus, isSuccessfulLaunchStatus } from "../../types";
@@ -25,6 +24,8 @@ import {
   YearlyLaunchData,
   processYearlyLaunchData,
 } from "./world-map/statistics/yearly-launch-data";
+import { StatusLegend } from "./world-map/status-legend";
+import { ResetViewButton } from "./world-map/controls/reset-view-button";
 
 /**
  * World map visualization component for rocket launch data
@@ -41,8 +42,8 @@ import {
 const WorldMap = ({
   launchData,
   isLoading,
-  width = 1600,
-  height = 1000,
+  resetTrigger = 0,
+  onResetView,
 }: WorldMapProps) => {
   // Access timeline data and view mode
   const { allLaunchData, viewMode } = useTimeline();
@@ -55,19 +56,65 @@ const WorldMap = ({
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Component state
-  const [dimensions, setDimensions] = useState({ width, height });
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 }); // Start with 0 to force container measurement
   const [initialRenderComplete, setInitialRenderComplete] = useState(false);
   const [hoveredSite, setHoveredSite] = useState<string | null>(null);
+  const [pinnedSite, setPinnedSite] = useState<string | null>(null);
   const [zoomLevel, setZoomLevel] = useState<number>(1);
-  const [resetViewTrigger, setResetViewTrigger] = useState(0);
   const [tweets, setTweets] = useState<SpaceTweet[]>([]);
   const [currentYear, setCurrentYear] = useState<number>(1950);
   const [yearlyData, setYearlyData] = useState<YearlyLaunchData[]>([]);
 
-  // UI visibility toggles
-  const [showLaunchStatus, setShowLaunchStatus] = useState<boolean>(true);
-  const [showLaunchStats, setShowLaunchStats] = useState<boolean>(true);
-  const [showSpaceEvents, setShowSpaceEvents] = useState<boolean>(true);
+  // UI visibility toggles - responsive defaults
+  const [showLaunchStats, setShowLaunchStats] = useState<boolean>(false);
+  const [showSpaceEvents, setShowSpaceEvents] = useState<boolean>(false);
+
+  // Handle responsive panel visibility
+  useEffect(() => {
+    function updateDimensions() {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        // Use measured dimensions or fallback to viewport-based size
+        const width = rect.width > 0 ? rect.width : window.innerWidth;
+        // Use 70% of viewport height as fallback, matching MainViz container
+        const height = rect.height > 0 ? rect.height : window.innerHeight * 0.7;
+        setDimensions({ width, height });
+      }
+    }
+
+    updateDimensions();
+    setInitialRenderComplete(true);
+
+    window.addEventListener("resize", updateDimensions);
+    return () => window.removeEventListener("resize", updateDimensions);
+  }, []); // Remove width and height dependencies to prevent circular updates
+
+  // Track large screen mode at md breakpoint (768px)
+  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 768);
+  useEffect(() => {
+    const onResize = () => setIsLargeScreen(window.innerWidth >= 768);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  // Recompute dimensions when layout breakpoint changes
+  useEffect(() => {
+    if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      setDimensions({ width: rect.width, height: rect.height });
+    }
+  }, [isLargeScreen]);
+
+  // Sync panel visibility with screen size
+  useEffect(() => {
+    if (isLargeScreen) {
+      setShowLaunchStats(true);
+      setShowSpaceEvents(true);
+    } else {
+      setShowLaunchStats(false);
+      setShowSpaceEvents(false);
+    }
+  }, [isLargeScreen]);
 
   // Color configuration for visualization
   const { statusColors, hoverStatusColors } = COLOR_SETS;
@@ -120,151 +167,229 @@ const WorldMap = ({
     }
   }, [allLaunchData]);
 
-  // Handle responsive sizing
-  useLayoutEffect(() => {
-    function updateDimensions() {
-      if (containerRef.current) {
-        const containerWidth = containerRef.current.clientWidth;
-        const mapHeight = containerWidth * 0.625;
-
-        setDimensions({
-          width: containerWidth,
-          height: mapHeight,
-        });
+  // Handle click outside to unpin tooltip
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      // Check if click is outside of launch site circles and tooltip
+      if (
+        pinnedSite &&
+        !target.closest(".launch-site-circle") &&
+        !target.closest(".tooltip")
+      ) {
+        setPinnedSite(null);
       }
-    }
+    };
 
-    updateDimensions();
-    setInitialRenderComplete(true);
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, [pinnedSite]);
 
-    window.addEventListener("resize", updateDimensions);
-    return () => window.removeEventListener("resize", updateDimensions);
-  }, [width, height]);
+  // Measure container size with ResizeObserver and set dimensions
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const observer = new ResizeObserver((entries) => {
+      const entry = entries[0];
+      const { width, height } = entry.contentRect;
+      if (width > 0 && height > 0) {
+        setDimensions({ width, height });
+        setInitialRenderComplete(true);
+      }
+    });
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, [containerRef]);
 
-  /**
-   * Resets the map view to its initial state
-   */
-  const resetView = () => {
-    setResetViewTrigger((prev) => prev + 1);
-    // The zoomLevel state will be updated by MapVisualization via its zoom event handler
-  };
-
-  return (
-    <div
-      className="relative w-full h-full overflow-hidden"
-      ref={containerRef}
-      style={{ paddingBottom: "0" }}
-    >
-      <div className="absolute top-4 left-6 z-10 flex flex-col items-start gap-1">
-        <div className="bg-background/70 backdrop-blur-sm px-4 py-2 rounded-md shadow-md">
-          <h1 className="text-2xl md:text-3xl font-bold text-foreground">
-            Rocket Launch History
-          </h1>
-        </div>
-
-        <MapControls
-          showLaunchStatus={showLaunchStatus}
-          showLaunchStats={showLaunchStats}
-          showSpaceEvents={showSpaceEvents}
-          setShowLaunchStatus={setShowLaunchStatus}
-          setShowLaunchStats={setShowLaunchStats}
-          setShowSpaceEvents={setShowSpaceEvents}
-          onResetView={resetView}
-        />
-      </div>
-      <StatusPanel
-        showLaunchStatus={showLaunchStatus}
-        showLaunchStats={showLaunchStats}
-        setShowLaunchStatus={setShowLaunchStatus}
-        setShowLaunchStats={setShowLaunchStats}
-        statusColors={statusColors}
-        totalLaunches={totalLaunches}
-        successfulLaunches={successfulLaunches}
-        otherLaunches={otherLaunches}
-        successPercentage={successPercentage}
-        otherPercentage={otherPercentage}
-        overallSuccessRate={overallSuccessRate}
-        uniqueSites={uniqueSites}
-        successColor={successColor}
-        otherColor={otherColor}
-        yearlyData={yearlyData}
-        currentYear={currentYear}
-        launchChartRef={launchChartRef}
-        successChartRef={successChartRef}
-      />
-
-      <EventsPanel
-        showSpaceEvents={showSpaceEvents}
-        setShowSpaceEvents={setShowSpaceEvents}
-        visibleTweets={visibleTweets}
-        currentYear={currentYear}
-      />
-
-      <MapVisualization
-        svgRef={svgRef}
-        tooltipRef={tooltipRef}
-        launchData={launchData}
-        isLoading={isLoading}
-        dimensions={dimensions}
-        initialRenderComplete={initialRenderComplete}
-        hoveredSite={hoveredSite}
-        setHoveredSite={setHoveredSite}
-        zoomLevel={zoomLevel}
-        setZoomLevel={setZoomLevel}
-        statusColors={statusColors}
-        hoverStatusColors={hoverStatusColors}
-        viewMode={viewMode}
-        resetViewTrigger={resetViewTrigger}
-      />
-
+  // Memoized SVG with static <g> containers to persist between timeline updates
+  const svgElement = useMemo(
+    () => (
       <svg
         ref={svgRef}
+        className={`w-full h-full max-w-full max-h-full ${
+          isLoading ? "opacity-30" : ""
+        }`}
+        viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
         width={dimensions.width}
         height={dimensions.height}
-        className={`w-full h-full ${isLoading ? "opacity-30" : ""}`}
-        viewBox={`50 0 ${dimensions.width} ${dimensions.height}`}
-        style={{ marginTop: "5vh" }}
       >
         <g className="countries" />
         <g className="launch-sites" />
       </svg>
+    ),
+    [dimensions.width, dimensions.height, isLoading]
+  );
 
-      <div className="absolute bottom-4 right-4 bg-background/70 backdrop-blur-sm px-2 py-1 rounded-md shadow-md text-xs text-muted-foreground">
-        Hold Ctrl + Scroll to zoom
-      </div>
+  return (
+    <div className="h-full mx-auto overflow-hidden px-4 lg:px-16 2xl:px-32">
+      {/* Responsive layout: only one branch mounted */}
+      {isLargeScreen ? (
+        // Desktop view
+        <div className="flex flex-row h-full">
+          {/* Left sidebar - Stats Panel */}
+          <div className="flex-shrink-0">
+            <StatsPanel
+              isLargeScreen={isLargeScreen}
+              showLaunchStats={showLaunchStats}
+              setShowLaunchStats={setShowLaunchStats}
+              totalLaunches={totalLaunches}
+              successfulLaunches={successfulLaunches}
+              otherLaunches={otherLaunches}
+              successPercentage={successPercentage}
+              otherPercentage={otherPercentage}
+              overallSuccessRate={overallSuccessRate}
+              uniqueSites={uniqueSites}
+              successColor={successColor}
+              otherColor={otherColor}
+              yearlyData={yearlyData}
+              currentYear={currentYear}
+              launchChartRef={launchChartRef}
+              successChartRef={successChartRef}
+            />
+          </div>
 
-      <div
-        ref={tooltipRef}
-        className="absolute bg-card p-3 rounded-md shadow-lg border border-border text-sm pointer-events-auto opacity-0 transition-opacity z-50 max-w-xs"
-        style={{ pointerEvents: "none" }}
-      ></div>
+          {/* Map + Toolbar Column */}
+          <div
+            className="flex-1 flex flex-col min-h-0 h-full"
+            ref={containerRef}
+          >
+            {/* Title Overlay */}
+            <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-30">
+              <div className="bg-background/70 backdrop-blur-sm px-4 py-2 rounded-md shadow-md">
+                <h1 className="text-xl font-bold text-foreground">
+                  Rocket Launch History
+                </h1>
+              </div>
+            </div>
+            <div className="relative w-full h-full overflow-hidden bg-background">
+              <MapVisualization
+                svgRef={svgRef}
+                tooltipRef={tooltipRef}
+                launchData={launchData}
+                isLoading={isLoading}
+                dimensions={dimensions}
+                initialRenderComplete={initialRenderComplete}
+                hoveredSite={hoveredSite}
+                setHoveredSite={setHoveredSite}
+                pinnedSite={pinnedSite}
+                setPinnedSite={setPinnedSite}
+                zoomLevel={zoomLevel}
+                setZoomLevel={setZoomLevel}
+                statusColors={statusColors}
+                hoverStatusColors={hoverStatusColors}
+                viewMode={viewMode}
+                resetViewTrigger={resetTrigger}
+              />
+              {svgElement}
+              <div
+                ref={tooltipRef}
+                className="tooltip absolute bg-card p-3 rounded-md shadow-lg border border-border text-sm pointer-events-auto opacity-0 transition-opacity z-50 max-w-xs"
+                style={{ pointerEvents: "none" }}
+              />
+            </div>
+          </div>
 
-      <style>
-        {`
-        .tweet-scroll {
-          scrollbar-width: thin;
-        }
-        .tweet-scroll::-webkit-scrollbar {
-          width: 6px;
-        }
-        .tweet-scroll::-webkit-scrollbar-thumb {
-          background-color: rgba(156, 163, 175, 0.5);
-          border-radius: 3px;
-        }
-        .animate-pulse-once {
-          animation: pulse-highlight 2s ease-in-out;
-        }
-        @keyframes pulse-highlight {
-          0%,
-          100% {
-            background-color: rgba(59, 130, 246, 0.05);
-          }
-          50% {
-            background-color: rgba(59, 130, 246, 0.2);
-          }
-        }
-        `}
-      </style>
+          {/* Right sidebar - Events Panel */}
+          <div className="flex-shrink-0">
+            <EventsPanel
+              showSpaceEvents={showSpaceEvents}
+              setShowSpaceEvents={setShowSpaceEvents}
+              visibleTweets={visibleTweets}
+              currentYear={currentYear}
+            />
+          </div>
+        </div>
+      ) : (
+        // Mobile view
+        <div className="flex flex-col">
+          {/* Mobile Title */}
+          <div className="flex-shrink-0 px-4 bg-background mb-4">
+            <h1 className="text-lg font-bold text-foreground text-center">
+              Rocket Launch History
+            </h1>
+          </div>
+          {/* Mobile Stats Panel */}
+          <div className="flex-shrink-0">
+            <StatsPanel
+              isLargeScreen={isLargeScreen}
+              showLaunchStats={showLaunchStats}
+              setShowLaunchStats={setShowLaunchStats}
+              totalLaunches={totalLaunches}
+              successfulLaunches={successfulLaunches}
+              otherLaunches={otherLaunches}
+              successPercentage={successPercentage}
+              otherPercentage={otherPercentage}
+              overallSuccessRate={overallSuccessRate}
+              uniqueSites={uniqueSites}
+              successColor={successColor}
+              otherColor={otherColor}
+              yearlyData={yearlyData}
+              currentYear={currentYear}
+              launchChartRef={launchChartRef}
+              successChartRef={successChartRef}
+            />
+          </div>
+
+          {/* Map Container */}
+          <div
+            className="w-full max-w-full aspect-[16/10] relative overflow-hidden bg-background mb-4"
+            ref={containerRef}
+          >
+            <MapVisualization
+              svgRef={svgRef}
+              tooltipRef={tooltipRef}
+              launchData={launchData}
+              isLoading={isLoading}
+              dimensions={dimensions}
+              initialRenderComplete={initialRenderComplete}
+              hoveredSite={hoveredSite}
+              setHoveredSite={setHoveredSite}
+              pinnedSite={pinnedSite}
+              setPinnedSite={setPinnedSite}
+              zoomLevel={zoomLevel}
+              setZoomLevel={setZoomLevel}
+              statusColors={statusColors}
+              hoverStatusColors={hoverStatusColors}
+              viewMode={viewMode}
+              resetViewTrigger={resetTrigger}
+            />
+            <svg
+              ref={svgRef}
+              className={`w-full h-full max-w-full max-h-full ${
+                isLoading ? "opacity-30" : ""
+              }`}
+              viewBox={`0 0 ${dimensions.width || 800} ${
+                dimensions.height || 600
+              }`}
+              width={dimensions.width || 800}
+              height={dimensions.height || 600}
+            >
+              <g className="countries" />
+              <g className="launch-sites" />
+            </svg>
+            <div
+              ref={tooltipRef}
+              className="tooltip absolute bg-card p-3 rounded-md shadow-lg border border-border text-sm pointer-events-auto opacity-0 transition-opacity z-50 max-w-xs"
+              style={{ pointerEvents: "none" }}
+            />
+          </div>
+
+          {/* Mobile map controls: legend + reset */}
+          <div className="flex items-center justify-center px-4 py-2 space-x-4 bg-background/70 backdrop-blur-sm">
+            <StatusLegend statusColors={statusColors} />
+            <ResetViewButton onResetView={onResetView!} />
+          </div>
+
+          {/* Mobile Events Panel - Below the map */}
+          <div className="flex-shrink-0">
+            <EventsPanel
+              showSpaceEvents={showSpaceEvents}
+              setShowSpaceEvents={setShowSpaceEvents}
+              visibleTweets={visibleTweets}
+              currentYear={currentYear}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -15,7 +15,7 @@ interface EventsPanelProps {
 }
 
 /**
- * Component that renders a panel with historical space events in a Twitter-like feed.
+ * Component that renders a collapsible panel with historical space events in a Twitter-like feed.
  *
  * @param {EventsPanelProps} props - Component props
  * @returns {JSX.Element} Events panel component
@@ -27,22 +27,30 @@ export function EventsPanel({
   currentYear,
 }: EventsPanelProps) {
   return (
-    <div className="absolute top-6 right-6 z-10 w-72 bg-background/70 backdrop-blur-sm rounded-md shadow-lg border border-border overflow-hidden flex flex-col">
-      {showSpaceEvents ? (
-        <>
-          <div className="p-2 border-b border-muted/40 font-medium text-sm text-left flex justify-between items-center">
-            <span>Space Events</span>
-            <button
-              onClick={() => setShowSpaceEvents(false)}
-              className="text-xs text-muted-foreground hover:text-foreground"
-              title="Hide panel"
+    <div className="w-full md:w-64 pb-2">
+      <div className="bg-background/70 backdrop-blur-sm rounded-md shadow-md border border-border">
+        {/* Panel header */}
+        <div className="p-3 border-b border-muted/40">
+          <button
+            onClick={() => setShowSpaceEvents(!showSpaceEvents)}
+            className="w-full flex justify-between items-center text-left"
+          >
+            <span className="text-sm font-medium">Space Events</span>
+            <span
+              className={`text-xs transition-transform duration-200 ${
+                showSpaceEvents ? "rotate-180" : ""
+              }`}
             >
-              <span>×</span>
-            </button>
-          </div>
+              ▼
+            </span>
+          </button>
+        </div>
+
+        {/* Panel content */}
+        {showSpaceEvents && (
           <div
             id="tweet-container"
-            className="overflow-y-auto p-2 h-52 space-y-2 tweet-scroll"
+            className="overflow-y-auto p-3 md:h-48 h-64 lg:h-80 space-y-2 tweet-scroll"
           >
             {visibleTweets.length > 0 ? (
               visibleTweets.map((tweet) => (
@@ -62,24 +70,13 @@ export function EventsPanel({
                 </div>
               ))
             ) : (
-              <div className="text-xs text-muted-foreground p-4 text-left">
+              <div className="text-xs text-muted-foreground p-4 text-center">
                 No space events yet
               </div>
             )}
           </div>
-        </>
-      ) : (
-        <div className="p-2 border-b border-muted/40 font-medium text-sm text-left flex justify-between items-center">
-          <span>Space Events</span>
-          <button
-            onClick={() => setShowSpaceEvents(true)}
-            className="text-xs text-muted-foreground hover:text-foreground px-2"
-            title="Show panel"
-          >
-            <span>+</span>
-          </button>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

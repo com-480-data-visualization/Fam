@@ -14,6 +14,8 @@ interface SuccessRateChartProps {
   currentYear: number;
   chartRef: RefObject<SVGSVGElement | null>;
   showChart: boolean;
+  width: number;
+  height: number;
 }
 
 /**
@@ -27,13 +29,15 @@ export function SuccessRateChart({
   currentYear,
   chartRef,
   showChart,
+  width,
+  height,
 }: SuccessRateChartProps) {
   useEffect(() => {
     if (!yearlyData.length || !chartRef.current || !showChart) return;
 
-    const margin = { top: 20, right: 25, bottom: 25, left: 40 };
-    const chartWidth = 220 - margin.left - margin.right;
-    const chartHeight = 130 - margin.top - margin.bottom;
+    const margin = { top: 20, right: 20, bottom: 25, left: 35 };
+    const chartWidth = width - margin.left - margin.right;
+    const chartHeight = height - margin.top - margin.bottom;
 
     const svg = d3.select(chartRef.current);
     svg.selectAll("*").remove();

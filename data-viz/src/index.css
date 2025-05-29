@@ -45,10 +45,9 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-
 :root {
   --radius: 0.625rem;
-  --background: #0a0f1c;
+  --background: #000000;
   --foreground: #f8f9fc;
   --muted: #1e293b;
   --muted-foreground: #94a3b8;
@@ -85,7 +84,6 @@ section {
 
 .container {
   width: 100%;
-  max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
   padding-left: 1rem;
@@ -93,7 +91,7 @@ section {
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: #000000;
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);

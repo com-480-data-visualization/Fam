@@ -48,7 +48,7 @@ export function MapControls({
   };
 
   return (
-    <div className="flex flex-col gap-2 px-4">
+    <div className="flex flex-col gap-2">
       <div className="flex gap-2">
         <button
           onClick={onResetView}

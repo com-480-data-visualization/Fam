@@ -11,7 +11,6 @@ import * as topojson from "topojson-client";
 import { FeatureCollection } from "geojson";
 import { applyForceSimulation } from "./force-simulation";
 import { initializePositions } from "./position-utils";
-import { drawConnectionLines } from "./connection-utils";
 import { updateCircles } from "./circle-utils";
 import {
   setupTooltipInteractions,
@@ -31,6 +30,8 @@ interface MapVisualizationProps {
   initialRenderComplete: boolean;
   hoveredSite: string | null;
   setHoveredSite: React.Dispatch<React.SetStateAction<string | null>>;
+  pinnedSite?: string | null;
+  setPinnedSite?: React.Dispatch<React.SetStateAction<string | null>>;
   zoomLevel: number;
   setZoomLevel: (level: number) => void;
   statusColors: StatusColorMap;
@@ -54,6 +55,8 @@ export function MapVisualization({
   initialRenderComplete,
   hoveredSite,
   setHoveredSite,
+  pinnedSite,
+  setPinnedSite,
   zoomLevel,
   setZoomLevel,
   statusColors,
@@ -70,9 +73,14 @@ export function MapVisualization({
       };
     }
 
+    // Calculate scale based on aspect ratio and available space
+    const aspectRatio = dimensions.width / dimensions.height;
+    const baseScale = Math.min(dimensions.width / 5, dimensions.height / 3.5);
+    const scale = aspectRatio > 1.5 ? baseScale : baseScale * 0.9;
+
     const proj = d3
       .geoNaturalEarth1()
-      .scale(dimensions.width / 4.7)
+      .scale(scale)
       .translate([dimensions.width / 2, dimensions.height / 2]);
 
     return {
@@ -105,7 +113,7 @@ export function MapVisualization({
 
     return d3
       .zoom<SVGSVGElement, unknown>()
-      .scaleExtent([1, 12])
+      .scaleExtent([1, 15])
       .filter(zoomFilter) // Apply the custom filter
       .on("zoom", (event) => {
         const { transform } = event;
@@ -148,12 +156,6 @@ export function MapVisualization({
 
     svg.call(zoom as any);
 
-    // Reset to initial view when trigger changes
-    if (resetViewTrigger !== undefined && resetViewTrigger > 0) {
-      svg.call(zoom.transform as any, d3.zoomIdentity);
-      setZoomLevel(1);
-    }
-
     d3.json<any>(
       "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json"
     ).then((data) => {
@@ -171,20 +173,19 @@ export function MapVisualization({
         .enter()
         .append("path")
         .attr("d", path)
-        .attr("fill", "#1e293b")
+        .attr("fill", "#1e293b") // Use the muted color from theme
         .attr("stroke", "#ffffff")
         .attr("stroke-width", 0.5);
     });
-  }, [
-    path,
-    initialRenderComplete,
-    dimensions.width,
-    dimensions.height,
-    zoom,
-    svgRef,
-    resetViewTrigger,
-    setZoomLevel,
-  ]);
+  }, [path, initialRenderComplete, dimensions.width, dimensions.height]);
+
+  // Reset view when triggered
+  useEffect(() => {
+    if (resetViewTrigger && svgRef.current) {
+      d3.select(svgRef.current).call(zoom.transform as any, d3.zoomIdentity);
+      setZoomLevel(1);
+    }
+  }, [resetViewTrigger, zoom, setZoomLevel]);
 
   // Update launch site visualizations when data changes
   useEffect(() => {
@@ -197,15 +198,14 @@ export function MapVisualization({
       return;
 
     const svg = d3.select(svgRef.current);
-    svg.selectAll("line.connection-line").remove();
 
     const launchpadCounts = processLaunchData(launchData);
     const launchpads: Launchpad[] = Object.values(launchpadCounts);
     const tooltip = d3.select(tooltipRef.current);
 
     // Base circle size parameters
-    const circleMinRadius = Math.max(5, dimensions.width / 250);
-    const circleMaxRadius = Math.max(18, dimensions.width / 55);
+    const circleMinRadius = Math.min(5, dimensions.width / 300);
+    const circleMaxRadius = Math.min(15, dimensions.width / 100);
 
     // Different domain scaling based on view mode
     // For month view: scale from 1-15 launches
@@ -221,10 +221,7 @@ export function MapVisualization({
 
     initializePositions(launchpads, projection);
 
-    const forceStrength = Math.min(1.0, 0.3 * Math.sqrt(zoomLevel));
-    applyForceSimulation(launchpads, radiusScale, forceStrength);
-
-    drawConnectionLines(svg, launchpads, statusColors, zoomLevel);
+    applyForceSimulation(launchpads, radiusScale, 0.7, zoomLevel);
 
     updateCircles({
       svg,
@@ -234,19 +231,22 @@ export function MapVisualization({
       hoverStatusColors,
       tooltip,
       setHoveredSite,
+      setPinnedSite,
       launchpadCounts,
       hoveredSite,
+      pinnedSite,
       svgRef,
       launchData,
       zoomLevel,
       viewMode,
     });
 
-    setupTooltipInteractions(tooltip, hoveredSite);
+    setupTooltipInteractions(tooltip, hoveredSite, pinnedSite);
 
     updateExistingTooltip({
       svg,
       hoveredSite,
+      pinnedSite,
       launchpadCounts,
       tooltip,
       svgRef,
@@ -257,6 +257,7 @@ export function MapVisualization({
     isLoading,
     projection,
     hoveredSite,
+    pinnedSite,
     statusColors,
     hoverStatusColors,
     dimensions.width,
@@ -264,6 +265,7 @@ export function MapVisualization({
     initialRenderComplete,
     viewMode,
     setHoveredSite,
+    setPinnedSite,
     svgRef,
     tooltipRef,
   ]);

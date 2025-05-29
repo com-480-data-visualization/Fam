@@ -56,7 +56,9 @@ export default function EraSelector({ providerSectionRef }: EraSelectorProps) {
     }, 100);*/
     setTimeout(() => {
       if (providerSectionRef.current) {
-        const top = providerSectionRef.current.getBoundingClientRect().top + window.pageYOffset;
+        const top =
+          providerSectionRef.current.getBoundingClientRect().top +
+          window.pageYOffset;
         const offset = 0; // or adjust if needed later
 
         window.scrollTo({
@@ -65,7 +67,6 @@ export default function EraSelector({ providerSectionRef }: EraSelectorProps) {
         });
       }
     }, 100);
-
   };
 
   // Display either the hovered era's description or the selected era's description
@@ -79,7 +80,7 @@ export default function EraSelector({ providerSectionRef }: EraSelectorProps) {
       <div className="container mx-auto">
         <h2 className="text-3xl font-bold mb-8">Choose Your Era</h2>
         <div className="w-full bg-card rounded-lg shadow-lg p-6 mb-8">
-          <div className="flex justify-between items-center mb-6">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-0 sm:flex sm:justify-between mb-6">
             {mockEras.map((era) => (
               <div
                 key={era.id}
@@ -96,7 +97,9 @@ export default function EraSelector({ providerSectionRef }: EraSelectorProps) {
                   }
                 `}
               >
-                <span className="text-sm font-semibold">{era.name}</span>
+                <span className="text-sm font-semibold text-center">
+                  {era.name}
+                </span>
                 <div className="w-3 h-3 rounded-full bg-current mt-2"></div>
                 <span className="text-xs mt-1">
                   {era.startDate}-{era.endDate}
@@ -115,17 +118,16 @@ export default function EraSelector({ providerSectionRef }: EraSelectorProps) {
                 <p className="text-muted-foreground mb-2">
                   {displayedEra.startDate} - {displayedEra.endDate}
                 </p>
-              
+
                 <p className="font-bold mb-2">
-                  {displayedEra.descriptionTitle}  
+                  {displayedEra.descriptionTitle}
                 </p>
 
-                <p className="text-justify max-w-6xl mx-auto">{displayedEra.description}</p>
-
-                <p className="font-bold italic mt-4">
-                  {displayedEra.question}
+                <p className="text-justify max-w-6xl mx-auto">
+                  {displayedEra.description}
                 </p>
 
+                <p className="font-bold italic mt-4">{displayedEra.question}</p>
               </>
             ) : (
               <p className="text-muted-foreground italic text-center">

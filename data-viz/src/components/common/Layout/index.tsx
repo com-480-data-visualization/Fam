@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useSelection } from "../../../contexts/SelectionContext";
 import MainViz from "../../../features/MainViz";
 import EraSelector from "../../../features/EraSelector";
@@ -10,7 +10,13 @@ import Earth3D from "../../../features/Earth3d";
 import Astronaut from "../../../features/Astronaut";
 
 export default function Layout() {
-  const { showEraSelector, selectedEra, selectedProvider, selectedRocket, showRocketSelector } = useSelection();
+  const {
+    showEraSelector,
+    selectedEra,
+    selectedProvider,
+    selectedRocket,
+    showRocketSelector,
+  } = useSelection();
 
   const eraSectionRef = useRef<HTMLDivElement>(null);
   const providerSectionRef = useRef<HTMLDivElement>(null);
@@ -31,11 +37,10 @@ export default function Layout() {
         <section id="astronaut">
           <Astronaut eraSectionRef={eraSectionRef} />
         </section>
-        
 
         {/* SHOW ERA SELECTOR ONLY WHEN BUTTON CLICKED */}
         {showEraSelector && (
-          <section id="era-selector" ref ={eraSectionRef}>
+          <section id="era-selector" ref={eraSectionRef}>
             <EraSelector providerSectionRef={providerSectionRef} />
           </section>
         )}

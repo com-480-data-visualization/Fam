@@ -8,7 +8,6 @@
  */
 
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { Label } from "@/components/ui/label";
 import { useTimeline, type TimelineViewMode } from "@/contexts/TimelineContext";
 
 /**
@@ -41,12 +40,6 @@ export function TimelineToggle({ onValueChange }: TimelineToggleProps) {
 
   return (
     <div className="flex items-center gap-2">
-      <Label
-        htmlFor="timeline-view"
-        className="text-xs sm:text-sm whitespace-nowrap"
-      >
-        View:
-      </Label>
       <ToggleGroup
         type="single"
         value={viewMode}
@@ -57,13 +50,13 @@ export function TimelineToggle({ onValueChange }: TimelineToggleProps) {
       >
         <ToggleGroupItem
           value="year"
-          className="px-3 text-xs sm:text-sm h-full data-[state=on]:bg-primary data-[state=on]:text-primary-foreground flex items-center justify-center"
+          className="px-3 text-xs md:text-sm h-full data-[state=on]:bg-primary data-[state=on]:text-primary-foreground flex items-center justify-center"
         >
           Year
         </ToggleGroupItem>
         <ToggleGroupItem
           value="month"
-          className="px-3 text-xs sm:text-sm h-full data-[state=on]:bg-primary data-[state=on]:text-primary-foreground flex items-center justify-center"
+          className="px-3 text-xs md:text-sm h-full data-[state=on]:bg-primary data-[state=on]:text-primary-foreground flex items-center justify-center"
         >
           Month
         </ToggleGroupItem>

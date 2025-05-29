@@ -20,6 +20,8 @@ export interface WorldMapProps {
   isLoading: boolean;
   width?: number;
   height?: number;
+  resetTrigger?: number;
+  onResetView?: () => void;
 }
 
 export interface StatusColorMap {

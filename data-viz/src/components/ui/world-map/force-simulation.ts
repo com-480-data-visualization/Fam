@@ -18,16 +18,19 @@ import { Launchpad } from "./types";
  * - Applies forces to keep markers near their original geographic positions
  * - Adjusts collision radius based on the size of each marker
  * - Makes minor position adjustments to markers in very close proximity
+ * - Maintains consistent behavior across all zoom levels
  *
  * @param {Launchpad[]} launchpads - Array of launchpad objects to position
  * @param {d3.ScalePower<number, number>} radiusScale - Scale function for determining marker sizes
  * @param {number} [forceStrength=0.7] - Strength of the positioning forces (0-1)
+ * @param {number} [zoomLevel=1] - Current zoom level for collision radius adjustment
  * @returns {void}
  */
 export function applyForceSimulation(
   launchpads: Launchpad[],
   radiusScale: d3.ScalePower<number, number>,
-  forceStrength: number = 0.7
+  forceStrength: number = 0.7,
+  zoomLevel: number = 1
 ): void {
   const xForce = d3
     .forceX<Launchpad>((d) => d.originalX!)
@@ -40,9 +43,11 @@ export function applyForceSimulation(
     .forceCollide<Launchpad>()
     .radius((d) => {
       const baseRadius = radiusScale(Math.min(d.count, 20));
-      return baseRadius + 1.5;
+      // Adjust collision radius to account for zoom level scaling
+      // Circles get smaller visually when zoomed in, so collision should too
+      return (baseRadius + 1.5) / zoomLevel;
     })
-    .strength(0.7);
+    .strength(forceStrength);
 
   const simulation = d3
     .forceSimulation<Launchpad>(launchpads)
@@ -51,7 +56,7 @@ export function applyForceSimulation(
     .force("collide", collideForce)
     .stop();
 
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < 100; i++) {
     simulation.tick();
   }
 

@@ -66,15 +66,6 @@ body {
   color: #888;
 }
 
-.container {
-  width: 100%;
-  max-width: 1400px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-
 .bg-background {
   background-color: var(--background);
 }
@@ -119,14 +110,6 @@ body {
 section {
   width: 100%;
   scroll-margin-top: 80px;
-}
-
-section:nth-of-type(even) {
-  background-color: #0e1525;
-}
-
-section:nth-of-type(odd) {
-  background-color: #080f1a;
 }
 
 .transition-all {

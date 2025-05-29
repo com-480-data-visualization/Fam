@@ -33,10 +33,14 @@ interface UpdateCirclesParams {
   tooltip: d3.Selection<HTMLDivElement | null, unknown, null, undefined>;
   /** React state setter for the currently hovered site */
   setHoveredSite: React.Dispatch<React.SetStateAction<string | null>>;
+  /** React state setter for the currently pinned site */
+  setPinnedSite?: React.Dispatch<React.SetStateAction<string | null>>;
   /** Record of launchpad data indexed by their keys */
   launchpadCounts: Record<string, Launchpad>;
   /** ID of the currently hovered launch site */
   hoveredSite: string | null;
+  /** ID of the currently pinned launch site */
+  pinnedSite?: string | null;
   /** React reference to the SVG element */
   svgRef: React.RefObject<SVGSVGElement | null>;
   /** Array of launch data objects */
@@ -69,7 +73,9 @@ export function updateCircles(params: UpdateCirclesParams): void {
     hoverStatusColors,
     tooltip,
     setHoveredSite,
+    setPinnedSite,
     launchpadCounts,
+    pinnedSite,
     svgRef,
     launchData,
     zoomLevel = 1,
@@ -79,7 +85,7 @@ export function updateCircles(params: UpdateCirclesParams): void {
   // Select existing circles and bind data
   const circles = svg
     .select("g.launch-sites")
-    .selectAll<SVGCircleElement, Launchpad>("circle.launch-site")
+    .selectAll<SVGCircleElement, Launchpad>("circle.launch-site-circle")
     .data(launchpads, (d) => d.key);
 
   // Remove circles for launchpads that no longer exist
@@ -102,7 +108,7 @@ export function updateCircles(params: UpdateCirclesParams): void {
     .attr("stroke-width", standardStrokeWidth)
     // No dashed strokes needed anymore
     .attr("stroke-dasharray", "none")
-    .attr("class", "launch-site")
+    .attr("class", "launch-site-circle")
     .transition()
     .duration(100)
     .attr("r", (d) => {
@@ -142,14 +148,70 @@ export function updateCircles(params: UpdateCirclesParams): void {
       const tooltipX = circleRect.left - svgRect.left + circleRect.width + 15;
       const tooltipY = circleRect.top - svgRect.top - 15;
 
+      // Only show hover tooltip if this site is not pinned
+      const isPinned = pinnedSite === key;
+      const isCompact = !isPinned;
+
       tooltip
         .interrupt()
         .style("display", "block")
         .style("pointer-events", "auto")
         .style("left", `${tooltipX}px`)
         .style("top", `${tooltipY}px`)
-        .html(generateTooltipContent(currentData, launchData))
+        .html(
+          generateTooltipContent(currentData, launchData, isPinned, isCompact)
+        )
         .style("opacity", 1);
+    }
+  }
+
+  /**
+   * Handles click events on launch site circles to pin/unpin tooltips
+   *
+   * @param {MouseEvent} _ - Mouse event object (unused)
+   * @param {Launchpad} d - Data object for the clicked launchpad
+   */
+  function handleClick(
+    this: SVGCircleElement,
+    _: MouseEvent,
+    d: Launchpad
+  ): void {
+    const key = d.key;
+
+    if (setPinnedSite) {
+      // Toggle pinned state
+      if (pinnedSite === key) {
+        // Unpin if already pinned
+        setPinnedSite(null);
+        tooltip.interrupt().style("opacity", 0).style("pointer-events", "none");
+      } else {
+        // Pin this tooltip
+        setPinnedSite(key);
+
+        // Update tooltip content to expanded view
+        const currentData = launchpadCounts[key];
+        if (currentData) {
+          const circleRect = this.getBoundingClientRect();
+          const svgRect = svgRef.current?.getBoundingClientRect();
+
+          if (svgRect) {
+            const tooltipX =
+              circleRect.left - svgRect.left + circleRect.width + 15;
+            const tooltipY = circleRect.top - svgRect.top - 15;
+
+            tooltip
+              .interrupt()
+              .style("display", "block")
+              .style("pointer-events", "auto")
+              .style("left", `${tooltipX}px`)
+              .style("top", `${tooltipY}px`)
+              .html(
+                generateTooltipContent(currentData, launchData, true, false)
+              )
+              .style("opacity", 1);
+          }
+        }
+      }
     }
   }
 
@@ -171,14 +233,17 @@ export function updateCircles(params: UpdateCirclesParams): void {
       .style("fill", null)
       .attr("fill", statusColors[d.primaryStatus] || statusColors.default);
 
-    tooltip.interrupt().style("opacity", 0).style("pointer-events", "none");
+    // Only hide tooltip if not pinned
+    if (pinnedSite !== d.key) {
+      tooltip.interrupt().style("opacity", 0).style("pointer-events", "none");
+    }
   }
 
   // Create new circles for new launchpads
   circles
     .enter()
     .append("circle")
-    .attr("class", "launch-site")
+    .attr("class", "launch-site-circle")
     .attr("data-launchpad", (d) => d.name.replace(/[^\w]/g, "_"))
     .attr("fill", (d) => statusColors[d.primaryStatus] || statusColors.default)
     .attr("stroke", "#ffffff")
@@ -187,8 +252,10 @@ export function updateCircles(params: UpdateCirclesParams): void {
     .attr("cx", (d) => d.x!)
     .attr("cy", (d) => d.y!)
     .attr("r", 0)
+    .style("cursor", "pointer")
     .on("mouseover", handleMouseOver)
     .on("mouseout", handleMouseOut)
+    .on("click", handleClick)
     .transition()
     .duration(100)
     .attr("r", (d) => {
@@ -196,12 +263,4 @@ export function updateCircles(params: UpdateCirclesParams): void {
       return radius / zoomLevel;
     })
     .attr("data-base-radius", (d) => radiusScale(Math.min(d.count, maxCount)));
-
-  // Ensure all circles have event handlers
-  svg
-    .selectAll<SVGCircleElement, Launchpad>("circle.launch-site")
-    .on("mouseover", null)
-    .on("mouseout", null)
-    .on("mouseover", handleMouseOver)
-    .on("mouseout", handleMouseOut);
 }

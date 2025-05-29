@@ -75,7 +75,8 @@ interface TimelineContextType {
 
 // Constants for timeline boundaries and default values
 // Default playback interval in milliseconds
-const DEFAULT_PLAYBACK_SPEED = 300;
+const DEFAULT_MONTHLY_PLAYBACK_SPEED = 300;
+const DEFAULT_YEARLY_PLAYBACK_SPEED = 600; // Slower playback for yearly view
 
 // Initial values for timeline boundaries (used before data is loaded)
 const INITIAL_MIN_YEAR = 1957; // First Space Age year (Sputnik)
@@ -322,8 +323,13 @@ export function TimelineProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    // Calculate the actual interval based on playback speed
-    const interval = DEFAULT_PLAYBACK_SPEED / playbackSpeed;
+    // Calculate the actual interval based on playback speed and view mode
+    const basePlaybackSpeed =
+      viewMode === "month"
+        ? DEFAULT_MONTHLY_PLAYBACK_SPEED
+        : DEFAULT_YEARLY_PLAYBACK_SPEED;
+
+    const interval = basePlaybackSpeed / playbackSpeed;
 
     animationRef.current = setInterval(() => {
       setCurrentMonthIndex((prevIndex) => {

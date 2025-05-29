@@ -20,11 +20,24 @@ import { Launchpad } from "./types";
  *
  * @param {d3.Selection<HTMLDivElement | null, unknown, null, undefined>} tooltip - The tooltip D3 selection
  * @param {string | null} hoveredSite - The currently hovered site ID or null if none
+ * @param {string | null} pinnedSite - The currently pinned site ID or null if none
+ * @returns {void}
+ */
+/**
+ * Sets up mouse interaction behaviors for the tooltip.
+ *
+ * This function configures how the tooltip responds to mouse events,
+ * including hover persistence and fade-out behavior.
+ *
+ * @param {d3.Selection<HTMLDivElement | null, unknown, null, undefined>} tooltip - The tooltip D3 selection
+ * @param {string | null} hoveredSite - The currently hovered site ID or null if none
+ * @param {string | null} pinnedSite - The currently pinned site ID or null if none
  * @returns {void}
  */
 export function setupTooltipInteractions(
   tooltip: d3.Selection<HTMLDivElement | null, unknown, null, undefined>,
-  hoveredSite: string | null
+  hoveredSite: string | null,
+  pinnedSite: string | null = null
 ): void {
   tooltip
     .style("display", "block")
@@ -36,9 +49,9 @@ export function setupTooltipInteractions(
     tooltip.interrupt().style("pointer-events", "auto");
   });
 
-  // Hide tooltip when mouse leaves, but only if no site is hovered
+  // Hide tooltip when mouse leaves, but only if no site is hovered and tooltip is not pinned
   tooltip.on("mouseleave", function () {
-    if (hoveredSite === null) {
+    if (hoveredSite === null && pinnedSite === null) {
       tooltip
         .transition()
         .duration(200)
@@ -60,6 +73,8 @@ interface UpdateExistingTooltipParams {
   svg: d3.Selection<SVGSVGElement | null, unknown, null, undefined>;
   /** ID of the currently hovered launch site */
   hoveredSite: string | null;
+  /** ID of the currently pinned launch site */
+  pinnedSite?: string | null;
   /** Record of launchpad data indexed by their keys */
   launchpadCounts: Record<string, Launchpad>;
   /** D3 selection of the tooltip element */
@@ -77,6 +92,7 @@ interface UpdateExistingTooltipParams {
  * - Positions the tooltip next to the hovered launch site marker
  * - Updates the tooltip content with information about the launch site
  * - Makes the tooltip visible and interactive
+ * - Supports both hover and pinned modes
  *
  * @param {UpdateExistingTooltipParams} params - Parameters for updating the tooltip
  * @returns {void}
@@ -84,20 +100,30 @@ interface UpdateExistingTooltipParams {
 export function updateExistingTooltip(
   params: UpdateExistingTooltipParams
 ): void {
-  const { svg, hoveredSite, launchpadCounts, tooltip, svgRef, launchData } =
-    params;
+  const {
+    svg,
+    hoveredSite,
+    pinnedSite,
+    launchpadCounts,
+    tooltip,
+    svgRef,
+    launchData,
+  } = params;
 
-  // If there's no hovered site or data, don't update the tooltip
-  if (!hoveredSite || !launchpadCounts[hoveredSite]) return;
+  // Determine which site to show (pinned takes priority over hovered)
+  const targetSite = pinnedSite || hoveredSite;
+
+  // If there's no target site or data, don't update the tooltip
+  if (!targetSite || !launchpadCounts[targetSite]) return;
 
   // Sanitize the selector to avoid issues with special characters
-  const safeSelector = hoveredSite.replace(/[^\w]/g, "_");
+  const safeSelector = targetSite.replace(/[^\w]/g, "_");
   const currentCircle = svg.select(`circle[data-launchpad="${safeSelector}"]`);
-  const currentData = launchpadCounts[hoveredSite];
+  const currentData = launchpadCounts[targetSite];
 
   // Guard against missing elements or data
   if (!currentCircle.node() || !currentData) {
-    console.warn(`circle node or data not found for ${hoveredSite}`);
+    console.warn(`circle node or data not found for ${targetSite}`);
     return;
   }
 
@@ -118,13 +144,36 @@ export function updateExistingTooltip(
   );
   const tooltipY = Math.max(0, circleRect.top - svgRect.top - 15);
 
+  // Determine tooltip display mode
+  const isPinned = pinnedSite === targetSite;
+  const isCompact = !isPinned;
+
   // Update tooltip content and position
   tooltip
     .interrupt()
     .style("display", "block")
-    .style("pointer-events", "auto")
-    .html(generateTooltipContent(currentData, launchData))
+    .style("pointer-events", isPinned ? "auto" : "auto")
+    .html(generateTooltipContent(currentData, launchData, isPinned, isCompact))
     .style("left", `${tooltipX}px`)
     .style("top", `${tooltipY}px`)
     .style("opacity", 1);
+}
+
+/**
+ * Hides the tooltip with a smooth transition.
+ *
+ * @param {d3.Selection<HTMLDivElement | null, unknown, null, undefined>} tooltip - The tooltip D3 selection
+ * @returns {void}
+ */
+export function hideTooltip(
+  tooltip: d3.Selection<HTMLDivElement | null, unknown, null, undefined>
+): void {
+  tooltip
+    .interrupt()
+    .transition()
+    .duration(200)
+    .style("opacity", 0)
+    .on("end", function () {
+      tooltip.style("pointer-events", "none").style("display", "none");
+    });
 }
