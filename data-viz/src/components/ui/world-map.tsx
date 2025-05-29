@@ -12,7 +12,7 @@
  *
  * @module components/ui/world-map
  */
-import { useEffect, useRef, useMemo, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useMemo, useState } from "react";
 import { useTimeline } from "../../contexts/TimelineContext";
 import { COLOR_SETS } from "./world-map/color-constants";
 import { WorldMapProps, SpaceTweet } from "./world-map/types";
@@ -54,6 +54,17 @@ const WorldMap = ({
   const launchChartRef = useRef<SVGSVGElement | null>(null);
   const successChartRef = useRef<SVGSVGElement | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  // State for container element and screen mode
+  const [containerEl, setContainerEl] = useState<HTMLDivElement | null>(null);
+  const [isLargeScreen, setIsLargeScreen] = useState<boolean>(
+    window.matchMedia("(min-width:1024px)").matches
+  );
+  useLayoutEffect(() => {
+    const mql = window.matchMedia("(min-width:1024px)");
+    const handler = (e: MediaQueryListEvent) => setIsLargeScreen(e.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
 
   // Component state
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 }); // Start with 0 to force container measurement
@@ -69,54 +80,37 @@ const WorldMap = ({
   const [showLaunchStats, setShowLaunchStats] = useState<boolean>(false);
   const [showSpaceEvents, setShowSpaceEvents] = useState<boolean>(false);
 
-  // Handle responsive panel visibility
-  useEffect(() => {
-    function updateDimensions() {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
-        // Use measured dimensions or fallback to viewport-based size
-        const width = rect.width > 0 ? rect.width : window.innerWidth;
-        // Use 70% of viewport height as fallback, matching MainViz container
-        const height = rect.height > 0 ? rect.height : window.innerHeight * 0.7;
-        setDimensions({ width, height });
+  useLayoutEffect(() => {
+    if (!containerEl) return;
+    const measure = () => {
+      if (isLargeScreen) {
+        const rect = containerEl.getBoundingClientRect();
+        console.log("measure", rect);
+        if (rect.width > 0 && rect.height > 0) {
+          setDimensions({ width: rect.width, height: rect.height });
+          setInitialRenderComplete(true);
+        }
+      } else {
+        const w = window.innerWidth - 32;
+        const h = (w * 10) / 16;
+        console.log("mobile calc", w, h);
+        setDimensions({ width: w, height: h });
+        setInitialRenderComplete(true);
       }
-    }
-
-    updateDimensions();
-    setInitialRenderComplete(true);
-
-    window.addEventListener("resize", updateDimensions);
-    return () => window.removeEventListener("resize", updateDimensions);
-  }, []); // Remove width and height dependencies to prevent circular updates
-
-  // Track large screen mode at lg breakpoint (1024px) to match CSS breakpoints
-  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1024);
-  useEffect(() => {
-    const onResize = () => setIsLargeScreen(window.innerWidth >= 1024);
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-
-  // Recompute dimensions when layout breakpoint changes
-  useEffect(() => {
-    if (containerRef.current) {
-      const rect = containerRef.current.getBoundingClientRect();
-      if (rect.width > 0 && rect.height > 0) {
-        setDimensions({ width: rect.width, height: rect.height });
-      }
-    }
-  }, [isLargeScreen]);
-
-  // Sync panel visibility with screen size
-  useEffect(() => {
-    if (isLargeScreen) {
-      setShowLaunchStats(true);
-      setShowSpaceEvents(true);
-    } else {
-      setShowLaunchStats(false);
-      setShowSpaceEvents(false);
-    }
-  }, [isLargeScreen]);
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(containerEl);
+    window.addEventListener("resize", measure);
+    const id1 = window.setTimeout(measure, 0);
+    const id2 = window.setTimeout(measure, 100);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", measure);
+      window.clearTimeout(id1);
+      window.clearTimeout(id2);
+    };
+  }, [containerEl, isLargeScreen]);
 
   // Color configuration for visualization
   const { statusColors, hoverStatusColors } = COLOR_SETS;
@@ -187,24 +181,6 @@ const WorldMap = ({
     return () => document.removeEventListener("click", handleClickOutside);
   }, [pinnedSite]);
 
-  // Measure container size with ResizeObserver and set dimensions
-  useEffect(() => {
-    if (!containerRef.current) return;
-    
-    const observer = new ResizeObserver((entries) => {
-      const entry = entries[0];
-      const { width, height } = entry.contentRect;
-      if (width > 0 && height > 0) {
-        setDimensions({ width, height });
-        setInitialRenderComplete(true);
-      }
-    });
-    
-    observer.observe(containerRef.current);
-    
-    return () => observer.disconnect();
-  }, [containerRef, isLargeScreen]); // Re-observe when layout changes
-
   // Memoized SVG with static <g> containers to persist between timeline updates
   const svgElement = useMemo(
     () => (
@@ -214,14 +190,14 @@ const WorldMap = ({
           isLoading ? "opacity-30" : ""
         }`}
         viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
-        width={dimensions.width}
-        height={dimensions.height}
+        preserveAspectRatio="xMidYMid meet"
+        style={{ width: "100%", height: "100%" }}
       >
         <g className="countries" />
         <g className="launch-sites" />
       </svg>
     ),
-    [dimensions.width, dimensions.height, isLoading, isLargeScreen]
+    [dimensions.width, dimensions.height, isLoading]
   );
 
   return (
@@ -255,7 +231,10 @@ const WorldMap = ({
           {/* Map + Toolbar Column */}
           <div
             className="flex-1 flex flex-col min-h-0 h-full"
-            ref={containerRef}
+            ref={(el) => {
+              containerRef.current = el;
+              setContainerEl(el);
+            }}
           >
             {/* Title Overlay */}
             <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-30">
@@ -339,7 +318,10 @@ const WorldMap = ({
           {/* Map Container */}
           <div
             className="w-full max-w-full aspect-[16/10] relative overflow-hidden bg-background mb-4"
-            ref={containerRef}
+            ref={(el) => {
+              containerRef.current = el;
+              setContainerEl(el);
+            }}
           >
             <MapVisualization
               key={`map-${isLargeScreen ? "desktop" : "mobile"}`}
