@@ -85,7 +85,6 @@ const WorldMap = ({
     const measure = () => {
       if (isLargeScreen) {
         const rect = containerEl.getBoundingClientRect();
-        console.log("measure", rect);
         if (rect.width > 0 && rect.height > 0) {
           setDimensions({ width: rect.width, height: rect.height });
           setInitialRenderComplete(true);
@@ -93,7 +92,6 @@ const WorldMap = ({
       } else {
         const w = window.innerWidth - 32;
         const h = (w * 10) / 16;
-        console.log("mobile calc", w, h);
         setDimensions({ width: w, height: h });
         setInitialRenderComplete(true);
       }

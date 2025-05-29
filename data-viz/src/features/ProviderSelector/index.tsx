@@ -8,7 +8,6 @@ interface ProviderSelectorProps {
   rocketSectionRef: RefObject<HTMLDivElement | null>;
 }
 
-
 export default function ProviderSelector({
   rocketSectionRef,
 }: ProviderSelectorProps) {
@@ -102,7 +101,7 @@ export default function ProviderSelector({
                       </p>
                     )}
                     <p className="font-bold mb-2">{displayedProvider.descriptionTitle}</p>
-                    <p className="text-justify max-w-xl mx-auto">{displayedProvider.description}</p>
+                    <p className="text-left sm:text-justify max-w-xl mx-auto text-sm sm:text-base">{displayedProvider.description}</p>
                     <p className="font-bold italic mt-4">{displayedProvider.question}</p>
                   </>
                 ) : (

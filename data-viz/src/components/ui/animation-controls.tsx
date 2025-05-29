@@ -109,7 +109,7 @@ export function AnimationControls({
   return (
     <div className="flex flex-col w-full items-center mt-1 py-1 px-3 lg:py-2 lg:px-4 xl:py-3 xl:px-6 bg-card rounded-lg border shadow-sm">
       {/* Main controls row */}
-      <div className="flex w-full flex-wrap items-center gap-2 lg:gap-4">
+      <div className="flex w-full items-center justify-between gap-2 lg:gap-4">
         <div className="flex items-center gap-1 lg:gap-2">
           <Button
             onClick={onReset}
@@ -144,10 +144,6 @@ export function AnimationControls({
             {formattedTime}
           </span>
         </div>
-
-        <div className="flex items-center ml-auto">
-          <TimelineToggle />
-        </div>
       </div>
 
       {/* Timeline slider - uses month indices */}
@@ -164,13 +160,17 @@ export function AnimationControls({
 
       {/* Speed controls section */}
       <div className="w-full">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between relative">
           <div className="flex items-center">
             <Label className="text-xs lg:text-sm font-medium">
               Speed:{" "}
               <span className="font-bold">{currentSpeed.toFixed(2)}x</span>
             </Label>
           </div>
+          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <TimelineToggle />
+          </div>
+
           <Button
             variant="ghost"
             size="sm"

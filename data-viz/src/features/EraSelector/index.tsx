@@ -112,7 +112,7 @@ export default function EraSelector({ providerSectionRef }: EraSelectorProps) {
           <div className="p-4 bg-card/50 rounded-md border border-muted min-h-[100px] transition-all duration-300 ease-in-out">
             {displayedEra ? (
               <>
-                <h3 className="text-xl font-semibold mb-2">
+                <h3 className="text-lg sm:text-2xl font-semibold mb-2">
                   {displayedEra.name}
                 </h3>
                 <p className="text-muted-foreground mb-2">
@@ -123,7 +123,7 @@ export default function EraSelector({ providerSectionRef }: EraSelectorProps) {
                   {displayedEra.descriptionTitle}
                 </p>
 
-                <p className="text-justify max-w-6xl mx-auto">
+                <p className="text-left sm:text-justify max-w-6xl mx-auto text-sm sm:text-base">
                   {displayedEra.description}
                 </p>
 
