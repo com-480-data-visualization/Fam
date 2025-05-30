@@ -1,7 +1,7 @@
 import { RefObject, useEffect, useState } from "react";
 import { useSelection } from "../../contexts/SelectionContext";
 import { Provider } from "../../types";
-import HorizontalBarChart from "../../components/ui/horizontal-bar-chart";
+import ProviderBarChart from "../../components/ui/ProviderBarChart";
 import { fetchLaunchData, extractProviders } from "../../lib/data-loader";
 
 interface ProviderSelectorProps {
@@ -81,28 +81,36 @@ export default function ProviderSelector({
             <div className="bg-card p-6 rounded-lg shadow-md flex flex-col md:flex-row gap-8">
               {/* Right: Horizontal Bar Chart */}
               <div className="md:w-1/2">
-                <HorizontalBarChart
+                <ProviderBarChart
                   providers={providers}
                   selectedProvider={selectedProvider}
                   onProviderSelect={handleProviderClick}
                   onProviderHover={setHoveredProvider}
                   onProviderHoverLeave={() => setHoveredProvider(null)}
-                  era = {selectedEra?.id ?? "default"}
+                  era={selectedEra?.id ?? "default"}
                 />
               </div>
               {/* Left: Description */}
               <div className="md:w-1/2 space-y-4 mt-6">
                 {displayedProvider ? (
                   <>
-                    <h3 className="text-xl font-semibold mb-2">{displayedProvider.name}</h3>
+                    <h3 className="text-xl font-semibold mb-2">
+                      {displayedProvider.name}
+                    </h3>
                     {displayedProvider.foundingYear && (
                       <p className="text-muted-foreground mb-2">
                         Founded: {displayedProvider.foundingYear}
                       </p>
                     )}
-                    <p className="font-bold mb-2">{displayedProvider.descriptionTitle}</p>
-                    <p className="text-left sm:text-justify max-w-xl mx-auto text-sm sm:text-base">{displayedProvider.description}</p>
-                    <p className="font-bold italic mt-4">{displayedProvider.question}</p>
+                    <p className="font-bold mb-2">
+                      {displayedProvider.descriptionTitle}
+                    </p>
+                    <p className="text-left sm:text-justify max-w-xl mx-auto text-sm sm:text-base">
+                      {displayedProvider.description}
+                    </p>
+                    <p className="font-bold italic mt-4">
+                      {displayedProvider.question}
+                    </p>
                   </>
                 ) : (
                   <p className="text-muted-foreground italic mt-6">
@@ -110,11 +118,8 @@ export default function ProviderSelector({
                   </p>
                 )}
               </div>
-
-              
             </div>
           </div>
-
         )}
       </div>
     </section>

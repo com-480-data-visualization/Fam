@@ -85,17 +85,12 @@ export default function RocketSelector({
   const handleRocketClick = (rocket: Rocket) => {
     setSelectedRocket(rocket);
 
-    // Scroll to the rocket info section after a small delay to ensure rendering
-    /*
     setTimeout(() => {
       if (rocketInfoSectionRef.current) {
-        rocketInfoSectionRef.current.scrollIntoView({ behavior: "smooth" });
-      }
-    }, 100);*/
-    setTimeout(() => {
-      if (rocketInfoSectionRef.current) {
-        const top = rocketInfoSectionRef.current.getBoundingClientRect().top + window.pageYOffset;
-        const offset = 0; // or adjust if needed later
+        const top =
+          rocketInfoSectionRef.current.getBoundingClientRect().top +
+          window.pageYOffset;
+        const offset = 0;
 
         window.scrollTo({
           top: top + offset,
@@ -104,8 +99,6 @@ export default function RocketSelector({
       }
     }, 100);
   };
-
-  /* Removed height weight and description : */
 
   return (
     <section className="min-h-screen bg-background text-foreground py-12 px-6">

@@ -136,7 +136,7 @@ export function updateExistingTooltip(
   const circleRelativeX = circleRect.left - svgRect.left;
   const circleRelativeY = circleRect.top - svgRect.top;
 
-  // Simple logic: if circle is in right half of container, show tooltip to the left
+  // If circle is in right half of container, show tooltip to the left
   const showLeft = circleRelativeX > svgRect.width / 2;
 
   // Fixed tooltip heights

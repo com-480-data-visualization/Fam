@@ -1,141 +1,144 @@
 # Rocket Launch Data Visualization
 
-A comprehensive interactive data visualization application for exploring global rocket launch data throughout spaceflight history. This application enables users to analyze historical trends in space exploration through an interactive world map and hierarchical filtering system.
+An interactive data visualization application that showcases rocket launch data from around the world. Built with modern web technologies, this application provides an engaging way to explore space launch history through interactive maps, charts, and timeline controls.
 
-## Technical Overview
+## Project Overview
 
-This application is built on React with TypeScript, utilizing D3.js for data visualization components and modern React patterns for state management. The visualization focuses on presenting historical rocket launch data with multiple layers of interactivity.
+This project visualizes **6,860 rocket launches** spanning multiple decades of space exploration history using a variety of interactive components. Users can explore launch trends, success rates, and geographical distribution of space missions.
+
+### Key Features
+
+- **Interactive World Map**: D3.js-powered geospatial visualization
+- **Timeline Animation**: Dual-scale timeline (monthly/yearly) with variable speed playback (0.25x-2x)
+- **3D Elements**: Three.js Earth globe and astronaut models with scroll-responsive animations
+- **Progressive Disclosure**: Era → Provider → Rocket selection system for intuitive data filtering
+- **Dynamic Charts**: Real-time launch count and success rate visualizations using D3.js
+- **Historical Events**: Twitter-style feed of significant space exploration milestones
+- **Responsive Design**: Optimized for desktop and mobile viewing experiences
+
+## Technology Stack
 
 ### Core Technologies
 
-- **Frontend Framework**: React 19 with TypeScript
-- **Data Visualization**: D3.js
-- **State Management**: React Context API
-- **Styling**: TailwindCSS
-- **Build System**: Vite
-- **Documentation**: TypeDoc
+- **React 19** - Modern React with concurrent features and improved performance
+- **TypeScript** - Type-safe development with enhanced developer experience
+- **Vite with SWC** - Fast build tool with Rust-based compiler for optimal performance
+- **TailwindCSS v4** - Utility-first CSS framework for rapid UI development
+
+### Visualization Libraries
+
+- **D3.js v7** - Powerful data visualization library for maps and charts
+- **Three.js** - 3D graphics library for immersive visual elements
+- **React Three Fiber** - React renderer for Three.js with declarative API
+
+### Additional Tools
+
+- **ESLint** - Code linting and quality enforcement
+- **TypeDoc** - Documentation generation from TypeScript code
+- **Lucide React** - Modern icon library for UI components
+- **shadcn/ui** - Component library used for buttons and toggles
+- **Material-UI** - Slider component for the timeline
 
 ## Architecture
 
-The application follows a feature-based architecture with clear separation of concerns:
+The application follows a feature-based architecture with modular components and centralized state management through React Context.
 
-### Key Architectural Components
+### Project Structure
 
-- **Context Providers**
+The application follows a feature-based architecture with modular components. Below is a high-level overview of the key directories and files (not exhaustive):
 
-  - `TimelineContext`: Manages time-series data and playback controls
-  - `SelectionContext`: Handles user selection state across component hierarchy
-
-- **Component Categories**
-
-  - `components/ui`: Reusable UI primitives and visualization elements
-  - `components/common`: Shared structural components
-  - `features`: Feature-specific components organized by domain
-
-- **Data Flow**
-  - Data is loaded asynchronously from JSON source files
-  - Context providers distribute data to components based on user interaction
-  - Interactive elements generate events that update context state
-
-## Project Structure
-
-```yaml
+```text
 src/
-├── App.tsx                 # Application entry point
-├── components/             # Reusable UI components
-│   ├── common/             # Layout and navigation components
-│   └── ui/                 # UI elements and visualizations
-│       └── world-map/      # Modular components for the world map visualization
-│           ├── charts/     # Chart visualization components
-│           ├── controls/   # UI control components
-│           ├── panels/     # Information panel components
-│           └── statistics/ # Data processing utilities
-├── contexts/               # React context providers
-├── features/               # Feature-specific components
-├── hooks/                  # Custom React hooks
-├── lib/                    # Utility functions and data processing
-└── types/                  # TypeScript type definitions
+├── App.tsx                  # Root component with context providers
+├── components/              # Reusable UI components
+│   ├── common/              # Layout and navigation components
+│   │   ├── Layout/          # Main application layout with progressive disclosure
+│   │   └── Navigation/      # Sticky navigation bar with scroll spy functionality
+│   └── ui/                  # Interactive UI elements and charts
+│       ├── world-map/       # Main D3.js map visualization (modular architecture)
+│       │   ├── charts/      # Map overlay charts (launch count, success rate)
+│       │   ├── controls/    # Map interaction controls (reset view, map controls)
+│       │   ├── panels/      # Information panels (events, statistics)
+│       │   ├── statistics/  # Data processing utilities for map statistics
+│       │   ├── circle-utils.ts       # D3.js utilities for map circle rendering
+│       │   ├── data-utils.ts         # Data transformation utilities
+│       │   ├── force-simulation.ts   # D3.js force simulation for circle positioning
+│       │   ├── color-constants.ts    # Color schemes and constants
+│       │   ├── status-legend.tsx     # Launch status legend overlay
+│       │   ├── tooltip-*.ts          # Tooltip content and utilities
+│       │   └── types.ts              # TypeScript types for map components
+│       ├── animation-controls.tsx    # Timeline playback controls (play/pause/reset)
+│       ├── speed-control.tsx         # Animation speed slider and presets (0.25x-2x)
+│       ├── timeline-toggle.tsx       # Month/Year view toggle for timeline
+│       ├── ProviderBarChart.tsx      # Provider launch count bar chart
+│       ├── SuccessFailureDonut.tsx   # Success/failure rate donut chart
+│       ├── RocketLaunchLineChart.tsx # Launch count line chart with success gradient
+│       ├── button.tsx                # shadcn/ui button component
+│       ├── toggle.tsx                # shadcn/ui toggle component
+│       ├── toggle-group.tsx          # shadcn/ui toggle group component
+│       ├── slider.tsx                # Material-UI based slider component
+│       ├── label.tsx                 # shadcn/ui label component
+│       └── icons/                    # Custom icon components for rocket specifications
+├── features/                # Top-level feature components organized by domain
+│   ├── MainViz/             # Primary map visualization with timeline controls
+│   ├── Earth3d/             # 3D Earth globe with scroll-responsive animation
+│   ├── Astronaut/           # Rotatable 3D astronaut model
+│   ├── EraSelector/         # Historical era selection with timeline interface
+│   ├── ProviderSelector/    # Launch provider selection with filtering by era
+│   ├── RocketSelector/      # Rocket selection with provider-based filtering
+│   ├── RocketInfo/          # Detailed rocket information and launch statistics
+│   └── Footer/              # Application footer with navigation and data sources
+├── contexts/                # React Context providers for global state management
+│   ├── TimelineContext.tsx  # Time-based navigation, playback controls, and temporal filtering
+│   └── SelectionContext.tsx # Hierarchical selection state (Era → Provider → Rocket)
+├── hooks/                   # Custom React hooks for data and UI interactions
+│   └── useScrollSpy.ts      # Intersection Observer hook for navigation highlighting
+├── lib/                     # Utility functions and data processing logic
+│   ├── data-loader.ts       # Data fetching, processing, and filtering utilities
+│   └── utils.ts             # General utility functions (date formatting, CSS classes)
+└── types/                   # TypeScript type definitions
+    └── index.ts             # Type definitions for launches, rockets, providers, eras
 ```
 
-## Key Features
+_Note: This structure shows the main directories and key files. Additional utility files, assets, and configuration files exist throughout the project._
 
-### Interactive World Map Visualization
-
-- Geographic representation of launch sites
-- Color-coded status indicators
-- Interactive tooltips with detailed launch information
-- Time-based animation
-- Modular component architecture for maintainability
-
-### Multi-level Data Exploration
-
-- Historical era selection
-- Launch provider filtering
-- Rocket type selection
-- Detailed rocket specifications
-
-### Responsive Time Navigation
-
-- Timeline slider with playback controls
-- Month/year precision
-- Variable playback speed
-
-## Development Setup
+## Getting Started
 
 ### Prerequisites
 
-- Node.js
-- npm
+- **Node.js 18+** - Required for modern JavaScript features and package compatibility
+- **npm or yarn** - Package manager for dependency installation
 
 ### Installation
 
+1. Clone the repository:
+
 ```bash
-# Clone the repository
-git clone [repository-url]
+git clone https://github.com/com-480-data-visualization/Fam.git
+cd Fam/data-viz
+```
 
-# Navigate to the project directory
-cd data-viz
+2. Install dependencies:
 
-# Install dependencies
+```bash
 npm install
 ```
 
-### Development Commands
+3. Start the development server:
 
 ```bash
-# Start development server
 npm run dev
-
-# Build for production
-npm run build
-
-# Generate documentation
-npm run docs
-
-# Serve documentation
-npm run docs:serve
 ```
 
-## Documentation
+4. Open your browser to `http://localhost:5173`
 
-The codebase is fully documented using JSDoc-style comments and TypeDoc for documentation generation. The documentation covers:
+### Available Scripts
 
-- Component APIs
-- Type interfaces
-- Context usage patterns
-- Utility functions
-
-To view the documentation, run `npm run docs:serve` and open the displayed local URL in your browser.
-
-## Performance Considerations
-
-The application implements several optimization strategies:
-
-- Virtualized rendering for large datasets
-- Memoization of expensive calculations
-- Efficient D3.js integration with React lifecycle
-- Conditional rendering based on viewport visibility
-- Modular component architecture to prevent unnecessary re-renders
+- `npm run dev` - Start development server with hot reload and source maps
+- `npm run build` - Build production-ready application with optimization
+- `npm run lint` - Run ESLint for code quality checks and consistency
+- `npm run preview` - Preview production build locally for testing
+- `npm run docs` - Generate comprehensive TypeDoc documentation
 
 ## License
 

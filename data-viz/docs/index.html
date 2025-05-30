@@ -1,85 +1,209 @@
-<!DOCTYPE html><html class="default" lang="en" data-base="./"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>Rocket Launch Data Visualization - v0.0.0</title><meta name="description" content="Documentation for Rocket Launch Data Visualization"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script defer src="assets/main.js"></script><script async src="assets/icons.js" id="tsd-icons-script"></script><script async src="assets/search.js" id="tsd-search-script"></script><script async src="assets/navigation.js" id="tsd-nav-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><a href="index.html" class="title">Rocket Launch Data Visualization - v0.0.0</a><div id="tsd-toolbar-links"></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/><ul role="listbox" id="tsd-search-results"></ul><div id="tsd-search-status" aria-live="polite" aria-atomic="true"><div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-menu"></use></svg></a></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><h1>Rocket Launch Data Visualization - v0.0.0</h1></div><div class="tsd-panel tsd-typography"><h1 id="rocket-launch-data-visualization" class="tsd-anchor-link">Rocket Launch Data Visualization<a href="#rocket-launch-data-visualization" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h1><p>A comprehensive interactive data visualization application for exploring global rocket launch data throughout spaceflight history. This application enables users to analyze historical trends in space exploration through an interactive world map and hierarchical filtering system.</p>
-<h2 id="technical-overview" class="tsd-anchor-link">Technical Overview<a href="#technical-overview" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>This application is built on React with TypeScript, utilizing D3.js for data visualization components and modern React patterns for state management. The visualization focuses on presenting historical rocket launch data with multiple layers of interactivity.</p>
+<!DOCTYPE html><html class="default" lang="en" data-base="./"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>Rocket Launch Data Visualization - v0.0.0</title><meta name="description" content="Documentation for Rocket Launch Data Visualization"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script defer src="assets/main.js"></script><script async src="assets/icons.js" id="tsd-icons-script"></script><script async src="assets/search.js" id="tsd-search-script"></script><script async src="assets/navigation.js" id="tsd-nav-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><a href="index.html" class="title">Rocket Launch Data Visualization - v0.0.0</a><div id="tsd-toolbar-links"></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/><ul role="listbox" id="tsd-search-results"></ul><div id="tsd-search-status" aria-live="polite" aria-atomic="true"><div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-menu"></use></svg></a></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><h1>Rocket Launch Data Visualization - v0.0.0</h1></div><div class="tsd-panel tsd-typography"><h1 id="rocket-launch-data-visualization" class="tsd-anchor-link">Rocket Launch Data Visualization<a href="#rocket-launch-data-visualization" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h1><p>A comprehensive interactive data visualization application for exploring global rocket launch data throughout spaceflight history. This application enables users to analyze historical trends in space exploration through an interactive world map, timeline controls, and hierarchical filtering system.</p>
+<h2 id="technical-overview" class="tsd-anchor-link">Technical Overview<a href="#technical-overview" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>This application is built on React 19 with TypeScript, utilizing D3.js for data visualization components and modern React patterns for state management. The visualization focuses on presenting historical rocket launch data with multiple layers of interactivity, including temporal navigation and multi-dimensional data exploration.</p>
 <h3 id="core-technologies" class="tsd-anchor-link">Core Technologies<a href="#core-technologies" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
 <li><strong>Frontend Framework</strong>: React 19 with TypeScript</li>
-<li><strong>Data Visualization</strong>: D3.js</li>
+<li><strong>Data Visualization</strong>: D3.js v7 for maps and charts</li>
+<li><strong>3D Graphics</strong>: Three.js with React Three Fiber</li>
+<li><strong>UI Components</strong>: Radix UI primitives with custom styling</li>
 <li><strong>State Management</strong>: React Context API</li>
-<li><strong>Styling</strong>: TailwindCSS</li>
-<li><strong>Build System</strong>: Vite</li>
+<li><strong>Styling</strong>: TailwindCSS v4 with custom animations</li>
+<li><strong>Build System</strong>: Vite with SWC</li>
 <li><strong>Documentation</strong>: TypeDoc</li>
 </ul>
-<h2 id="architecture" class="tsd-anchor-link">Architecture<a href="#architecture" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>The application follows a feature-based architecture with clear separation of concerns:</p>
+<h2 id="architecture" class="tsd-anchor-link">Architecture<a href="#architecture" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>The application follows a feature-based architecture with clear separation of concerns and modular component design:</p>
 <h3 id="key-architectural-components" class="tsd-anchor-link">Key Architectural Components<a href="#key-architectural-components" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
 <li>
 <p><strong>Context Providers</strong></p>
 <ul>
-<li><code>TimelineContext</code>: Manages time-series data and playback controls</li>
-<li><code>SelectionContext</code>: Handles user selection state across component hierarchy</li>
+<li><code>TimelineContext</code>: Manages time-series data, playback controls, and temporal filtering</li>
+<li><code>SelectionContext</code>: Handles hierarchical user selection state (Era → Provider → Rocket)</li>
 </ul>
 </li>
 <li>
 <p><strong>Component Categories</strong></p>
 <ul>
-<li><code>components/ui</code>: Reusable UI primitives and visualization elements</li>
-<li><code>components/common</code>: Shared structural components</li>
+<li><code>components/ui</code>: Reusable UI primitives and visualization components</li>
+<li><code>components/common</code>: Shared structural components (Layout, Navigation)</li>
 <li><code>features</code>: Feature-specific components organized by domain</li>
+<li><code>hooks</code>: Custom React hooks for data handling and UI state</li>
+<li><code>lib</code>: Utility functions and data processing logic</li>
 </ul>
 </li>
 <li>
 <p><strong>Data Flow</strong></p>
 <ul>
-<li>Data is loaded asynchronously from JSON source files</li>
-<li>Context providers distribute data to components based on user interaction</li>
-<li>Interactive elements generate events that update context state</li>
+<li>Asynchronous data loading from JSON sources</li>
+<li>Context-driven state distribution</li>
+<li>Event-driven user interactions</li>
+<li>Progressive disclosure pattern for UI complexity</li>
 </ul>
 </li>
 </ul>
-<h2 id="project-structure" class="tsd-anchor-link">Project Structure<a href="#project-structure" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><pre><code class="yaml"><span class="hl-0">src/</span><br/><span class="hl-0">├── App.tsx</span><span class="hl-1">                 </span><span class="hl-2"># Application entry point</span><br/><span class="hl-0">├── components/</span><span class="hl-1">             </span><span class="hl-2"># Reusable UI components</span><br/><span class="hl-0">│   ├── common/</span><span class="hl-1">             </span><span class="hl-2"># Layout and navigation components</span><br/><span class="hl-0">│   └── ui/</span><span class="hl-1">                 </span><span class="hl-2"># UI elements and visualizations</span><br/><span class="hl-0">│       └── world-map/</span><span class="hl-1">      </span><span class="hl-2"># Modular components for the world map visualization</span><br/><span class="hl-0">│           ├── charts/</span><span class="hl-1">     </span><span class="hl-2"># Chart visualization components</span><br/><span class="hl-0">│           ├── controls/</span><span class="hl-1">   </span><span class="hl-2"># UI control components</span><br/><span class="hl-0">│           ├── panels/</span><span class="hl-1">     </span><span class="hl-2"># Information panel components</span><br/><span class="hl-0">│           └── statistics/</span><span class="hl-1"> </span><span class="hl-2"># Data processing utilities</span><br/><span class="hl-0">├── contexts/</span><span class="hl-1">               </span><span class="hl-2"># React context providers</span><br/><span class="hl-0">├── features/</span><span class="hl-1">               </span><span class="hl-2"># Feature-specific components</span><br/><span class="hl-0">├── hooks/</span><span class="hl-1">                  </span><span class="hl-2"># Custom React hooks</span><br/><span class="hl-0">├── lib/</span><span class="hl-1">                    </span><span class="hl-2"># Utility functions and data processing</span><br/><span class="hl-0">└── types/</span><span class="hl-1">                  </span><span class="hl-2"># TypeScript type definitions</span>
+<h2 id="project-structure" class="tsd-anchor-link">Project Structure<a href="#project-structure" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><pre><code class="yaml"><span class="hl-0">src/</span><br/><span class="hl-0">├── App.tsx</span><span class="hl-1">                 </span><span class="hl-2"># Application entry point with context providers</span><br/><span class="hl-0">├── main.tsx</span><span class="hl-1">                </span><span class="hl-2"># React app initialization</span><br/><span class="hl-0">├── components/</span><span class="hl-1">             </span><span class="hl-2"># Reusable UI components</span><br/><span class="hl-0">│   ├── common/</span><span class="hl-1">             </span><span class="hl-2"># Layout and navigation components</span><br/><span class="hl-0">│   │   └── Layout/</span><span class="hl-1">         </span><span class="hl-2"># Main application layout with progressive disclosure</span><br/><span class="hl-0">│   └── ui/</span><span class="hl-1">                 </span><span class="hl-2"># UI primitives and visualization elements</span><br/><span class="hl-0">│       ├── animation-controls.tsx</span><span class="hl-1">    </span><span class="hl-2"># Timeline playback controls</span><br/><span class="hl-0">│       ├── world-map/</span><span class="hl-1">              </span><span class="hl-2"># Modular world map visualization</span><br/><span class="hl-0">│       │   ├── charts/</span><span class="hl-1">             </span><span class="hl-2"># Chart components (launch counts, success rates)</span><br/><span class="hl-0">│       │   ├── controls/</span><span class="hl-1">           </span><span class="hl-2"># Map interaction controls</span><br/><span class="hl-0">│       │   ├── panels/</span><span class="hl-1">             </span><span class="hl-2"># Information display panels</span><br/><span class="hl-0">│       │   └── statistics/</span><span class="hl-1">         </span><span class="hl-2"># Data processing utilities</span><br/><span class="hl-0">│       ├── button.tsx</span><span class="hl-1">              </span><span class="hl-2"># Custom button component</span><br/><span class="hl-0">│       ├── slider.tsx</span><span class="hl-1">              </span><span class="hl-2"># Timeline scrubbing slider</span><br/><span class="hl-0">│       └── toggle-group.tsx</span><span class="hl-1">        </span><span class="hl-2"># UI toggle controls</span><br/><span class="hl-0">├── contexts/</span><span class="hl-1">               </span><span class="hl-2"># React context providers</span><br/><span class="hl-0">│   ├── TimelineContext.tsx</span><span class="hl-1">         </span><span class="hl-2"># Time navigation and data filtering</span><br/><span class="hl-0">│   └── SelectionContext.tsx</span><span class="hl-1">        </span><span class="hl-2"># Hierarchical selection management</span><br/><span class="hl-0">├── features/</span><span class="hl-1">               </span><span class="hl-2"># Feature-specific components</span><br/><span class="hl-0">│   ├── MainViz/</span><span class="hl-1">            </span><span class="hl-2"># Primary data visualization</span><br/><span class="hl-0">│   ├── EraSelector/</span><span class="hl-1">        </span><span class="hl-2"># Historical era selection</span><br/><span class="hl-0">│   ├── ProviderSelector/</span><span class="hl-1">   </span><span class="hl-2"># Launch provider selection</span><br/><span class="hl-0">│   ├── RocketSelector/</span><span class="hl-1">     </span><span class="hl-2"># Rocket type selection</span><br/><span class="hl-0">│   ├── RocketInfo/</span><span class="hl-1">         </span><span class="hl-2"># Detailed rocket specifications</span><br/><span class="hl-0">│   ├── Earth3d/</span><span class="hl-1">            </span><span class="hl-2"># 3D Earth visualization</span><br/><span class="hl-0">│   ├── Astronaut/</span><span class="hl-1">          </span><span class="hl-2"># 3D astronaut animation</span><br/><span class="hl-0">│   └── Footer/</span><span class="hl-1">             </span><span class="hl-2"># Application footer with navigation</span><br/><span class="hl-0">├── hooks/</span><span class="hl-1">                  </span><span class="hl-2"># Custom React hooks</span><br/><span class="hl-0">├── lib/</span><span class="hl-1">                    </span><span class="hl-2"># Utility functions and data processing</span><br/><span class="hl-0">│   └── data-loader.ts</span><span class="hl-1">      </span><span class="hl-2"># Data fetching and organization</span><br/><span class="hl-0">└── types/</span><span class="hl-1">                  </span><span class="hl-2"># TypeScript type definitions</span>
 </code><button type="button">Copy</button></pre>
 
 <h2 id="key-features" class="tsd-anchor-link">Key Features<a href="#key-features" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><h3 id="interactive-world-map-visualization" class="tsd-anchor-link">Interactive World Map Visualization<a href="#interactive-world-map-visualization" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
-<li>Geographic representation of launch sites</li>
-<li>Color-coded status indicators</li>
+<li>Geographic representation of launch sites with D3.js</li>
+<li>Color-coded status indicators for launch outcomes</li>
 <li>Interactive tooltips with detailed launch information</li>
-<li>Time-based animation</li>
-<li>Modular component architecture for maintainability</li>
+<li>Responsive design for desktop and mobile devices</li>
+<li>Real-time data filtering based on timeline position</li>
+</ul>
+<h3 id="advanced-timeline-navigation" class="tsd-anchor-link">Advanced Timeline Navigation<a href="#advanced-timeline-navigation" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
+<li>Dual-scale timeline (monthly/yearly view modes)</li>
+<li>Animated playback with variable speed control</li>
+<li>Precision scrubbing with custom slider component</li>
+<li>Automatic data aggregation based on scale</li>
+<li>Timeline boundaries determined by actual data range</li>
 </ul>
 <h3 id="multi-level-data-exploration" class="tsd-anchor-link">Multi-level Data Exploration<a href="#multi-level-data-exploration" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
-<li>Historical era selection</li>
-<li>Launch provider filtering</li>
-<li>Rocket type selection</li>
-<li>Detailed rocket specifications</li>
+<li><strong>Progressive Disclosure Pattern</strong>:
+<ol>
+<li>Main visualization is always visible</li>
+<li>Era selector (Space Race, Shuttle Era, Commercial Era)</li>
+<li>Provider selector (contextual to selected era)</li>
+<li>Rocket selector (contextual to selected provider)</li>
+<li>Detailed rocket specifications and statistics</li>
+</ol>
+</li>
 </ul>
-<h3 id="responsive-time-navigation" class="tsd-anchor-link">Responsive Time Navigation<a href="#responsive-time-navigation" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
-<li>Timeline slider with playback controls</li>
-<li>Month/year precision</li>
-<li>Variable playback speed</li>
+<h3 id="enhanced-user-experience" class="tsd-anchor-link">Enhanced User Experience<a href="#enhanced-user-experience" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
+<li><strong>3D Elements</strong>: Interactive Earth globe and astronaut animations</li>
+<li><strong>Responsive Charts</strong>: Launch count trends and success rate analytics</li>
+<li><strong>Smart UI</strong>: Context-aware component visibility</li>
+<li><strong>Performance Optimization</strong>: Virtualized rendering and memoization</li>
 </ul>
 <h2 id="development-setup" class="tsd-anchor-link">Development Setup<a href="#development-setup" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><h3 id="prerequisites" class="tsd-anchor-link">Prerequisites<a href="#prerequisites" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
-<li>Node.js</li>
-<li>npm</li>
+<li>Node.js (v18 or higher)</li>
+<li>npm or yarn package manager</li>
 </ul>
 <h3 id="installation" class="tsd-anchor-link">Installation<a href="#installation" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><pre><code class="bash"><span class="hl-2"># Clone the repository</span><br/><span class="hl-3">git</span><span class="hl-1"> </span><span class="hl-4">clone</span><span class="hl-1"> [repository-url]</span><br/><br/><span class="hl-2"># Navigate to the project directory</span><br/><span class="hl-3">cd</span><span class="hl-1"> </span><span class="hl-4">data-viz</span><br/><br/><span class="hl-2"># Install dependencies</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-4">install</span>
 </code><button type="button">Copy</button></pre>
 
-<h3 id="development-commands" class="tsd-anchor-link">Development Commands<a href="#development-commands" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><pre><code class="bash"><span class="hl-2"># Start development server</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-4">run</span><span class="hl-1"> </span><span class="hl-4">dev</span><br/><br/><span class="hl-2"># Build for production</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-4">run</span><span class="hl-1"> </span><span class="hl-4">build</span><br/><br/><span class="hl-2"># Generate documentation</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-4">run</span><span class="hl-1"> </span><span class="hl-4">docs</span><br/><br/><span class="hl-2"># Serve documentation</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-4">run</span><span class="hl-1"> </span><span class="hl-4">docs:serve</span>
+<h3 id="development-commands" class="tsd-anchor-link">Development Commands<a href="#development-commands" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><pre><code class="bash"><span class="hl-2"># Start development server</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-4">run</span><span class="hl-1"> </span><span class="hl-4">dev</span><br/><br/><span class="hl-2"># Build for production</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-4">run</span><span class="hl-1"> </span><span class="hl-4">build</span><br/><br/><span class="hl-2"># Lint code</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-4">run</span><span class="hl-1"> </span><span class="hl-4">lint</span><br/><br/><span class="hl-2"># Preview production build</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-4">run</span><span class="hl-1"> </span><span class="hl-4">preview</span><br/><br/><span class="hl-2"># Generate documentation</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-4">run</span><span class="hl-1"> </span><span class="hl-4">docs</span><br/><br/><span class="hl-2"># Serve documentation locally</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-4">run</span><span class="hl-1"> </span><span class="hl-4">docs:serve</span>
 </code><button type="button">Copy</button></pre>
 
-<h2 id="documentation" class="tsd-anchor-link">Documentation<a href="#documentation" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>The codebase is fully documented using JSDoc-style comments and TypeDoc for documentation generation. The documentation covers:</p>
+<h2 id="documentation" class="tsd-anchor-link">Documentation<a href="#documentation" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><h3 id="generating-documentation" class="tsd-anchor-link">Generating Documentation<a href="#generating-documentation" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>The codebase is fully documented using JSDoc-style comments and TypeDoc for documentation generation. To generate or update the documentation:</p>
+<pre><code class="bash"><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-4">run</span><span class="hl-1"> </span><span class="hl-4">docs</span>
+</code><button type="button">Copy</button></pre>
+
+<p>To view the documentation in a browser:</p>
+<pre><code class="bash"><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-4">run</span><span class="hl-1"> </span><span class="hl-4">docs:serve</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Then open your browser to the displayed URL (typically <a href="http://localhost:3000">http://localhost:3000</a>).</p>
+<h3 id="documentation-structure" class="tsd-anchor-link">Documentation Structure<a href="#documentation-structure" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>The documentation is organized into the following sections:</p>
 <ul>
-<li>Component APIs</li>
-<li>Type interfaces</li>
-<li>Context usage patterns</li>
-<li>Utility functions</li>
-</ul>
-<p>To view the documentation, run <code>npm run docs:serve</code> and open the displayed local URL in your browser.</p>
-<h2 id="performance-considerations" class="tsd-anchor-link">Performance Considerations<a href="#performance-considerations" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>The application implements several optimization strategies:</p>
+<li><strong>App</strong>: Main application entry point and provider hierarchy</li>
+<li><strong>Components</strong>: Reusable UI components
 <ul>
-<li>Virtualized rendering for large datasets</li>
-<li>Memoization of expensive calculations</li>
-<li>Efficient D3.js integration with React lifecycle</li>
-<li>Conditional rendering based on viewport visibility</li>
-<li>Modular component architecture to prevent unnecessary re-renders</li>
+<li><strong>Common</strong>: Layout and navigation components</li>
+<li><strong>UI</strong>: UI elements and visualizations
+<ul>
+<li><strong>World Map</strong>: Modular components for the world map visualization
+<ul>
+<li><strong>Charts</strong>: Chart visualization components</li>
+<li><strong>Controls</strong>: UI control components</li>
+<li><strong>Panels</strong>: Information panel components</li>
+<li><strong>Statistics</strong>: Data processing utilities</li>
 </ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Features</strong>: Feature-specific components organized by domain</li>
+<li><strong>Contexts</strong>: React context providers for state management</li>
+<li><strong>Hooks</strong>: Custom React hooks for data handling</li>
+<li><strong>Lib</strong>: Utility functions and data processing</li>
+<li><strong>Types</strong>: TypeScript type definitions</li>
+</ul>
+<h3 id="key-components-documentation" class="tsd-anchor-link">Key Components Documentation<a href="#key-components-documentation" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><h4 id="context-providers" class="tsd-anchor-link">Context Providers<a href="#context-providers" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><ul>
+<li>
+<p><strong><a href="media/contexts_TimelineContext.html">TimelineContext</a></strong>: Manages time-related state including current time period, playback controls, and temporal data filtering. Supports both monthly and yearly view modes with variable playback speeds.</p>
+</li>
+<li>
+<p><strong><a href="media/contexts_SelectionContext.html">SelectionContext</a></strong>: Manages hierarchical user selection state following the pattern: Era → Provider → Rocket. Controls the progressive disclosure of UI elements.</p>
+</li>
+</ul>
+<h4 id="core-components" class="tsd-anchor-link">Core Components<a href="#core-components" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><ul>
+<li>
+<p><strong><a href="media/components_common_Layout.html">Layout</a></strong>: Main application structure with conditional rendering based on selection state. Implements the progressive disclosure pattern.</p>
+</li>
+<li>
+<p><strong><a href="media/components_ui_world-map.html">WorldMap</a></strong>: Primary visualization orchestrating map rendering, data display, and user interactions.</p>
+</li>
+<li>
+<p><strong><a href="media/components_ui_animation-controls.AnimationControls.html">AnimationControls</a></strong>: Timeline playback interface with play/pause, speed control, and timeline scrubbing.</p>
+</li>
+</ul>
+<h4 id="data-management" class="tsd-anchor-link">Data Management<a href="#data-management" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><ul>
+<li><strong><a href="media/lib_data-loader.html">data-loader.ts</a></strong>: Functions for loading and processing rocket launch data, organizing providers and rockets by historical eras.</li>
+</ul>
+<h3 id="usage-patterns" class="tsd-anchor-link">Usage Patterns<a href="#usage-patterns" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><h4 id="context-access" class="tsd-anchor-link">Context Access<a href="#context-access" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><p>Components access global state through context hooks:</p>
+<pre><code class="tsx"><span class="hl-2">// Access timeline data and controls</span><br/><span class="hl-5">const</span><span class="hl-1"> { </span><span class="hl-6">currentYear</span><span class="hl-1">, </span><span class="hl-6">isPlaying</span><span class="hl-1">, </span><span class="hl-6">togglePlayback</span><span class="hl-1">, </span><span class="hl-6">viewMode</span><span class="hl-1"> } = </span><span class="hl-3">useTimeline</span><span class="hl-1">();</span><br/><br/><span class="hl-2">// Access selection state</span><br/><span class="hl-5">const</span><span class="hl-1"> { </span><span class="hl-6">selectedEra</span><span class="hl-1">, </span><span class="hl-6">selectedProvider</span><span class="hl-1">, </span><span class="hl-6">setSelectedProvider</span><span class="hl-1"> } = </span><span class="hl-3">useSelection</span><span class="hl-1">();</span>
+</code><button type="button">Copy</button></pre>
+
+<h4 id="progressive-disclosure" class="tsd-anchor-link">Progressive Disclosure<a href="#progressive-disclosure" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><p>The application follows a progressive disclosure pattern:</p>
+<ol>
+<li>Main visualization is always visible</li>
+<li>Era selector is always available</li>
+<li>Provider selector appears when an era is selected</li>
+<li>Rocket selector appears when a provider is selected</li>
+<li>Rocket details appear when a rocket is selected</li>
+</ol>
+<h4 id="component-modularity" class="tsd-anchor-link">Component Modularity<a href="#component-modularity" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><p>The WorldMap visualization demonstrates modular architecture:</p>
+<ol>
+<li>Main <code>WorldMap</code> component orchestrates the visualization</li>
+<li><code>MapVisualization</code> handles D3.js map rendering</li>
+<li>Specialized panel components manage UI sections</li>
+<li>Chart components handle data visualization</li>
+<li>Utility functions handle data processing</li>
+</ol>
+<p>This separation enables better maintainability and performance optimization.</p>
+<h2 id="performance-considerations" class="tsd-anchor-link">Performance Considerations<a href="#performance-considerations" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>The application implements several optimization strategies for handling large datasets and complex visualizations:</p>
+<h3 id="data-processing-optimizations" class="tsd-anchor-link">Data Processing Optimizations<a href="#data-processing-optimizations" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
+<li><strong>Pre-aggregated Data</strong>: Launch data is organized by year and month for efficient temporal filtering</li>
+<li><strong>Lazy Loading</strong>: Data is loaded asynchronously to prevent blocking the UI</li>
+<li><strong>Memoized Calculations</strong>: Expensive computations are cached using React's <code>useMemo</code></li>
+<li><strong>Efficient Data Structures</strong>: Timeline boundaries calculated once during data initialization</li>
+</ul>
+<h3 id="rendering-optimizations" class="tsd-anchor-link">Rendering Optimizations<a href="#rendering-optimizations" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
+<li><strong>Virtualized Rendering</strong>: Large datasets are rendered efficiently using D3.js optimization techniques</li>
+<li><strong>Conditional Rendering</strong>: Components only render when visible or when their data changes</li>
+<li><strong>Component Memoization</strong>: React components are memoized to prevent unnecessary re-renders</li>
+<li><strong>Modular Architecture</strong>: Separating concerns reduces component update frequency</li>
+</ul>
+<h3 id="timeline-animation" class="tsd-anchor-link">Timeline Animation<a href="#timeline-animation" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
+<li><strong>Optimized Intervals</strong>: Animation intervals are carefully tuned for smooth playback</li>
+<li><strong>Variable Speed Control</strong>: Playback speed affects interval timing rather than data processing</li>
+<li><strong>Boundary Checking</strong>: Timeline animation respects data boundaries to prevent errors</li>
+<li><strong>Memory Management</strong>: Animation intervals are properly cleaned up on component unmount</li>
+</ul>
+<h3 id="d3js-integration" class="tsd-anchor-link">D3.js Integration<a href="#d3js-integration" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
+<li><strong>Efficient D3 Patterns</strong>: Using D3's data binding and update patterns for smooth transitions</li>
+<li><strong>SVG Optimization</strong>: Minimizing DOM manipulation for better performance</li>
+<li><strong>Event Handling</strong>: Optimized event listeners for map interactions</li>
+</ul>
+<h2 id="code-documentation-standards" class="tsd-anchor-link">Code Documentation Standards<a href="#code-documentation-standards" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>The project follows comprehensive documentation practices:</p>
+<h3 id="file-documentation" class="tsd-anchor-link">File Documentation<a href="#file-documentation" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
+<li><strong>File Headers</strong>: Each file has JSDoc comments describing its purpose and module structure</li>
+<li><strong>Component Documentation</strong>: React components include descriptions of functionality, props, and return values</li>
+<li><strong>Function Documentation</strong>: All functions documented with parameters, return values, and usage examples</li>
+<li><strong>Interface Documentation</strong>: TypeScript interfaces and types have clear descriptions</li>
+</ul>
+<h3 id="documentation-examples" class="tsd-anchor-link">Documentation Examples<a href="#documentation-examples" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><pre><code class="tsx"><span class="hl-2">/**</span><br/><span class="hl-2"> * Timeline Context for managing time-related state and data.</span><br/><span class="hl-2"> * </span><br/><span class="hl-2"> * This context provides functionality for:</span><br/><span class="hl-2"> * - Navigation through historical launch data using a timeline</span><br/><span class="hl-2"> * - Managing playback controls for animating through time periods</span><br/><span class="hl-2"> * - Filtering launch data based on selected time periods</span><br/><span class="hl-2"> */</span><br/><span class="hl-7">export</span><span class="hl-1"> </span><span class="hl-5">function</span><span class="hl-1"> </span><span class="hl-3">TimelineProvider</span><span class="hl-1">({ </span><span class="hl-8">children</span><span class="hl-1"> }: { </span><span class="hl-8">children</span><span class="hl-1">: </span><span class="hl-9">ReactNode</span><span class="hl-1"> }) {</span><br/><span class="hl-1">  </span><span class="hl-2">// Implementation</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<h2 id="contributing" class="tsd-anchor-link">Contributing<a href="#contributing" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>When contributing to this project:</p>
+<ol>
+<li><strong>Follow Documentation Standards</strong>: All new code should include comprehensive JSDoc comments</li>
+<li><strong>Update Type Definitions</strong>: Add TypeScript types for new data structures</li>
+<li><strong>Test Performance</strong>: Ensure new features don't impact rendering performance</li>
+<li><strong>Maintain Architecture</strong>: Follow the established feature-based organization</li>
+<li><strong>Update Documentation</strong>: Run <code>npm run docs</code> to regenerate documentation after changes</li>
+</ol>
 <h2 id="license" class="tsd-anchor-link">License<a href="#license" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p><a href="media/LICENSE">MIT License</a></p>
-</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg><h3>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg><h3>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#rocket-launch-data-visualization"><span>Rocket <wbr/>Launch <wbr/>Data <wbr/>Visualization</span></a><ul><li><a href="#technical-overview"><span>Technical <wbr/>Overview</span></a></li><li><ul><li><a href="#core-technologies"><span>Core <wbr/>Technologies</span></a></li></ul></li><li><a href="#architecture"><span>Architecture</span></a></li><li><ul><li><a href="#key-architectural-components"><span>Key <wbr/>Architectural <wbr/>Components</span></a></li></ul></li><li><a href="#project-structure"><span>Project <wbr/>Structure</span></a></li><li><a href="#key-features"><span>Key <wbr/>Features</span></a></li><li><ul><li><a href="#interactive-world-map-visualization"><span>Interactive <wbr/>World <wbr/>Map <wbr/>Visualization</span></a></li><li><a href="#multi-level-data-exploration"><span>Multi-<wbr/>level <wbr/>Data <wbr/>Exploration</span></a></li><li><a href="#responsive-time-navigation"><span>Responsive <wbr/>Time <wbr/>Navigation</span></a></li></ul></li><li><a href="#development-setup"><span>Development <wbr/>Setup</span></a></li><li><ul><li><a href="#prerequisites"><span>Prerequisites</span></a></li><li><a href="#installation"><span>Installation</span></a></li><li><a href="#development-commands"><span>Development <wbr/>Commands</span></a></li></ul></li><li><a href="#documentation"><span>Documentation</span></a></li><li><a href="#performance-considerations"><span>Performance <wbr/>Considerations</span></a></li><li><a href="#license"><span>License</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="modules.html">Rocket Launch Data Visualization - v0.0.0</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer></footer><div class="overlay"></div></body></html>
+<hr>
+<p><em>This documentation reflects the current state of the Rocket Launch Data Visualization application as of 2025. For the most up-to-date information, please refer to the generated TypeDoc documentation.</em></p>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg><h3>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg><h3>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#rocket-launch-data-visualization"><span>Rocket <wbr/>Launch <wbr/>Data <wbr/>Visualization</span></a><ul><li><a href="#technical-overview"><span>Technical <wbr/>Overview</span></a></li><li><ul><li><a href="#core-technologies"><span>Core <wbr/>Technologies</span></a></li></ul></li><li><a href="#architecture"><span>Architecture</span></a></li><li><ul><li><a href="#key-architectural-components"><span>Key <wbr/>Architectural <wbr/>Components</span></a></li></ul></li><li><a href="#project-structure"><span>Project <wbr/>Structure</span></a></li><li><a href="#key-features"><span>Key <wbr/>Features</span></a></li><li><ul><li><a href="#interactive-world-map-visualization"><span>Interactive <wbr/>World <wbr/>Map <wbr/>Visualization</span></a></li><li><a href="#advanced-timeline-navigation"><span>Advanced <wbr/>Timeline <wbr/>Navigation</span></a></li><li><a href="#multi-level-data-exploration"><span>Multi-<wbr/>level <wbr/>Data <wbr/>Exploration</span></a></li><li><a href="#enhanced-user-experience"><span>Enhanced <wbr/>User <wbr/>Experience</span></a></li></ul></li><li><a href="#development-setup"><span>Development <wbr/>Setup</span></a></li><li><ul><li><a href="#prerequisites"><span>Prerequisites</span></a></li><li><a href="#installation"><span>Installation</span></a></li><li><a href="#development-commands"><span>Development <wbr/>Commands</span></a></li></ul></li><li><a href="#documentation"><span>Documentation</span></a></li><li><ul><li><a href="#generating-documentation"><span>Generating <wbr/>Documentation</span></a></li><li><a href="#documentation-structure"><span>Documentation <wbr/>Structure</span></a></li><li><a href="#key-components-documentation"><span>Key <wbr/>Components <wbr/>Documentation</span></a></li><li><ul><li><a href="#context-providers"><span>Context <wbr/>Providers</span></a></li><li><a href="#core-components"><span>Core <wbr/>Components</span></a></li><li><a href="#data-management"><span>Data <wbr/>Management</span></a></li></ul></li><li><a href="#usage-patterns"><span>Usage <wbr/>Patterns</span></a></li><li><ul><li><a href="#context-access"><span>Context <wbr/>Access</span></a></li><li><a href="#progressive-disclosure"><span>Progressive <wbr/>Disclosure</span></a></li><li><a href="#component-modularity"><span>Component <wbr/>Modularity</span></a></li></ul></li></ul></li><li><a href="#performance-considerations"><span>Performance <wbr/>Considerations</span></a></li><li><ul><li><a href="#data-processing-optimizations"><span>Data <wbr/>Processing <wbr/>Optimizations</span></a></li><li><a href="#rendering-optimizations"><span>Rendering <wbr/>Optimizations</span></a></li><li><a href="#timeline-animation"><span>Timeline <wbr/>Animation</span></a></li><li><a href="#d3js-integration"><span>D3.js <wbr/>Integration</span></a></li></ul></li><li><a href="#code-documentation-standards"><span>Code <wbr/>Documentation <wbr/>Standards</span></a></li><li><ul><li><a href="#file-documentation"><span>File <wbr/>Documentation</span></a></li><li><a href="#documentation-examples"><span>Documentation <wbr/>Examples</span></a></li></ul></li><li><a href="#contributing"><span>Contributing</span></a></li><li><a href="#license"><span>License</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="modules.html">Rocket Launch Data Visualization - v0.0.0</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer></footer><div class="overlay"></div></body></html>

@@ -4,19 +4,19 @@
  * This component renders a horizontal bar chart showing the launch counts
  * for different rocket launch providers, with interactive selection capabilities.
  *
- * @module components/ui/horizontal-bar-chart
+ * @module components/ui/ProviderBarChart
  */
 import { useRef } from "react";
 import { Provider } from "../../types";
-import { historicalProvidersByEra } from "../../lib/data-loader"; // adjust path if needed
+import { historicalProvidersByEra } from "../../lib/data-loader";
 import { MousePointerClick } from "lucide-react";
 
 /**
- * Props for the HorizontalBarChart component.
+ * Props for the ProviderBarChart component.
  *
- * @interface HorizontalBarChartProps
+ * @interface ProviderBarChartProps
  */
-interface HorizontalBarChartProps {
+interface ProviderBarChartProps {
   /** Array of provider data to display in the chart */
   providers: Provider[];
   /** Currently selected provider (if any) */
@@ -55,17 +55,17 @@ const getThresholdForEra = (era: string) => {
  * - Provides interactive selection of providers
  * - Highlights the currently selected provider
  *
- * @param {HorizontalBarChartProps} props - Component properties
+ * @param {ProviderBarChartProps} props - Component properties
  * @returns {JSX.Element} Rendered horizontal bar chart component
  */
-export default function HorizontalBarChart({
+export default function ProviderBarChart({
   providers,
   selectedProvider,
   onProviderSelect,
   onProviderHover,
   onProviderHoverLeave,
   era,
-}: HorizontalBarChartProps) {
+}: ProviderBarChartProps) {
   const chartRef = useRef<HTMLDivElement>(null);
 
   // Initialize arrays and counters for data processing
@@ -99,8 +99,8 @@ export default function HorizontalBarChart({
     const othersData = historicalProvidersByEra[era]?.["others"];
     topProviders.push({
       ...othersData,
-      id: "others", // Ensure this stays consistent
-      launchCount: othersLaunchCount, // ✅ override only the count
+      id: "others",
+      launchCount: othersLaunchCount,
     });
   }
 

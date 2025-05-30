@@ -10,6 +10,7 @@
   "excludeExternals": true,
   "entryPointStrategy": "expand",
   "categorizeByGroup": true,
+  "sort": ["source-order"],
   "validation": {
     "invalidLink": true,
     "notExported": false,
@@ -26,7 +27,7 @@
     "@description",
     "@module",
     "@async",
-    "@template",
+    "@template"
   ],
   "categoryOrder": [
     "App",
