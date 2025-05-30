@@ -20,7 +20,7 @@ We use the **Historical Space Launches 1957–2039** dataset from Hugging Face (
 
 Check out our [Milestone 1](milestones/milestone1.md) and [Milestone 2](milestones/milestone2.md) reports to follow our progress.
 
-For the final milestone, you can dive into how the project came together by reading our [Process book](ProcessBook.pdf). And if you don’t want to miss any of the site’s features, be sure to watch our [Screen cast](milestones/milestone1.md) — a full walkthrough of the final website.
+For the final milestone, you can dive into how the project came together by reading our [Process book](ProcessBook.pdf). And if you don’t want to miss any of the site’s features, be sure to watch our [Screen cast](https://youtu.be/mdnzyHOgW1A) — a full walkthrough of the final website.
 
 
 ## ✨ Our Website
