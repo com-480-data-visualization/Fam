@@ -2,6 +2,12 @@
 
 **80% of the final grade**
 
+-> [Process book](ProcessBook.pdf)
+
+-> [Screen cast](https://youtu.be/mdnzyHOgW1A)
+
+-> [Website](https://beyond-earth.space)
+
 
 ## Late policy
 
