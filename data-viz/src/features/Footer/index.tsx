@@ -34,13 +34,14 @@ export default function Footer() {
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <h3 className="text-xl font-bold mb-4">Rocket Launch Data Viz</h3>
+            <h3 className="text-xl font-bold mb-4">Beyond Earth</h3>
             <p className="text-muted-foreground mb-4">
               An interactive visualization of global rocket launches throughout
               history, exploring the evolution of space exploration.
             </p>
             <p className="text-xs text-muted-foreground mb-4">
-              Rocket images were generated using AI via ChatGPT and may not accurately represent the real vehicles.
+              Rocket images were generated using AI via ChatGPT and may not
+              accurately represent the real vehicles.
             </p>
             <p className="text-sm text-muted-foreground">
               © {new Date().getFullYear()} Rocket Launch Data Visualization
@@ -105,10 +106,38 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-4">Data Sources</h3>
             <ul className="text-sm text-muted-foreground space-y-2">
-              <li><a href="https://spacelaunchnow.me/" className="no-underline text-inherit">Space Launch Now Dataset</a></li>
-              <li><a href="http://www.astronautix.com/" className="no-underline text-inherit">Astronautix</a></li>
-              <li><a href="https://www.ulalaunch.com/" className="no-underline text-inherit">ULA Launch</a></li>
-              <li><a href="https://en.wikipedia.org/" className="no-underline text-inherit">Wikipédia</a></li>
+              <li>
+                <a
+                  href="https://spacelaunchnow.me/"
+                  className="no-underline text-inherit"
+                >
+                  Space Launch Now Dataset
+                </a>
+              </li>
+              <li>
+                <a
+                  href="http://www.astronautix.com/"
+                  className="no-underline text-inherit"
+                >
+                  Astronautix
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.ulalaunch.com/"
+                  className="no-underline text-inherit"
+                >
+                  ULA Launch
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://en.wikipedia.org/"
+                  className="no-underline text-inherit"
+                >
+                  Wikipédia
+                </a>
+              </li>
             </ul>
             <p className="text-xs text-muted-foreground mt-4">
               Last updated: May 2025
