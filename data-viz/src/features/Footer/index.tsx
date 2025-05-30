@@ -41,11 +41,11 @@ export default function Footer() {
             </p>
             <p className="text-xs text-muted-foreground mb-4">
               Rocket images were generated using AI via ChatGPT and may not
-              accurately represent the real vehicles.<br /><br />
-               All 3d models comes from <a href="https://sketchfab.com/" className="no-underline text-inherit">Sketchfab</a>.
+              accurately represent the real vehicles.<br />
               <a href="https://skfb.ly/6TJB8" className="no-underline text-inherit">"Earth"</a>
-              by Shubhanshu Soni is licensed under <a href="http://creativecommons.org/licenses/by/4.0/" className="no-underline text-inherit">Creative Commons Attribution</a>.
-            </p>
+              by Shubhanshu Soni is licensed under <a href="http://creativecommons.org/licenses/by/4.0/" className="no-underline text-inherit">Creative Commons Attribution</a>.<br />
+              <a href="https://skfb.ly/oVwuz" className="no-underline text-inherit">"astronaut"</a> by Antropik is licensed under <a href="http://creativecommons.org/licenses/by/4.0/" className="no-underline text-inherit">Creative Commons Attribution</a>.
+              </p>
 
             <p className="text-sm text-muted-foreground">
               © {new Date().getFullYear()} Rocket Launch Data Visualization
